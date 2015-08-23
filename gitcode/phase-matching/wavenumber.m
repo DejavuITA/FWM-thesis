@@ -20,7 +20,7 @@ Fmega  = cps/wlen - cps/wlen0;  % [1/ps]
 % c/Omega is in [m/s/m]=[1/s] --> (c/Omega)^x*beta_x = [s^x/m/s^x] = [1/m]
 % alpha is in [1/T] --> alpha*T = [1]
 if ( TE == 1 )
-    fprintf('mord %d wlen %d\n', wid, hgt, order, index.wlen );
+    fprintf('%d,\t', index.wlen );
     tmp =       2*pi/wlen0     * HTE.DIM(wid, hgt).T(1).O(order).neff(index.wlen);           % [1/m] ~1e7
     tmp = tmp + (Fmega)        * HTE.DIM(wid, hgt).T(1).O(order).beta1(index.wlen)*100;      % [1/m] ~1e6
     tmp = tmp + (Fmega)^2 / 2  * HTE.DIM(wid, hgt).T(1).O(order).beta2(index.wlen)*100;      % [1/m] ~1e4

@@ -14,9 +14,46 @@
 
 \begin{document}
 \includepdf[pages={1}]{intestazione.pdf} % \input{intestazione.tex}
+
 \newpage
-\section{Introduction: Four-Wave Mixing}
+\section{Introduction}
+\subsection{Motivation}
+\subsection{Four-Wave Mixing}
 Four-Wave Mixing (FWM) is a nonlinear optical effect
-\section{Four-Wave Mixing}
+
+\section{Linear optics}
+In linear optics the technology for trasmitting a light wave by confining it in a finite space is the guided-wave optics.
+The instruments employed for achieving such purpose are called waveguides.
+\subsection{Silicon waveguides}
+Silicon waveguides are dielectric waveguides and make use of the interface between two media with different refractive index.
+Precisely they exploit the phenomenon of total internal reflection, which states that if a propagating wave reaches a boundary between two mediums, one with higher refractive index ($n_H$) and another with lower refractive index ($n_L$), with an angle of incidence (relative to the norm of the interface) greater than the \textit{critical angle}, then the wave is completely reflected in the first medium.
+%accorciare la precedente frase%
+The critical angle can be obtained by the Snell law.
+
+$$	\theta_C = \arcsin \left( \frac{n_L}{n_H} \right)$$
+
+Silicon waveguides are composed by core and cladding \textbf{(?)}. %is called cladding only for fiber or also for slab/strip wg?
+The former is the higher refractive index medium in which the wave is confined, the latter is the lower refractive index medium which surrounds the core, thus creating the interface. Theoretically the cladding could also be vacuum.
+
+Considering an ideal dielectric waveguide (no absorption) and the total field distribution as sum of transverse electromagnetic (TEM) plane waves is possible to study the propagation of the wave along the waveguide with an electromagnetic analysis.
+Furthermore it can be shown that not all field distribution are transmitted through the waveguide without energy loss.
+
+% Modes are fields that maintain the same transverse distribution and polarization at all locations along the waveguide axis.
+Those field distributions, which maintain the same transverse distribution and polarization at all locations along the waveguide axis, are called \textbf{modes}.
+These modes can be categorized in two main groups, depending on the polarization of the wave: transverse electric (TE) modes and transverse magnetic (TM) modes, which have respectively the electric and magnetic field transverse to the waveguide axis.
+Both TE and TM modes can be again classified by their order, that is proportional to the number of maxima of the modulus of the electric and magnetic fields in the core section.
+
+\subsection{Rectangular dielectric waveguides}
+In a rectangular (2D) dielectric waveguide
+
+\section{Non-linear optics}
+
+\subsection{Third order effect: Four-Wave Mixing}
+
+\section{Simulating and coding ?}
+
+\section{Prototyping}
+\subsection{Heater configurations}
+\subsection{Different geometries}
 
 \end{document}

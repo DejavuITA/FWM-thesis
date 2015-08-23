@@ -452,21 +452,24 @@ for jj=1:par.n_wg_wid                                   % number of widths ?
                 tmp = [vec.comb(oo,2) vec.comb(oo,3)];
                 results.DIM(jj,kk).PO( vec.comb(oo,1) ).orders = vertcat(results.DIM(jj,kk).PO( vec.comb(oo,1) ).orders, tmp);
                 tmp = zeros(par.n_sample,1);
+                fprintf('m_ord:\n\tpump %d,\tsignal %d,\tidler %d\nwlen:\n', vec.comb(oo,1), vec.comb(oo,2), vec.comb(oo,3) );
                 for ww=1:par.n_sample
                     ws.signal.wlen = vec.sample_wlen(ww);
                     % conservation of energy
                     ws.idler.wlen  = 2*ws.pump.wlen - ws.signal.wlen;
                     
                     % conservation of momentum
-                    fprintf('\npump ');
+                    fprintf('\tp ');
                     kp = wavenumber(1,jj,kk,vec.comb(oo,1), ws.pump.wlen, temp, vec, HTE, HTM, TOC );
-                    fprintf(' signal ');
+                    fprintf('s ');
                     ks = wavenumber(1,jj,kk,vec.comb(oo,2), ws.signal.wlen, temp, vec, HTE, HTM, TOC );
-                    fprintf(' idler ');
+                    fprintf('i ');
                     ki = wavenumber(1,jj,kk,vec.comb(oo,3), ws.idler.wlen, temp, vec, HTE, HTM, TOC );
                     tmp(ww) = 2*kp -ks -ki ;
+                    fprintf('\n');
                 end
                 results.DIM(jj,kk).PO( vec.comb(oo,1) ).data = vertcat(results.DIM(jj,kk).PO( vec.comb(oo,1) ).data, tmp');
+                fprintf('\n');
             end
             
         end
