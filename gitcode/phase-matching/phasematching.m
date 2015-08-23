@@ -8,15 +8,36 @@
 
 %% Import HTE & HTM structures
 
-fprintf('\nChoose the file to import.\nShould be something like yyyy-MM-dd_HH:mm:ss.mat\n');
-[ans1 ans2] = uigetfile({'../data/*.mat'});     % choose file to load
+ans1 = 0;
+while ( ans1 == 0 )
+    % Construct a questdlg with three options
+    choice = questdlg('Import a file or to exit the program?', 'Import File', 	'Import File','Exit program', ...
+        'Import File');
+    % Handle response
+    switch choice
+        case 'Import File'
+            disp('\nFile chosen.\n')
+            ans1 = 0;
+        case 'Exit program'
+            %disp('\n\nExiting right now.')
+            clear ans1 choice
+            error('Exiting right now.');
+    end
+    
+    if (ans1 == 0 )
+        fprintf('\nChoose the file to import.\nShould be something like yyyy-MM-dd_HH:mm:ss.mat\n');
+        [ans1 ans2] = uigetfile({'../data/*.mat'});     % choose file to load
+    end
+end
+    
 load( strcat(ans2, ans1) );
 
 % adjust parameters
 vec.wlen = vec.wlen'.*1e-6;                     % [m]
+vec.temp = vec.temp';
 %vec.temp = vec.temp'-vec.temp(1);
 
-clear ans1 ans2
+clear ans1 ans2 choice
 
 %% Set initial parameters
 
@@ -86,6 +107,7 @@ for jj=1:par.n_wg_wid               % number of widths
                 end
                 
                 %% beta1
+                %{
 %fprintf(' b1 ');
                 if ~( isempty(HTE.DIM(jj,kk).T(1).O(mm).beta1) )
                     x = vec.temp;
@@ -202,6 +224,7 @@ for jj=1:par.n_wg_wid               % number of widths
                 end
                
 %fprintf('\n');
+                %}
 
             end
         end
@@ -244,13 +267,21 @@ for jj=1:par.n_wg_wid               % number of widths
                 end
                 
                 %% beta1
+                %{
 %fprintf(' b1 ');
-                if ~( isempty(HTM.DIM(jj,kk).T(1).O(mm).beta1) )
+                emp =  par.n_temp;
+                for tt=1:par.n_temp
+                    if isempty( HTM.DIM(jj,kk).T(tt).O(mm).beta1 )
+                        emp = emp -1;
+                    end
+                end
+
+                if ( emp > 1 )
                     x = vec.temp;
                     y = zeros(length(HTM.DIM(jj,kk).T), 1).*NaN;
                     % insert the parte where it eliminate the zero terms here
                     for tt=1:length(y)
-                        if (HTM.DIM(jj,kk).T(tt).O(mm).beta1(ll) ~= 0)
+                        if (HTM.DIM(jj,kk).T(tt).O(mm).beta1(ll) ~= 0 || isempty(HTM.DIM(jj,kk).T(tt).O(mm).beta1(ll)) )
                             y(tt) = HTM.DIM(jj,kk).T(tt).O(mm).beta1(ll);
                         else
                             y(tt) = NaN;
@@ -360,7 +391,7 @@ for jj=1:par.n_wg_wid               % number of widths
                 end
                
 %fprintf('\n');
-
+                %}
             end
         end
     end
