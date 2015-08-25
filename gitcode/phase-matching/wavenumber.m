@@ -8,9 +8,11 @@ function [ output ] = wavenumber( TE, wid, hgt, order, wlen, temp, vec, HTE, HTM
 c     = 299792458;  % [m/s]
 cps   = c*1e-12;	% [m/ps]
 
+
 [value.wlen, index.wlen] = min( abs(vec.wlen - wlen) );
 [value.temp, index.temp] = min( abs(vec.temp - temp) );
 
+%{
 wlen0 = vec.wlen(index.wlen);
 Omega  = wlen - wlen0;
 Fmega  = cps/wlen - cps/wlen0;  % [1/ps]
@@ -39,4 +41,18 @@ if ( TE == 0 )
     
     output = tmp;
 end
+%}
 
+if ( TE == 1 )
+    %fprintf('%d,\t', index.wlen );
+    tmp =       2*pi/wlen * feval( HTE.DIM(wid, hgt).T(1).O(order).fit_neff, wlen );
+    tmp = tmp + 2*pi/wlen * TOC.TE.DIM(wid, hgt).O(order).WL(index.wlen).alpha * temp;  % [1/m] ~1e5
+    
+    output = tmp;
+end
+if ( TE == 0 )
+    tmp =       2*pi/wlen * feval( HTE.DIM(wid, hgt).T(1).O(order).fit_neff, wlen );
+    tmp = tmp + 2*pi/wlen * TOC.TM.DIM(wid, hgt).O(order).WL(index.wlen).alpha * temp;  % [1/m] ~1e5
+    
+    output = tmp;
+end

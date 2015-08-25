@@ -11,26 +11,32 @@
 ans1 = 0;
 while ( ans1 == 0 )
     % Construct a questdlg with three options
-    choice = questdlg('Import a file or to exit the program?', 'Import File', 	'Import File','Exit program', ...
+    choice = questdlg('Import a file or to exit the program?', 'Import File', 	'Import File', 'Exit program', 'Go on', ...
         'Import File');
     % Handle response
     switch choice
         case 'Import File'
-            disp('\nFile chosen.\n')
+            disp('File chosen.')
             ans1 = 0;
         case 'Exit program'
             %disp('\n\nExiting right now.')
             clear ans1 choice
             error('Exiting right now.');
+        %{
+        case 'Go on'
+            disp('\nGoing on...\n');
+            ans1 = 1;
+        %}
     end
     
     if (ans1 == 0 )
         fprintf('\nChoose the file to import.\nShould be something like yyyy-MM-dd_HH:mm:ss.mat\n');
         [ans1 ans2] = uigetfile({'../data/*.mat'});     % choose file to load
+        
+        load( strcat(ans2, ans1) );
     end
 end
     
-load( strcat(ans2, ans1) );
 
 % adjust parameters
 vec.wlen = vec.wlen'.*1e-6;                     % [m]
@@ -52,18 +58,18 @@ const.c     = 299792458;            % [m/s]
     ws.pump.freq   = const.c/ws.pump.wlen;    % [1/s]
 
     % signal structure
-    ws.signal.wlen = 1.4e-6;               % [m]
+    ws.signal.wlen = 1.45e-6;               % [m]
     ws.signal.freq = const.c/ws.signal.wlen;  % [1/s]
 
     % idler structure
-    ws.idler.wlen  = 1.7e-6;               % [m]
+    ws.idler.wlen  = 1.65e-6;               % [m]
     ws.idler.freq  = const.c/ws.idler.wlen;   % [1/s]
 
-par.n_sample = 51; % should be an odd number
-par.stepF = (1.7e-6 -1.4e-6)/(par.n_sample - 1);
+par.n_sample = 101; % should be an odd number, to center the pump wlen.
+par.stepF = (1.65e-6 -1.45e-6)/(par.n_sample - 1);
 vec.sample_wlen = zeros(par.n_sample,1);
 for ( ww=1:par.n_sample )
-    vec.sample_wlen(ww) = 1.4e-6 + ww*par.stepF;
+    vec.sample_wlen(ww) = 1.45e-6 + ww*par.stepF;
 end
 
 clear ww
@@ -445,36 +451,41 @@ clear jj kk oo
 % insert temperature cycle
 temp = 0;   % and eliminate this variable
 
+
 for jj=1:par.n_wg_wid                                   % number of widths ?
     for kk=1:par.n_wg_hgt                               % number of heights ?
         for oo=1:length( vec.comb(:,1) )
             if ( sum( HTE.DIM(jj,kk).T(1).O(vec.comb(oo,1)).neff() ) >1 && sum( HTE.DIM(jj,kk).T(1).O(vec.comb(oo,2)).neff() ) >1 && sum( HTE.DIM(jj,kk).T(1).O(vec.comb(oo,3)).neff() ) >1)
                 tmp = [vec.comb(oo,2) vec.comb(oo,3)];
                 results.DIM(jj,kk).PO( vec.comb(oo,1) ).orders = vertcat(results.DIM(jj,kk).PO( vec.comb(oo,1) ).orders, tmp);
-                tmp = zeros(par.n_sample,1);
-                fprintf('m_ord:\n\tpump %d,\tsignal %d,\tidler %d\nwlen:\n', vec.comb(oo,1), vec.comb(oo,2), vec.comb(oo,3) );
+                tmp = zeros(par.n_sample,par.n_temp);
+                fprintf('m_ord:\tpump %d,\tsignal %d,\tidler %d\n', vec.comb(oo,1), vec.comb(oo,2), vec.comb(oo,3) );
+%                fprintf('wlen:\n');
                 for ww=1:par.n_sample
                     ws.signal.wlen = vec.sample_wlen(ww);
                     % conservation of energy
                     ws.idler.wlen  = 2*ws.pump.wlen - ws.signal.wlen;
                     
                     % conservation of momentum
-                    fprintf('\tp ');
-                    kp = wavenumber(1,jj,kk,vec.comb(oo,1), ws.pump.wlen, temp, vec, HTE, HTM, TOC );
-                    fprintf('s ');
-                    ks = wavenumber(1,jj,kk,vec.comb(oo,2), ws.signal.wlen, temp, vec, HTE, HTM, TOC );
-                    fprintf('i ');
-                    ki = wavenumber(1,jj,kk,vec.comb(oo,3), ws.idler.wlen, temp, vec, HTE, HTM, TOC );
-                    tmp(ww) = 2*kp -ks -ki ;
-                    fprintf('\n');
+                    for tt=1:par.n_temp
+%                        fprintf('\tp ');
+                        kp = wavenumber(1,jj,kk,vec.comb(oo,1), ws.pump.wlen, vec.temp(tt) , vec, HTE, HTM, TOC );
+%                        fprintf('s ');
+                        ks = wavenumber(1,jj,kk,vec.comb(oo,2), ws.signal.wlen, vec.temp(tt), vec, HTE, HTM, TOC );
+%                        fprintf('i ');
+                        ki = wavenumber(1,jj,kk,vec.comb(oo,3), ws.idler.wlen, vec.temp(tt), vec, HTE, HTM, TOC );
+                        tmp(ww,tt) = 2*kp -ks -ki ;
+%                        fprintf('\n');
+                    end
                 end
-                results.DIM(jj,kk).PO( vec.comb(oo,1) ).data = vertcat(results.DIM(jj,kk).PO( vec.comb(oo,1) ).data, tmp');
-                fprintf('\n');
+                results.DIM(jj,kk).PO( vec.comb(oo,1) ).data = cat(3, results.DIM(jj,kk).PO( vec.comb(oo,1) ).data, tmp);
+%                fprintf('\n');
             end
-            
+
         end
     end
 end
+    
 
 
 clear jj kk oo ww ans tmp temp ki kp ks
@@ -488,6 +499,22 @@ for ii=1:par.n_modi
     if ~isempty(ydata)
         figure(ii)
         plot(xdata,ydata);
+        grid on
+    end
+end
+
+clear xdata ydata ans ii
+
+%% plot w/ temperature
+xdata = vec.sample_wlen;
+ydata = vec.temp;
+
+for ii=1:par.n_modi
+    zdata = results.DIM(1,1).PO(ii).data(:,:,1);
+    if ~isempty(ydata)
+        figure(ii)
+        surf(xdata,ydata,permute(zdata,[2,1]) );
+        grid on
     end
 end
 
