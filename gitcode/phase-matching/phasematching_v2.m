@@ -343,7 +343,7 @@ for ww=1:par.n_wg_wid                                   % number of widths ?
             if pm.ok_fit < 1
                 results.orders(oo,:) = pm.comb(oo,:);
                 
-                fprintf('mode orders:\tpump %d,\tsignal %d,\tidler %d (sol %d/%d)\n', pm.comb(oo,1), pm.comb(oo,2), pm.comb(oo,3), oo, pm.n_results );
+                fprintf('mode orders:\tpump %d,\tsignal %d,\tidler %d (sol %d/%d)\n', pm.comb(oo,2), pm.comb(oo,4), pm.comb(oo,6), oo, pm.n_results );
                 for ll=1:pm.n_sample
                     pm.signal_w = vec.sample_wlen(ll);
                     % conservation of energy
@@ -373,15 +373,21 @@ toc
 clear ww hh oo ll ff tt kp ks ki ans
 
 %% surface plot w/ temperature
+% it plots only surfaces that cross the plane z=0
 xdata = vec.sample_wlen;
 ydata = vec.temp;
 
-for ii=1:par.n_modi
-    zdata = 1;%results.data(,
-    if ~isempty(ydata)
-        figure(ii)
-        surf(xdata,ydata,permute(zdata,[2,1]) );
-        grid on
+for rr=1:pm.n_results
+    fprintf('\n%d\n',rr);
+    if ~isnan(results.data(:,:,rr))
+        zdata = results.data(:,:,rr);
+        if min(zdata(:))*max(zdata(:))<=0
+            figure(rr)
+            [xData, yData, zData] = prepareSurfaceData( xdata, ydata, zdata );
+            [fitresult, gof] = fit( [xData, yData], zData, 'loess', 'Normalize', 'on' );
+            plot( fitresult, [xData, yData], zData );
+            grid on;
+        end
     end
 end
 
@@ -391,6 +397,7 @@ clear xdata ydata ans ii
  
 [xData, yData, zData] = prepareSurfaceData( xdata, ydata, zdata );
 [fitresult, gof] = fit( [xData, yData], zData, 'loess', 'Normalize', 'on' );
+plot( fitresult, [xData, yData], zData );
  %}
  
  %%
