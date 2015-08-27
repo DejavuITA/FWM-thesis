@@ -65,7 +65,16 @@ for ww=1:pm.n_sample
     vec.sample_wlen(ww) = pm.low_w + ww*pm.step;
 end
 
-clear ww
+% sampling temperature
+pm.n_sample_t = 11;
+pm.step_t = (vec.temp(end) - vec.temp(1) )/(pm.n_sample_t - 1);
+
+vec.sample_temp = zeros(pm.n_sample_t,1);
+for tt=1:pm.n_sample_t
+    vec.sample_temp(tt) = vec.temp(1) + tt*pm.step_t;
+end
+
+clear ww tt
 toc
 
 %% Temperature dependence analysis
@@ -317,7 +326,7 @@ fprintf('\nCreating structure of data for results...');
 
 results.orders  = zeros(pm.n_results,6).*NaN;
 
-results.data    = zeros(pm.n_sample,par.n_temp, pm.n_results, par.n_wg_wid, par.n_wg_hgt).*NaN;
+results.data    = zeros(pm.n_sample,pm.n_sample_t, pm.n_results, par.n_wg_wid, par.n_wg_hgt).*NaN;
 
 fprintf('\b\b\b:\tstructure created.\n');
 clear jj kk oo
@@ -350,12 +359,14 @@ for ww=1:par.n_wg_wid                                   % number of widths ?
                     pm.idler_w  = 2*pm.pump_w - pm.signal_w;
                     
                     % conservation of momentum
-                    for tt=1:par.n_temp
+                    for tt=1:pm.n_sample_t
 %                        fprintf('\tp ');
-                        %kp = wavenumber(1,ww,hh,vec.comb(oo,1), pm.pump.wlen, vec.temp(tt) , vec, HTE, HTM, TOC );
-                        kp = 2*pi*feval( data.fit_neff( ww, hh, pm.comb(oo,1), pm.comb(oo,2)).fit, pm.pump_w, vec.temp(tt))/pm.pump_w;
-                        ks = 2*pi*feval( data.fit_neff( ww, hh, pm.comb(oo,3), pm.comb(oo,4)).fit, pm.signal_w, vec.temp(tt))/pm.signal_w;
-                        ki = 2*pi*feval( data.fit_neff( ww, hh, pm.comb(oo,5), pm.comb(oo,6)).fit, pm.idler_w, vec.temp(tt))/pm.idler_w;
+                        %kp = 2*pi*feval( data.fit_neff( ww, hh, pm.comb(oo,1), pm.comb(oo,2)).fit, pm.pump_w, vec.sample_temp(tt))/pm.pump_w;
+                        kp = 2*pi*data.fit_neff( ww, hh, pm.comb(oo,1), pm.comb(oo,2)).fit(pm.pump_w, vec.sample_temp(tt))/pm.pump_w;
+                        %ks = 2*pi*feval( data.fit_neff( ww, hh, pm.comb(oo,3), pm.comb(oo,4)).fit, pm.signal_w, vec.sample_temp(tt))/pm.signal_w;
+                        ks = 2*pi*data.fit_neff( ww, hh, pm.comb(oo,3), pm.comb(oo,4)).fit(pm.signal_w, vec.sample_temp(tt))/pm.signal_w;
+                        %ki = 2*pi*feval( data.fit_neff( ww, hh, pm.comb(oo,5), pm.comb(oo,6)).fit, pm.idler_w, vec.sample_temp(tt))/pm.idler_w;
+                        ki = 2*pi*data.fit_neff( ww, hh, pm.comb(oo,5), pm.comb(oo,6)).fit(pm.idler_w, vec.sample_temp(tt))/pm.idler_w;
                         results.data(ll,tt,oo,ww,hh) = 2*kp -ks -ki ;
 %                        fprintf('\n');
                     end
@@ -375,23 +386,60 @@ clear ww hh oo ll ff tt kp ks ki ans
 %% surface plot w/ temperature
 % it plots only surfaces that cross the plane z=0
 xdata = vec.sample_wlen;
-ydata = vec.temp;
+ydata = vec.sample_temp;
+
+f(pm.n_results) = figure(pm.n_results);
+close(f(pm.n_results));
 
 for rr=1:pm.n_results
     fprintf('\n%d\n',rr);
     if ~isnan(results.data(:,:,rr))
         zdata = results.data(:,:,rr);
         if min(zdata(:))*max(zdata(:))<=0
-            figure(rr)
+            f(rr) = figure(rr);
+            set(f(rr), 'Position', [100, 100, 960, 480]);
             [xData, yData, zData] = prepareSurfaceData( xdata, ydata, zdata );
-            [fitresult, gof] = fit( [xData, yData], zData, 'loess', 'Normalize', 'on' );
+            
+            % fit & plot Delta_k
+            subplot(1,2,1)
+            title('delta_k');
+            [fitresult, ~] = fit( [xData, yData], zData, 'loess', 'Normalize', 'on' );
             plot( fitresult, [xData, yData], zData );
+            grid on;
+            
+            hold on;
+            
+            % fit & plot l_coh
+            subplot(1,2,2);
+            title('L_coh [cm]');
+            %zData = 2*pi*100./zData;            % 2pi./zData = [m] --> 2pi*100./zData = [cm]
+            %[fitresult, ~] = fit( [xData, yData], zData, 'loess', 'Normalize', 'on' );
+            %plot( fitresult, [xData, yData], zData );
+            zdata = 2*pi*100./abs(zdata);            % 2pi./zData = [m] --> 2pi*100./zData = [cm]
+            
+            surf( zdata );
+            
             grid on;
         end
     end
 end
 
-clear xdata ydata ans ii
+clear xdata ydata zdata xData yData zData ans rr fitresult
+%% SAVING
+
+tic
+% file-saving parameters
+setting.save_path = '../data/';         % filepath of filesaves
+setting.FILE_EXT	= '.mat';         	% Determines the extension of the files: .mat or .dat
+
+fp = datestr(datetime,'yyyy-mm-dd_HH:MM:ss');
+fp = strcat(setting.save_path,'phasematch_', fp, setting.FILE_EXT);
+
+fprintf('Saving data in %s\n',fp);
+save(fp, 'const', 'data', 'f', 'par', 'pm', 'results', 'vec');
+
+clear fp ans
+toc
  %%
  %{
  

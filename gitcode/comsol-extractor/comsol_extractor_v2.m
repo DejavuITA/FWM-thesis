@@ -8,7 +8,6 @@
 %%
 
 close all;
-clear all;
 clc;
 
 fprintf('Memory Cleared\n');

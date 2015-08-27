@@ -31,7 +31,7 @@ while ( ans1 == 0 )
     
     if (ans1 == 0 )
         fprintf('\nChoose the file to import.\nShould be something like yyyy-MM-dd_HH:mm:ss.mat\n');
-        [ans1 ans2] = uigetfile({'../data/*.mat'});     % choose file to load
+        [ans1, ans2] = uigetfile({'../data/*.mat'});     % choose file to load
         
         load( strcat(ans2, ans1) );
     end
@@ -68,7 +68,7 @@ const.c     = 299792458;            % [m/s]
 par.n_sample = 101; % should be an odd number, to center the pump wlen.
 par.stepF = (1.65e-6 -1.45e-6)/(par.n_sample - 1);
 vec.sample_wlen = zeros(par.n_sample,1);
-for ( ww=1:par.n_sample )
+for ww=1:par.n_sample
     vec.sample_wlen(ww) = 1.45e-6 + ww*par.stepF;
 end
 
