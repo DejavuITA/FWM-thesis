@@ -80,7 +80,7 @@ vec.temp    = zeros(par.n_temp,1);				% Vector for the temperatures
 vec.wlen    = get_par(model, 'la', setting.data_set)'.*1e-6;                     % 'la' would be in [um]
 vec.wid     = get_par(model, 'w', setting.data_set)';
 vec.hgt     = get_par(model, 'hg', setting.data_set)';                      % {'hn'} ?
-vec.temp    = get_par(model, 'Temp', setting.data_set)';
+vec.temp    = get_par(model, 'Temp', setting.data_set)'+273.15;		    % [K]
 
 % get materials
 par.neff_si     = mphglobal(model,{'n_si'},'dataset', setting.data_set,'outersolnum',1);
