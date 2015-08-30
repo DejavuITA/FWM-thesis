@@ -1,4 +1,4 @@
-\documentclass[12pt,a4paper]{article}
+\documentclass[12pt,a4paper,twocolumn,twoside]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 \usepackage{amsmath}
@@ -16,15 +16,21 @@
 \begin{document}
 \includepdf[pages={1}]{intestazione.pdf} % \input{intestazione.tex}
 
-\newpage
+\cleardoublepage 
+\tableofcontents
+
+\cleardoublepage 
 \section{Introduction}
 \subsection{Motivation}
-\subsection{Degenerate Four-Wave Mixing}
+\subsection{Partially degenerate Four-Wave Mixing}
 Four-Wave Mixing (FWM) is a nonlinear optical effect
 
+****
 \section{Linear optics}
 
-A linear dielectric medium is characterized by a linear relation between the polarization density and the electric field, $\mathrm{P} = \varepsilon_0 \chi \mathrm{E}$, where $\varepsilon_0$ is the permittivity of free space and $\chi$ is the susceptibility of the medium.
+A linear dielectric medium is characterized by a linear relation between the polarization density and the electric field, $\textbf{P} = \varepsilon_0 \chi \textbf{E}$, where $\varepsilon_0$ is the permittivity of free space and $\chi$ is the susceptibility of the medium.
+
+****
 
 In linear optics the technology for trasmitting a light wave by confining it in a finite space is the guided-wave optics.
 The instruments employed for achieving such purpose are called waveguides.
@@ -40,7 +46,7 @@ Silicon waveguides are composed by core and cladding \textbf{(?)}. %is called cl
 The former is the higher refractive index medium in which the wave is confined, the latter is the lower refractive index medium which surrounds the core, thus creating the interface. Theoretically the cladding could also be vacuum.
 
 Considering an ideal dielectric waveguide (no absorption) and the total field distribution as sum of transverse electromagnetic (TEM) plane waves is possible to study the propagation of the wave along the waveguide with an electromagnetic analysis.
-Furthermore it can be shown that not all field distribution are transmitted through the waveguide without energy loss.
+Furthermore it can be shown that not all field distribution are transmitted through the waveguide without energy loss \textbf{(?)}.
 
 % Modes are fields that maintain the same transverse distribution and polarization at all locations along the waveguide axis.
 Those field distributions, which maintain the same transverse distribution and polarization at all locations along the waveguide axis, are called modes.
@@ -53,12 +59,32 @@ In a rectangular dielectric waveguide the classification of modes need two index
 
 \section{Non-linear optics}
 A nonlinear dielectric medium is characterized by a nonlinear relation between P and E, such as
-$$\mathrm{P} = \varepsilon_0\chi \mathrm{E} + 2\mathrm{d}\mathrm{E}^2 + 4\chi^{(3)}\mathrm{E}^3 + \cdots$$
+$$\textbf{P} = \varepsilon_0 \left( \chi^{(1)} \cdot \textbf{E} + \chi^{(2)} : \textbf{E}^2 + \chi^{(3)} \vdots \textbf{E}^3 + \cdots \right) $$
 In everyday condition linear effects are much larger than nonlinear ones.
-The relation between $\mathrm{P}$ and $\mathrm{E}$ becomes nonlinear when $\mathrm{E}$ has a value comparable to interatomic electric fields, which are typically $\sim 10^5-10^8$ \si{\V\per\m}
-\subsection{Third order effect: Four-Wave Mixing}
+The relation between $\mathrm{P}$ and $\mathrm{E}$ becomes nonlinear when $\mathrm{E}$ has a value comparable to interatomic electric fields, which are typically $\sim 10^5-10^8$ \si{\V\per\m}.
 
+For an isotropic medium the second order term is zero (in the dipole approximation) and this is our scenario.
+Thus the dominant nonlinearity is the third order and the material is called a Kerr medium.
+\subsection{Third order effect: Four-Wave Mixing}
+Many processes are result of third order nonlinearities: Third-Harmonic Generation (THG), Optical Kerr Effect, Cross-phase modulation (XPM), Self-phase modulation (SPM) and Four-Wave Mixing (FWM).
+
+Four-Wave Mixing originates from the third order nonlinear response of a material to an electromagnetic field, precisely from the behaviour of bound electrons.
+This parametric process involve nonlinear interaction among four optical waves.
 \section{Simulating and coding ?}
+
+$$\omega_1 + \omega_2 = \omega_3 + \omega_4$$
+$$\omega_1 = \omega_2 = \omega_P$$
+$$\omega_I = 2\omega_P - \omega_S$$
+$$\Omega_S = \omega_1 + \omega_3 = \omega_4 - \omega_1$$
+where we assume $\omega_3 < \omega_4$.
+$$\Omega_S = |\omega_P - \omega_I| = |\omega_S - \omega_P|$$
+
+$$\Delta k = \beta_3 + \beta_4 - \beta_1 - \beta_2$$
+$$\Delta k = \beta_3 + \beta_4 - 2\beta_1$$
+
+$$L_{coh} = \frac{2\pi}{|\Delta k|}$$
+
+
 
 \section{Prototyping}
 \subsection{Heater configurations}

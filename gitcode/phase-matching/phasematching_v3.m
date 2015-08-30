@@ -242,8 +242,7 @@ for ww=1:par.n_wg_wid                                   % number of widths ?
             fprintf('mode orders:\tpump %d,\tsignal %d,\tidler %d (sol %d/%d)\n', pm.comb(oo,2), pm.comb(oo,4), pm.comb(oo,6), oo, pm.n_results );
             for tt=1:pm.n_sample_t
                 %kp = 2*pi*feval( data.fit_neff( ww, hh, pm.comb(oo,1), pm.comb(oo,2)).fit, pm.pump_w, vec.sample_temp(tt))/pm.pump_w;
-                %kp = 2*pi*data.fit_neff( ww, hh, pm.comb(oo,1), pm.comb(oo,2)).fit(pm.pump_w, vec.sample_temp(tt))/pm.pump_w;
-                kp = pm.pump_k(tt,pm.comb(oo,2),pm.comb(oo,1),ww,hh);
+                kp = 2*pi*data.fit_neff( ww, hh, pm.comb(oo,1), pm.comb(oo,2)).fit(pm.pump_w, vec.sample_temp(tt))/pm.pump_w;
 
                 for ll=1:pm.n_sample_wl
                     pm.signal_w = vec.sample_wlen(ll);
