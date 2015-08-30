@@ -103,6 +103,7 @@ disp.lp = 2.1;
 %setting.fit_str = 'loess';
 setting.fit_str = 'poly52';
 %setting.fit_str = 'poly25';
+%setting.fit_str = 'cubicinterp';
 
 [xdata, ydata, ~] = prepareSurfaceData( vec.wlen, vec.temp, ones(par.n_wlen,par.n_temp) );
 
@@ -271,50 +272,55 @@ clear ww hh oo ll ff tt kp ks ki ans
 % it plots only surfaces that cross the plane z=0
 xdata = vec.sample_wlen;
 ydata = vec.sample_temp;
+[xData, yData, ~] = prepareSurfaceData( xdata, ydata, results.data(:,:,1) );
 
 f(pm.n_results) = figure(pm.n_results);
 close(f(pm.n_results));
+
+%setting.fit_str = 'linearinterp'; % Linear interpolation          
+%setting.fit_str = 'nearestinterp'; % Nearest neighbor interpolation         
+setting.fit_str = 'cubicinterp'; % Cubic spline interpolation
+%setting.fit_str = 'biharmonicinterp'; % Biharmonic (MATLAB griddata) interpolation % ALSO NOT GOOD
+%setting.fit_str = 'thinplateinterp'; % Thin-plate spline interpolation % very computation needy DO NOT USE
+
+%setting.fit_str = 'poly55';    % doesn't work DO NOT USE
 
 for rr=1:pm.n_results;
     fprintf('\n%d\n',rr);
     if ~isnan(results.data(:,:,rr))    
         zdata = results.data(:,:,rr);
-        %if min(zdata(:))*max(zdata(:))<=0
-            f(rr) = figure(rr);
-            str_title = strcat('Solution %d: combination (p,s,i) %d %d %d',rr, pm.comb(rr,2), pm.comb(rr,4), pm.comb(rr,6));
-            title(str_title);
-            set(f(rr), 'Position', [100, 100, 960, 480]);
-            [xData, yData, zData] = prepareSurfaceData( xdata, ydata, zdata );
-            % zData = [m] --> 2pi*100./zData = [cm]
-            % fit & plot Delta_k
-            subplot(1,2,1)
-            title('delta_k');
-            %[fitresult, ~] = fit( [xData, yData], zData, 'loess', 'Normalize', 'on' );
-            [fitresult, ~] = fit( [xData, yData], zData./100, 'cubicinterp', 'Normalize', 'on' ); % zData in [1/cm]
-            plot( fitresult, [xData, yData], zData./100 );
-            grid on;
+        
+        % check if the maximum value of l_coh is greater than 1
+        if min( abs( zdata(:) ) ) < 200*pi      % min(zdata(:))*max(zdata(:))<=0
             
+            zData = zdata(:)./100;              % zData in [1/cm]
+            [fitresult, ~] = fit( [xData, yData], zData, setting.fit_str, 'Normalize', 'on' );
+            
+            f(rr) = figure(rr);
+            set(f(rr), 'Position', [100, 100, 960, 480]);
+            
+            % fit & plot Delta_k
+            subplot(1,2,1);
+            title('delta_k');
+            plot( fitresult, [xData, yData], zData );
+            grid on;            
             hold on;
             
-            % fit & plot l_coh
-            subplot(1,2,2);
-            title('L_coh [cm]');
-            zData = 2*pi*100./abs(zData);            % 2pi./zData = [m] --> 2pi*100./zData = [cm]
+            zData = 2*pi./abs(zData);            % zData = [1/cm] --> 2pi./abs(zData) = [cm]
             % eliminates +inf points
             if max(zData) == inf
                 indexes = find(max(zData) == zData);
                 zData(indexes) = -inf;
                 zData(indexes) = max(zData)*10;
             end
-            %[fitresult, ~] = fit( [xData, yData], zData, 'loess', 'Normalize', 'on' );
-            [fitresult, ~] = fit( [xData, yData], zData, 'cubicinterp', 'Normalize', 'on' );
-            plot( fitresult, [xData, yData], zData );
-            %zdata = 2*pi*100./abs(zdata);            % 2pi./zData = [m] --> 2pi*100./zData = [cm]
+            [fitresult, ~] = fit( [xData, yData], zData, setting.fit_str, 'Normalize', 'on' );
             
-            %surf( zdata );
-            
+            % fit & plot l_coh
+            subplot(1,2,2);
+            title('L_coh [cm]');
+            plot( fitresult, [xData, yData], zData );            
             grid on;
-        %end
+        end
     end
 end
 
@@ -331,18 +337,23 @@ fp = datestr(datetime,'yyyy-mm-dd_HH:MM:ss');
 fp = strcat(setting.save_path,'phasematch_', fp, setting.FILE_EXT);
 
 fprintf('Saving data in %s\n',fp);
-save(fp, 'const', 'data', 'par', 'pm', 'results', 'vec', 'setting');
+save(fp);
 
 clear fp ans
 toc
 
  %% various code drafts
  %{
- 
+
 [xData, yData, zData] = prepareSurfaceData( xdata, ydata, zdata );
 [fitresult, gof] = fit( [xData, yData], zData, 'loess', 'Normalize', 'on' );
 plot( fitresult, [xData, yData], zData );
- 
+
 fittypes: 'cubicinterp', 'loess', ...
- 
+
+this things don't work { 
+    str_title = strcat('Solution %d: combination (p,s,i) %d %d %d',rr, pm.comb(rr,2), pm.comb(rr,4), pm.comb(rr,6));
+    title(str_title);
+}
+
  %}
