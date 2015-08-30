@@ -8,6 +8,7 @@
 \usepackage{parcolumns}
 \usepackage[left=2.cm,right=2.cm,top=2.cm,bottom=2.cm]{geometry}
 \usepackage[final]{pdfpages} %serve per aggiungere altre pagine pdf al file
+\usepackage{siunitx}
 
 \author{Davide Bazzanella}
 \title{Improving phase-matching of FWM with temperature}
@@ -18,7 +19,7 @@
 \newpage
 \section{Introduction}
 \subsection{Motivation}
-\subsection{Four-Wave Mixing}
+\subsection{Degenerate Four-Wave Mixing}
 Four-Wave Mixing (FWM) is a nonlinear optical effect
 
 \section{Linear optics}
@@ -26,9 +27,9 @@ In linear optics the technology for trasmitting a light wave by confining it in 
 The instruments employed for achieving such purpose are called waveguides.
 \subsection{Silicon waveguides}
 Silicon waveguides are dielectric waveguides and make use of the interface between two media with different refractive index.
-Precisely they exploit the phenomenon of total internal reflection, which states that if a propagating wave reaches a boundary between two mediums, one with higher refractive index ($n_H$) and another with lower refractive index ($n_L$), with an angle of incidence (relative to the norm of the interface) greater than the \textit{critical angle}, then the wave is completely reflected in the first medium.
+Precisely they exploit the phenomenon of total internal reflection: if a propagating wave reaches a boundary between two mediums, one with higher refractive index ($n_H$) and another with lower refractive index ($n_L$), with an angle of incidence greater than the \textit{critical angle}, then the wave is completely reflected in the first medium.
 %accorciare la precedente frase%
-The critical angle can be obtained by the Snell law.
+Angles are defined relative to the normal vector of the interface and the critical angle can be obtained by the Snell law:
 
 $$	\theta_C = \arcsin \left( \frac{n_L}{n_H} \right)$$
 
@@ -39,7 +40,7 @@ Considering an ideal dielectric waveguide (no absorption) and the total field di
 Furthermore it can be shown that not all field distribution are transmitted through the waveguide without energy loss.
 
 % Modes are fields that maintain the same transverse distribution and polarization at all locations along the waveguide axis.
-Those field distributions, which maintain the same transverse distribution and polarization at all locations along the waveguide axis, are called \textbf{modes}.
+Those field distributions, which maintain the same transverse distribution and polarization at all locations along the waveguide axis, are called modes.
 These modes can be categorized in two main groups, depending on the polarization of the wave: transverse electric (TE) modes and transverse magnetic (TM) modes, which have respectively the electric and magnetic field transverse to the waveguide axis.
 Both TE and TM modes can be again classified by their order, that is proportional to the number of maxima of the modulus of the electric and magnetic fields in the core section.
 
@@ -48,7 +49,11 @@ Both TE and TM modes can be again classified by their order, that is proportiona
 In a rectangular dielectric waveguide the classification of modes need two indexes because we have two degrees of freedom.
 
 \section{Non-linear optics}
-
+A linear dielectric medium is characterized by a linear relation between the polarization density and the electric field, $\mathrm{P} = \varepsilon_0 \chi \mathrm{E}$, where $\varepsilon_0$ is the permittivity of free space and $\chi$ is the susceptibility of the medium.
+A nonlinear dielectric medium is characterized by a nonlinear relation between P and E, such as
+$$\mathrm{P} = \varepsilon_0\chi \mathrm{E} + 2\mathrm{d}\mathrm{E}^2 + 4\chi^{(3)}\mathrm{E}^3 + \cdots$$
+In everyday condition linear effects are much larger than nonlinear ones.
+The relation between $\mathrm{P}$ and $\mathrm{E}$ becomes nonlinear when $\mathrm{E}$ has a value comparable to interatomic electric fields, which are typically $\sim 10^5-10^8$ \si{\V\per\m}
 \subsection{Third order effect: Four-Wave Mixing}
 
 \section{Simulating and coding ?}
@@ -57,4 +62,10 @@ In a rectangular dielectric waveguide the classification of modes need two index
 \subsection{Heater configurations}
 \subsection{Different geometries}
 
+\newpage
+\begin{thebibliography}{9}
+\bibitem{agrawal} G. Agrawal. Nonlinear Fiber Optics, 5th edition. 2013
+\bibitem{saleh} B. E. A. Saleh, M. C. Teich. Fundamentals of photonics, 2nd edition. 2007
+\end{thebibliography}
 \end{document}
+% Ref. \cite{agrawal}

@@ -391,7 +391,7 @@ ydata = vec.sample_temp;
 f(pm.n_results) = figure(pm.n_results);
 close(f(pm.n_results));
 
-for rr=1:pm.n_results-100;
+for rr=1:pm.n_results;
     fprintf('\n%d\n',rr);
     if ~isnan(results.data(:,:,rr))    
         zdata = results.data(:,:,rr);
