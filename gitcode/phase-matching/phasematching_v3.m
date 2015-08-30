@@ -144,15 +144,15 @@ for ww=1:par.n_wg_wid
                     zdata = data.neff(:,:,ww,hh,pp,mm);
                     zdata = zdata(:);
                     
-                    [fit1, gof1] = fit( [xdata(disp.pte),ydata(disp.pte)],zdata(disp.pte),setting.fit_str);
-                    data.fit_neff(ww,hh,pp,mm).exist = true;
+                    [fit1, gof1] = fit( [xdata(disp.pte),ydata(disp.pte)],zdata(disp.pte),setting.fit_str, 'Normalize', 'on');
+                    data.fit_neff(ww,hh,pp,mm).exist = true;                % 'Normalize', 'on' means it center & scales data
                     data.fit_neff(ww,hh,pp,mm).fit = fit1;
                     data.fit_neff(ww,hh,pp,mm).gof = gof1;
                     
                     zdata = data.Aeff(:,:,ww,hh,pp,mm).*1e12;   % why is there .*1e12 ?
                     zdata = zdata(:);
                     
-                    [fit1, gof1] = fit( [xdata(disp.pte),ydata(disp.pte)],zdata(disp.pte),setting.fit_str);
+                    [fit1, gof1] = fit( [xdata(disp.pte),ydata(disp.pte)],zdata(disp.pte),setting.fit_str, 'Normalize', 'on');
                     data.fit_Aeff(ww,hh,pp,mm).exist = true;
                     data.fit_Aeff(ww,hh,pp,mm).fit = fit1;
                     data.fit_Aeff(ww,hh,pp,mm).gof = gof1;
@@ -230,59 +230,32 @@ tic
 
 % the pump wlen is static 1.55 [um], so i can pre-compute its values out of
 % the for loops
-%{
-for tt=1:pm.n_sample_t
-    for oo=1:par.ord_max
-        for TE=1:2
-            for ww=1:par.n_wg_wid
-                for hh=1:par.n_wg_hgt
-                    if (data.fit_neff(1,1,TE,pp).exist && data.fit_neff(1,1,TE,ss).exist && data.fit_neff(1,1,TE,ii).exist)
-                        pm.pump_k(tt,oo,TE,ww,hh) = 2*pi/pm.pump_w*2*pi*data.fit_neff( ww, hh, TE, oo).fit( pm.pump_w, vec.sample_temp(tt) );
-                    end 
-                end
-            end
-        end
-    end
-end
-%}
 
 for ww=1:par.n_wg_wid                                   % number of widths ?
     for hh=1:par.n_wg_hgt                               % number of heights ?
         for oo=1:pm.n_results
             
-            % eliminates the combination with fit_neff not available
             tic
-            pm.ok_fit = 0;
-            %if ~( max( pm.comb(oo,:) )>length( data.fit_neff( ww, hh, 1, :) ) ) % cambiare l'1
-            %    for ff=1:3
-            %        pm.ok_fit = pm.ok_fit + isempty(data.fit_neff( ww, hh, pm.comb(oo,ff*2-1), pm.comb(oo,ff*2) ).fit );
-            %    end
-            %else
-            %    pm.ok_fit = 1;
-            %end
-            if pm.ok_fit < 1
-                results.orders(oo,:) = pm.comb(oo,:);
-                
-                fprintf('mode orders:\tpump %d,\tsignal %d,\tidler %d (sol %d/%d)\n', pm.comb(oo,2), pm.comb(oo,4), pm.comb(oo,6), oo, pm.n_results );
+            results.orders(oo,:) = pm.comb(oo,:);
+
+            fprintf('mode orders:\tpump %d,\tsignal %d,\tidler %d (sol %d/%d)\n', pm.comb(oo,2), pm.comb(oo,4), pm.comb(oo,6), oo, pm.n_results );
+            for tt=1:pm.n_sample_t
+                %kp = 2*pi*feval( data.fit_neff( ww, hh, pm.comb(oo,1), pm.comb(oo,2)).fit, pm.pump_w, vec.sample_temp(tt))/pm.pump_w;
+                %kp = 2*pi*data.fit_neff( ww, hh, pm.comb(oo,1), pm.comb(oo,2)).fit(pm.pump_w, vec.sample_temp(tt))/pm.pump_w;
+                kp = pm.pump_k(tt,pm.comb(oo,2),pm.comb(oo,1),ww,hh);
+
                 for ll=1:pm.n_sample_wl
                     pm.signal_w = vec.sample_wlen(ll);
                     % conservation of energy
                     pm.idler_w  = 2*pm.pump_w - pm.signal_w;
-                    
+                
                     % conservation of momentum
-                    for tt=1:pm.n_sample_t
-%                        fprintf('\tp ');
-                        %kp = 2*pi*feval( data.fit_neff( ww, hh, pm.comb(oo,1), pm.comb(oo,2)).fit, pm.pump_w, vec.sample_temp(tt))/pm.pump_w;
-                        kp = 2*pi*data.fit_neff( ww, hh, pm.comb(oo,1), pm.comb(oo,2)).fit(pm.pump_w, vec.sample_temp(tt))/pm.pump_w;
-                        %ks = 2*pi*feval( data.fit_neff( ww, hh, pm.comb(oo,3), pm.comb(oo,4)).fit, pm.signal_w, vec.sample_temp(tt))/pm.signal_w;
-                        ks = 2*pi*data.fit_neff( ww, hh, pm.comb(oo,3), pm.comb(oo,4)).fit(pm.signal_w, vec.sample_temp(tt))/pm.signal_w;
-                        %ki = 2*pi*feval( data.fit_neff( ww, hh, pm.comb(oo,5), pm.comb(oo,6)).fit, pm.idler_w, vec.sample_temp(tt))/pm.idler_w;
-                        ki = 2*pi*data.fit_neff( ww, hh, pm.comb(oo,5), pm.comb(oo,6)).fit(pm.idler_w, vec.sample_temp(tt))/pm.idler_w;
-                        results.data(ll,tt,oo,ww,hh) = 2*kp -ks -ki ;
-%                        fprintf('\n');
-                    end
+                    %ks = 2*pi*feval( data.fit_neff( ww, hh, pm.comb(oo,3), pm.comb(oo,4)).fit, pm.signal_w, vec.sample_temp(tt))/pm.signal_w;
+                    ks = 2*pi*data.fit_neff( ww, hh, pm.comb(oo,3), pm.comb(oo,4)).fit(pm.signal_w, vec.sample_temp(tt))/pm.signal_w;
+                    %ki = 2*pi*feval( data.fit_neff( ww, hh, pm.comb(oo,5), pm.comb(oo,6)).fit, pm.idler_w, vec.sample_temp(tt))/pm.idler_w;
+                    ki = 2*pi*data.fit_neff( ww, hh, pm.comb(oo,5), pm.comb(oo,6)).fit(pm.idler_w, vec.sample_temp(tt))/pm.idler_w;
+                    results.data(ll,tt,oo,ww,hh) = 2*kp -ks -ki ;
                 end
-%                fprintf('\n');
             end
             toc
         end
@@ -306,7 +279,7 @@ for rr=1:pm.n_results;
     fprintf('\n%d\n',rr);
     if ~isnan(results.data(:,:,rr))    
         zdata = results.data(:,:,rr);
-        if min(zdata(:))*max(zdata(:))<=0
+        %if min(zdata(:))*max(zdata(:))<=0
             f(rr) = figure(rr);
             str_title = strcat('Solution %d: combination (p,s,i) %d %d %d',rr, pm.comb(rr,2), pm.comb(rr,4), pm.comb(rr,6));
             title(str_title);
@@ -341,7 +314,7 @@ for rr=1:pm.n_results;
             %surf( zdata );
             
             grid on;
-        end
+        %end
     end
 end
 
