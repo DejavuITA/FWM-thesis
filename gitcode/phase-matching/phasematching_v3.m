@@ -64,7 +64,7 @@ pm.low_w = 1.45e-6;             % [m]
 pm.high_w = 1.65e-6;            % [m]
 
 % number of points in wlen interval [low_w, high_w]
-pm.n_sample_wl = 101;              % should be an odd number, to center the pump wlen.
+pm.n_sample_wl = 201;              % should be an odd number, to center the pump wlen.
 pm.step = (pm.high_w - pm.low_w)/(pm.n_sample_wl - 1);
 
 vec.sample_wlen = zeros(pm.n_sample_wl,1);
@@ -73,7 +73,7 @@ for ww=1:pm.n_sample_wl
 end
 
 % sampling temperature
-pm.n_sample_t = 11;
+pm.n_sample_t = 201;
 pm.step_t = (vec.temp(end) - vec.temp(1) )/(pm.n_sample_t - 1);
 
 vec.sample_temp = zeros(pm.n_sample_t,1);
@@ -90,8 +90,8 @@ toc
 fprintf('\nCalculating temperature and wavelenght depencence...\n');
 
 tic
-% silicon n2 chi3 real part in um^2/W
-disp.n2 = (0.45*10^-17); %*10^12;
+% silicon n2 chi3 real part in m^2/W
+disp.n2 = (0.45*10^-17)*1e12;   % in um^2/W
 disp.lp = 2.1;
 
 % initialise data structure
@@ -150,7 +150,7 @@ for ww=1:par.n_wg_wid
                     data.fit_neff(ww,hh,pp,mm).fit = fit1;
                     data.fit_neff(ww,hh,pp,mm).gof = gof1;
                     
-                    zdata = data.Aeff(:,:,ww,hh,pp,mm).*1e12;   % why is there .*1e12 ?
+                    zdata = data.Aeff(:,:,ww,hh,pp,mm).*1e12;   % it comes in m^2 and i want it in um^2
                     zdata = zdata(:);
                     
                     [fit1, gof1] = fit( [xdata(disp.pte),ydata(disp.pte)],zdata(disp.pte),setting.fit_str, 'Normalize', 'on');
@@ -158,7 +158,7 @@ for ww=1:par.n_wg_wid
                     data.fit_Aeff(ww,hh,pp,mm).fit = fit1;
                     data.fit_Aeff(ww,hh,pp,mm).gof = gof1;
 
-                    %gamma ??
+                    %gamma in rad/(m*W)
                     for ll=1:par.n_wlen
                         for tt=1:par.n_temp
                             data.Gamma(ww,hh,pp,mm,ll,tt) = ( 2*pi*disp.n2 )./( vec.wlen(ll).*data.Aeff(ll,tt,ww,hh,pp,mm) );
@@ -189,18 +189,11 @@ for TE=1:2
     for pp=1:par.ord_max       % DA CORREGGERE! corretto?
         for ss=1:par.ord_max
             for ii=1:par.ord_max
-                if ~mod(pp,2)
-                    if ~mod(ss+ii,2)
-                        if (data.fit_neff(1,1,TE,pp).exist && data.fit_neff(1,1,TE,ss).exist && data.fit_neff(1,1,TE,ii).exist)
-                            pm.comb = vertcat(pm.comb, [TE pp TE ss TE ii] );
+                if ~mod(2*pp+ss+ii,2)
+                    if (data.fit_neff(1,1,TE,pp).exist && data.fit_neff(1,1,TE,ss).exist && data.fit_neff(1,1,TE,ii).exist)
+                            %pm.comb = vertcat(pm.comb, [TE pp TE ss TE ii] );
+                            pm.comb = cat(3, pm.comb, [TE, TE, TE; pp ss ii] );
                             % 1 is for TE modes, 2 is for TM modes
-                        end
-                    end
-                else
-                    if mod(ss+ii,2)
-                        if (data.fit_neff(1,1,TE,pp).exist && data.fit_neff(1,1,TE,ss).exist && data.fit_neff(1,1,TE,ii).exist)
-                            pm.comb = vertcat(pm.comb, [TE pp TE ss TE ii] );
-                        end
                     end
                 end
             end
@@ -218,7 +211,7 @@ toc
 fprintf('\nCreating structure of data for results...');
 % define results variable
 
-results.orders  = zeros(pm.n_results,6).*NaN;
+results.orders  = zeros(2, 3, pm.n_results).*NaN;
 
 results.data    = zeros(pm.n_sample_wl, pm.n_sample_t, pm.n_results, par.n_wg_wid, par.n_wg_hgt).*NaN;
 
@@ -232,32 +225,24 @@ tic
 % the pump wlen is static 1.55 [um], so i can pre-compute its values out of
 % the for loops
 
-for ww=1:par.n_wg_wid                                   % number of widths ?
-    for hh=1:par.n_wg_hgt                               % number of heights ?
-        for oo=1:pm.n_results
+% creat grid of evaluation
+[~, pgrid]      = meshgrid(vec.sample_temp, pm.pump_w.*ones(pm.n_sample_wl,1));
+[ygrid, sgrid]  = meshgrid(vec.sample_temp, vec.sample_wlen);
+[~, igrid]      = meshgrid(vec.sample_temp, 2*pm.pump_w - vec.sample_wlen);
+
+for ww=1:par.n_wg_wid                                   % number of widths
+    for hh=1:par.n_wg_hgt                               % number of heights
+        for oo=1:pm.n_results                           % number of possible combinations
             
-            tic
-            results.orders(oo,:) = pm.comb(oo,:);
+            results.orders(:,:,oo) = pm.comb(:,:,oo);
 
-            fprintf('mode orders:\tpump %d,\tsignal %d,\tidler %d (sol %d/%d)\n', pm.comb(oo,2), pm.comb(oo,4), pm.comb(oo,6), oo, pm.n_results );
-            for tt=1:pm.n_sample_t
-                %kp = 2*pi*feval( data.fit_neff( ww, hh, pm.comb(oo,1), pm.comb(oo,2)).fit, pm.pump_w, vec.sample_temp(tt))/pm.pump_w;
-                kp = 2*pi*data.fit_neff( ww, hh, pm.comb(oo,1), pm.comb(oo,2)).fit(pm.pump_w, vec.sample_temp(tt))/pm.pump_w;
-
-                for ll=1:pm.n_sample_wl
-                    pm.signal_w = vec.sample_wlen(ll);
-                    % conservation of energy
-                    pm.idler_w  = 2*pm.pump_w - pm.signal_w;
-                
-                    % conservation of momentum
-                    %ks = 2*pi*feval( data.fit_neff( ww, hh, pm.comb(oo,3), pm.comb(oo,4)).fit, pm.signal_w, vec.sample_temp(tt))/pm.signal_w;
-                    ks = 2*pi*data.fit_neff( ww, hh, pm.comb(oo,3), pm.comb(oo,4)).fit(pm.signal_w, vec.sample_temp(tt))/pm.signal_w;
-                    %ki = 2*pi*feval( data.fit_neff( ww, hh, pm.comb(oo,5), pm.comb(oo,6)).fit, pm.idler_w, vec.sample_temp(tt))/pm.idler_w;
-                    ki = 2*pi*data.fit_neff( ww, hh, pm.comb(oo,5), pm.comb(oo,6)).fit(pm.idler_w, vec.sample_temp(tt))/pm.idler_w;
-                    results.data(ll,tt,oo,ww,hh) = 2*kp -ks -ki ;
-                end
-            end
-            toc
+            fprintf('mode orders:\tpump %d,\tsignal %d,\tidler %d (sol %d/%d)\n', pm.comb(2,1,oo), pm.comb(2,2,oo), pm.comb(2,3,oo), oo, pm.n_results );
+            
+            kp = 2*pi*data.fit_neff( ww, hh, pm.comb(1,1,oo), pm.comb(2,1,oo)).fit(pgrid, ygrid)./pgrid;
+            ks = 2*pi*data.fit_neff( ww, hh, pm.comb(1,2,oo), pm.comb(2,2,oo)).fit(sgrid, ygrid)./sgrid;
+            ki = 2*pi*data.fit_neff( ww, hh, pm.comb(1,3,oo), pm.comb(2,3,oo)).fit(igrid, ygrid)./igrid;
+            
+            results.data(:,:,oo,ww,hh) = 2.*kp - ks - ki ;
         end
     end
 end
@@ -265,24 +250,22 @@ end
 fprintf('\nMain cycle runned and ended.\n');
 
 toc
-clear ww hh oo ll ff tt kp ks ki ans
+clear ww hh oo kp ks ki pgrid sgrid igrid ygrid ans
 
-%% surface plot w/ temperature
+%% 3D surface plot w/ temperature
 % it plots only surfaces that cross the plane z=0
-xdata = vec.sample_wlen;
-ydata = vec.sample_temp;
-[xData, yData, ~] = prepareSurfaceData( xdata, ydata, results.data(:,:,1) );
+[xGrid, yGrid]  = meshgrid(vec.sample_temp, vec.sample_wlen);
 
 f(pm.n_results) = figure(pm.n_results);
 close(f(pm.n_results));
 
-%setting.fit_str = 'linearinterp'; % Linear interpolation          
-%setting.fit_str = 'nearestinterp'; % Nearest neighbor interpolation         
+% interpolation is not used anymore
+%{
+xdata = vec.sample_wlen;
+ydata = vec.sample_temp;
+[xData, yData, ~] = prepareSurfaceData( xdata, ydata, results.data(:,:,1) );
 setting.fit_str = 'cubicinterp'; % Cubic spline interpolation
-%setting.fit_str = 'biharmonicinterp'; % Biharmonic (MATLAB griddata) interpolation % ALSO NOT GOOD
-%setting.fit_str = 'thinplateinterp'; % Thin-plate spline interpolation % very computation needy DO NOT USE
-
-%setting.fit_str = 'poly55';    % doesn't work DO NOT USE
+%}
 
 for rr=1:pm.n_results;
     fprintf('\n%d\n',rr);
@@ -292,8 +275,8 @@ for rr=1:pm.n_results;
         % check if the maximum value of l_coh is greater than 1
         if min( abs( zdata(:) ) ) < 200*pi      % min(zdata(:))*max(zdata(:))<=0
             
-            zData = zdata(:)./100;              % zData in [1/cm]
-            [fitresult, ~] = fit( [xData, yData], zData, setting.fit_str, 'Normalize', 'on' );
+            zData = zdata./100;              % zData in [1/cm]
+            %[fitresult, ~] = fit( [xData, yData], zData, setting.fit_str, 'Normalize', 'on' );
             
             f(rr) = figure(rr);
             set(f(rr), 'Position', [100, 100, 960, 480]);
@@ -301,23 +284,27 @@ for rr=1:pm.n_results;
             % fit & plot Delta_k
             subplot(1,2,1);
             title('delta_k');
-            plot( fitresult, [xData, yData], zData );
+            %plot( fitresult, [xData, yData], zData );
+            %plot( [xData, yData], zData );
+            mesh( xGrid, yGrid, zData );
             grid on;            
             hold on;
             
             zData = 2*pi./abs(zData);            % zData = [1/cm] --> 2pi./abs(zData) = [cm]
             % eliminates +inf points
-            if max(zData) == inf
-                indexes = find(max(zData) == zData);
+            if max(zData(:)) == inf
+                indexes = find(zData(:) == max(zData(:)));
                 zData(indexes) = -inf;
-                zData(indexes) = max(zData)*10;
+                zData(indexes) = max(zData(:))*10;
             end
-            [fitresult, ~] = fit( [xData, yData], zData, setting.fit_str, 'Normalize', 'on' );
+            %[fitresult, ~] = fit( [xData, yData], zData, setting.fit_str, 'Normalize', 'on' );
             
             % fit & plot l_coh
             subplot(1,2,2);
             title('L_coh [cm]');
-            plot( fitresult, [xData, yData], zData );            
+            %plot( fitresult, [xData, yData], zData );
+            %plot( [xData, yData], zData );
+            mesh( xGrid, yGrid, zData );
             grid on;
         end
     end
