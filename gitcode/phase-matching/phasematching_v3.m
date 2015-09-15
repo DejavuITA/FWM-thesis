@@ -214,6 +214,8 @@ fprintf('\nCreating structure of data for results...');
 results.orders  = zeros(2, 3, pm.n_results).*NaN;
 
 results.data    = zeros(pm.n_sample_wl, pm.n_sample_t, pm.n_results, par.n_wg_wid, par.n_wg_hgt).*NaN;
+results.maxima  = zeros(pm.n_sample_wl, pm.n_sample_t, pm.n_results, par.n_wg_wid, par.n_wg_hgt).*NaN;
+results.bw      = zeros(pm.n_sample_wl, pm.n_sample_t, pm.n_results, par.n_wg_wid, par.n_wg_hgt).*NaN;
 
 fprintf('\b\b\b:\tstructure created.\n');
 clear jj kk oo
@@ -236,7 +238,7 @@ for ww=1:par.n_wg_wid                                   % number of widths
             
             results.orders(:,:,oo) = pm.comb(:,:,oo);
 
-            fprintf('mode orders:\tpump %d,\tsignal %d,\tidler %d (sol %d/%d)\n', pm.comb(2,1,oo), pm.comb(2,2,oo), pm.comb(2,3,oo), oo, pm.n_results );
+            fprintf('mode orders:\tpump %d, signal %d, idler %d\t\t(sol %d/%d)\n', pm.comb(2,1,oo), pm.comb(2,2,oo), pm.comb(2,3,oo), oo, pm.n_results );
             
             kp = 2*pi*data.fit_neff( ww, hh, pm.comb(1,1,oo), pm.comb(2,1,oo)).fit(pgrid, ygrid)./pgrid;
             ks = 2*pi*data.fit_neff( ww, hh, pm.comb(1,2,oo), pm.comb(2,2,oo)).fit(sgrid, ygrid)./sgrid;
@@ -254,18 +256,13 @@ clear ww hh oo kp ks ki pgrid sgrid igrid ygrid ans
 
 %% 3D surface plot w/ temperature
 % it plots only surfaces that cross the plane z=0
+fprintf('\nGenerating plots...\n');
+tic
+
 [xGrid, yGrid]  = meshgrid(vec.sample_temp, vec.sample_wlen);
 
 f(pm.n_results) = figure(pm.n_results);
 close(f(pm.n_results));
-
-% interpolation is not used anymore
-%{
-xdata = vec.sample_wlen;
-ydata = vec.sample_temp;
-[xData, yData, ~] = prepareSurfaceData( xdata, ydata, results.data(:,:,1) );
-setting.fit_str = 'cubicinterp'; % Cubic spline interpolation
-%}
 
 for rr=1:pm.n_results;
     fprintf('\n%d\n',rr);
@@ -274,43 +271,89 @@ for rr=1:pm.n_results;
         
         % check if the maximum value of l_coh is greater than 1
         if min( abs( zdata(:) ) ) < 200*pi      % min(zdata(:))*max(zdata(:))<=0
+            %% 3D surface plots of Dk (wlen, temps)
             
-            zData = zdata./100;              % zData in [1/cm]
-            %[fitresult, ~] = fit( [xData, yData], zData, setting.fit_str, 'Normalize', 'on' );
-            
-            f(rr) = figure(rr);
-            set(f(rr), 'Position', [100, 100, 960, 480]);
+            name = strcat( 'sol ',num2str(rr),' p ', num2str(results.orders(2,1,rr)), ' s ', num2str(results.orders(2,2,rr)), ' i ', num2str(results.orders(2,3,rr)), ' 3D' );
+            f = figure('name', name, 'OuterPosition',[100, 100, 960, 480]);
             
             % fit & plot Delta_k
-            subplot(1,2,1);
-            title('delta_k');
-            %plot( fitresult, [xData, yData], zData );
-            %plot( [xData, yData], zData );
-            mesh( xGrid, yGrid, zData );
-            grid on;            
-            hold on;
             
-            zData = 2*pi./abs(zData);            % zData = [1/cm] --> 2pi./abs(zData) = [cm]
-            % eliminates +inf points
-            if max(zData(:)) == inf
-                indexes = find(zData(:) == max(zData(:)));
-                zData(indexes) = -inf;
-                zData(indexes) = max(zData(:))*10;
-            end
-            %[fitresult, ~] = fit( [xData, yData], zData, setting.fit_str, 'Normalize', 'on' );
+            zData = zdata./100;              % zData in [1/cm]
             
-            % fit & plot l_coh
-            subplot(1,2,2);
-            title('L_coh [cm]');
-            %plot( fitresult, [xData, yData], zData );
-            %plot( [xData, yData], zData );
+            subplot1 = subplot(1,2,1, 'Parent', f );
+            title('\Delta_k [1/cm]');
+            hold(subplot1,'on');
             mesh( xGrid, yGrid, zData );
             grid on;
+            colorbar('peer',subplot1);
+            
+            % fit & plot l_coh
+            
+            zData = 200*pi./abs(zData);            % zdata = [1/m] --> 200pi./abs(zdata) = [cm]
+            
+            subplot2 = subplot(1,2,2, 'Parent', f );
+            title('L_{coh} [cm]');
+            hold(subplot2,'on');
+            zlim(subplot2,[-0.1 10]);
+            mesh( xGrid, yGrid, zData );
+            grid on;
+            colorbar('peer',subplot2);
+            
+            
+            %% 2D plots of peak and bandwidth
+            
+            % find local maxima & bandwidth
+            
+            name = strcat( 'sol ',num2str(rr),' p ', num2str(results.orders(2,1,rr)), ' s ', num2str(results.orders(2,2,rr)), ' i ', num2str(results.orders(2,3,rr)), ' 2D' );
+            f = figure('name', name, 'OuterPosition',[100, 100, 960, 480]);
+            
+            subplot1 = subplot(1,2,1, 'Parent', f );
+            title('position of maxima');
+            
+            zData = 200*pi./abs(zdata);            % zData = [1/cm] --> 200pi./abs(zData) = [cm]
+            
+            maxL = 0;
+            y = zeros(pm.n_sample_t, idivide(int32(pm.n_sample_wl),int32(2)) ).*NaN;
+            y2 = zeros(pm.n_sample_t, idivide(int32(pm.n_sample_wl),int32(2)) ).*NaN;
+            for tt=1:pm.n_sample_t
+                [~, locs] = findpeaks(zData(:,tt));
+                maxL = max([maxL, length(locs)]);
+                y(tt, 1:maxL) = locs;
+                
+                for jj=1:length(locs)
+                    %{
+                    bw.dx = locs(jj)+5;
+                    bw.sx = bw.dx-10;
+                    
+                    bw.x1  = vec.sample_wlen(bw.sx);
+                    bw.y1  = zData(bw.sx,tt);
+                    bw.x2  = vec.sample_wlen(bw.dx);
+                    bw.y2  = zData(bw.dx,tt);
+
+                    y2(tt, jj) = 2*bw.y2*(bw.x2+(bw.y2-bw.y1)/(bw.x1*bw.y2+bw.x2*bw.y2) );
+                    %}
+                    
+                end
+                
+            end
+            y(:, maxL+1:end) = [];
+            plot(vec.sample_temp, vec.sample_wlen(y));
+            hold on;
+            axis([250 700 1.4e-6 1.7e-6]);
+            
+            y2(:, maxL+1:end) = [];
+            
+            subplot2 = subplot(1,2,2, 'Parent', f );
+            title('bandwidth');
+            plot(vec.sample_temp, y2);
+            hold on;
+            
         end
     end
 end
+toc
 
-clear xdata ydata zdata xData yData zData ans rr fitresult indexes str_title
+clear ans xGrid yGrid zdata zData rr jj tt y y2 maxL locs bw fitresult f name subplot1 subplot2
 
 %% SAVING
 
@@ -319,27 +362,19 @@ tic
 setting.save_path = '../data/';         % filepath of filesaves
 setting.FILE_EXT	= '.mat';         	% Determines the extension of the files: .mat or .dat
 
-fp = datestr(datetime,'yyyy-mm-dd_HH:MM:ss');
-fp = strcat(setting.save_path,'phasematch_', fp, setting.FILE_EXT);
-
-fprintf('Saving data in %s\n',fp);
-save(fp);
+choice = questdlg('Import a file or to exit the program?', 'Save File', 'Save File', 'End script');
+% Handle response
+switch choice
+	case 'Save File'
+        fp = datestr(datetime,'yyyy-mm-dd_HH:MM:ss');
+        fp = strcat(setting.save_path,'phasematch_', fp, setting.FILE_EXT);
+        
+        fprintf('\nSaving data in %s\n',fp);
+        save(fp);
+        
+	case 'Exit program'
+        fprintf('\nScript End.\n');
+end    
 
 clear fp ans
 toc
-
- %% various code drafts
- %{
-
-[xData, yData, zData] = prepareSurfaceData( xdata, ydata, zdata );
-[fitresult, gof] = fit( [xData, yData], zData, 'loess', 'Normalize', 'on' );
-plot( fitresult, [xData, yData], zData );
-
-fittypes: 'cubicinterp', 'loess', ...
-
-this things don't work { 
-    str_title = strcat('Solution %d: combination (p,s,i) %d %d %d',rr, pm.comb(rr,2), pm.comb(rr,4), pm.comb(rr,6));
-    title(str_title);
-}
-
- %}
