@@ -185,6 +185,46 @@ Many processes are result of third order nonlinearities: Third-Harmonic Generati
 
 The parametric process of Four-Wave Mixing originates from the third order nonlinear response of a material to an electromagnetic field and involves interaction among four optical waves.
 
+The nonlinear component of the induced electric polarization vector, considering significant only the third-order term, is
+$$ \textbf{P}_{NL} = \varepsilon_0 \chi^{(3)} \vdots \textbf{E}^3 $$
+
+
+\vspace{18pt}
+****		è necessario verificare conservazione di energia e momento
+\vspace{12pt}
+\begin{equation}
+	\textbf{E} = \frac{1}{2}\hat{x} \sum_{j=1}^4 E_j \mathrm{exp}[i(\beta_j z - \omega_j t)] + c.c.
+	\label{eq_E}
+\end{equation}
+(``c.c." means complex conjugate)
+
+
+\begin{equation}
+	\textbf{P} = \frac{1}{2}\hat{x} \sum_{j=1}^4 P_j \mathrm{exp}[i(\beta_j z - \omega_j t)] + c.c.
+	\label{eq_P}
+\end{equation}
+considering $E_j(\textbf{r}) = F_j(x,y)A_j(z)$ where $F_j$ is the spatial distribution of the mode
+
+\begin{subequations}
+\begin{align}
+	\frac{dA_1}{dz} &= \frac{\mathrm{i}n_L\omega_1}{c}\left[ \left( f_{11} |A_1|^2 + 2 \sum_{k\neq1} f_{1k}|A_k|^2\right)A_1 + 2f_{1234}A_2^*A_3A_4\mathrm{e}^{\mathrm{i}\Delta k_z} \right] \\
+	\frac{dA_2}{dz} &= \frac{\mathrm{i}n_L\omega_2}{c}\left[ \left( f_{22} |A_2|^2 + 2 \sum_{k\neq2} f_{2k}|A_k|^2\right)A_2 + 2f_{2134}A_1^*A_3A_4\mathrm{e}^{\mathrm{i}\Delta k_z} \right] \\
+	\frac{dA_3}{dz} &= \frac{\mathrm{i}n_L\omega_3}{c}\left[ \left( f_{33} |A_3|^2 + 2 \sum_{k\neq3} f_{3k}|A_k|^2\right)A_3 + 2f_{3412}A_1A_2A_4^*\mathrm{e}^{-\mathrm{i}\Delta k_z} \right] \\
+	\frac{dA_4}{dz} &= \frac{\mathrm{i}n_L\omega_4}{c}\left[ \left( f_{44} |A_4|^2 + 2 \sum_{k\neq4} f_{4k}|A_k|^2\right)A_4 + 2f_{4321}A_1A_2A_3^*\mathrm{e}^{-\mathrm{i}\Delta k_z} \right]
+\end{align}
+\label{eq_coupled_amplitude}
+\end{subequations}
+
+where
+
+\begin{equation}
+	f_{ij} = \frac{\langle |F_i|^2 |F_j|^2 \rangle}{\sqrt{\langle |F_i|^2 \rangle\langle |F_j|^2 \rangle}}
+\end{equation}
+and
+\begin{equation}
+	f_{ijkl} = \frac{\langle F_i^* F_j^* F_k F_l \rangle}{\sqrt{\langle |F_i|^2 \rangle\langle |F_j|^2 \rangle\langle |F_k|^2 \rangle\langle |F_l|^2 \rangle}}
+\end{equation}
+
 \vspace{18pt}
 ****		è necessario verificare conservazione di energia e momento
 \vspace{12pt}
