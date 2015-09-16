@@ -386,6 +386,8 @@ for rr=1:pm.n_results;
             results.maxima( 1:size(y,1), 1:size(y,2), rr, 1, 1) = y;
             results.bwid( 1:size(y2,1), 1:size(y2,2), rr, 1, 1) = y2;
             
+            saveas(f, strcat('sol',num2str(rr),'_',num2str(pm.comb(2,:,rr))), 'pdf');
+            
         end 
     end
 end
@@ -393,15 +395,69 @@ results.indexes = find(results.indexes == 1);
 results.n_final = length(results.indexes);
 toc
 %%
-clear ans xGrid yGrid zdata zData rr jj tt y y2 maxL locs bw fitresult f name subplot1 subplot2
+clear ans xGrid yGrid zdata zData rr jj tt y y2 maxL locs bw fitresult f name subplot1 subplot2 top
 
 %% 2D plots data vs orders
 
-f = figure;
-plot( 1e11*results.max.m(results.indexes,1), 'o' );
+f = figure('name', 'peak position at ambient temperature');
+title('peak position at ambient temperature [um]');
+hold on;
+plot( 1e6*results.max.q(results.indexes,1:end), 'o' );
+saveas(f, 'ppaat', 'pdf');
 
-f = figure;
-plot( 1e11*results.bw.m(results.indexes,1), 'o' );
+f = figure('name', 'peak position: m');
+title('peak position change [nm/100°C]');
+hold on;
+plot( 1e11*results.max.m(results.indexes,1:end), 'o' );
+saveas(f, 'ppc', 'pdf');
+
+f = figure('name', 'bandwidth');
+title('bandwidth at ambient temperature [nm]');
+hold on;
+plot( 1e9*results.bw.q(results.indexes,1:end), 'o' );
+saveas(f, 'baat', 'pdf');
+
+f = figure('name', 'bandwidth: m');
+title('bandwidth change [nm/100°C]');
+hold on;
+plot( 1e11*results.bw.m(results.indexes,1:end), 'o' );
+saveas(1, 'bc', 'pdf');
+
+%% 2D plots data vs orders, w/out degenerate states
+
+results.indexes2 = [];
+for jj=1:results.n_final
+    if ~(results.max.q(results.indexes(jj),1) >= 1.549e-6 && results.max.q(results.indexes(jj),1) <= 1.551e-6)
+        results.indexes2 = [results.indexes2; results.indexes(jj)];
+    end
+end
+clear jj
+
+f = figure('name', 'peak position at ambient temperature');
+title('peak position at ambient temperature [um]');
+hold on;
+plot( 1e6*results.max.q(results.indexes2,1:end), 'o' );
+saveas(f, 'ppaat2', 'pdf');
+
+f = figure('name', 'peak position: m');
+title('peak position change [nm/100°C]');
+hold on;
+plot( 1e11*results.max.m(results.indexes2,1:end), 'o' );
+saveas(f, 'ppc2', 'pdf');
+
+f = figure('name', 'bandwidth');
+title('bandwidth at ambient temperature [nm]');
+hold on;
+plot( 1e9*results.bw.q(results.indexes2,1:end), 'o' );
+saveas(f, 'baat2', 'pdf');
+
+f = figure('name', 'bandwidth: m');
+title('bandwidth change [nm/100°C]');
+hold on;
+plot( 1e11*results.bw.m(results.indexes2,1:end), 'o' );
+saveas(f, 'bc2', 'pdf');
+
+clear f
 
 %% SAVING
 
@@ -416,7 +472,7 @@ choice = questdlg(  'Save to file or end script?', ...
                     'Save to file' );
 % Handle response
 switch choice
-	case 'Save File'
+	case 'Save to File'
         fp = datestr(datetime,'yyyy-mm-dd_HH:MM:ss');
         fp = strcat(setting.save_path,'phasematch_', fp, setting.FILE_EXT);
         
@@ -427,5 +483,5 @@ switch choice
         fprintf('\nScript End.\n');
 end    
 
-clear fp ans
+clear fp ans choice
 toc
