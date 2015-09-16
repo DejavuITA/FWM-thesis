@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                         %
-%   This file will search for phase matching condition                    %
+%   This script will search for phase matching condition                    %
 %                                                                         %
 %                                                         D. Bazzanella   %
 %                                                                         %
@@ -11,7 +11,7 @@
 ans1 = 0;
 while ( ans1 == 0 )
     % Construct a questdlg with three options
-    choice = questdlg('Import a file or to exit the program?', 'Import File', 	'Import File', 'Exit program', 'Go on', ...
+    choice = questdlg('Import a file or to exit the program?', 'Import File', 'Import File', 'Exit program', 'Go on', ...
         'Import File');
     % Handle response
     switch choice
@@ -64,7 +64,7 @@ pm.low_w = 1.45e-6;             % [m]
 pm.high_w = 1.65e-6;            % [m]
 
 % number of points in wlen interval [low_w, high_w]
-pm.n_sample_wl = 201;              % should be an odd number, to center the pump wlen.
+pm.n_sample_wl = 4001;              % should be an odd number, to center the pump wlen.
 pm.step = (pm.high_w - pm.low_w)/(pm.n_sample_wl - 1);
 
 vec.sample_wlen = zeros(pm.n_sample_wl,1);
@@ -215,7 +215,14 @@ results.orders  = zeros(2, 3, pm.n_results).*NaN;
 
 results.data    = zeros(pm.n_sample_wl, pm.n_sample_t, pm.n_results, par.n_wg_wid, par.n_wg_hgt).*NaN;
 results.maxima  = zeros(pm.n_sample_wl, pm.n_sample_t, pm.n_results, par.n_wg_wid, par.n_wg_hgt).*NaN;
-results.bw      = zeros(pm.n_sample_wl, pm.n_sample_t, pm.n_results, par.n_wg_wid, par.n_wg_hgt).*NaN;
+results.bwid    = zeros(pm.n_sample_wl, pm.n_sample_t, pm.n_results, par.n_wg_wid, par.n_wg_hgt).*NaN;
+
+results.max.q 	= zeros(pm.n_results,10).*NaN;
+results.max.m 	= zeros(pm.n_results,10).*NaN;
+results.bw.q 	= zeros(pm.n_results,10).*NaN;
+results.bw.m 	= zeros(pm.n_results,10).*NaN;
+
+results.indexes = zeros(pm.n_results,1).*NaN;
 
 fprintf('\b\b\b:\tstructure created.\n');
 clear jj kk oo
@@ -271,8 +278,11 @@ for rr=1:pm.n_results;
         
         % check if the maximum value of l_coh is greater than 1
         if min( abs( zdata(:) ) ) < 200*pi      % min(zdata(:))*max(zdata(:))<=0
+            results.indexes(rr) = 1;
+            
             %% 3D surface plots of Dk (wlen, temps)
             
+            %{
             name = strcat( 'sol ',num2str(rr),' p ', num2str(results.orders(2,1,rr)), ' s ', num2str(results.orders(2,2,rr)), ' i ', num2str(results.orders(2,3,rr)), ' 3D' );
             f = figure('name', name, 'OuterPosition',[100, 100, 960, 480]);
             
@@ -298,11 +308,11 @@ for rr=1:pm.n_results;
             mesh( xGrid, yGrid, zData );
             grid on;
             colorbar('peer',subplot2);
-            
+            %}
             
             %% 2D plots of peak and bandwidth
             
-            % find local maxima & bandwidth
+            % find local maxima & bandwidth, for each temperature
             
             name = strcat( 'sol ',num2str(rr),' p ', num2str(results.orders(2,1,rr)), ' s ', num2str(results.orders(2,2,rr)), ' i ', num2str(results.orders(2,3,rr)), ' 2D' );
             f = figure('name', name, 'OuterPosition',[100, 100, 960, 480]);
@@ -315,45 +325,83 @@ for rr=1:pm.n_results;
             maxL = 0;
             y = zeros(pm.n_sample_t, idivide(int32(pm.n_sample_wl),int32(2)) ).*NaN;
             y2 = zeros(pm.n_sample_t, idivide(int32(pm.n_sample_wl),int32(2)) ).*NaN;
+            
             for tt=1:pm.n_sample_t
                 [~, locs] = findpeaks(zData(:,tt));
                 maxL = max([maxL, length(locs)]);
-                y(tt, 1:maxL) = locs;
+                y(tt, 1:length(locs)) = locs;
                 
-                for jj=1:length(locs)
-                    %{
-                    bw.dx = locs(jj)+5;
-                    bw.sx = bw.dx-10;
-                    
-                    bw.x1  = vec.sample_wlen(bw.sx);
-                    bw.y1  = zData(bw.sx,tt);
-                    bw.x2  = vec.sample_wlen(bw.dx);
-                    bw.y2  = zData(bw.dx,tt);
-
-                    y2(tt, jj) = 2*bw.y2*(bw.x2+(bw.y2-bw.y1)/(bw.x1*bw.y2+bw.x2*bw.y2) );
-                    %}
-                    
-                end
+                zData_0 = zData;
+                zData_0(1,tt) = 0;
+                zData_0(end,tt) = 0;
                 
+                a = zData_0(:,tt) >= 1;
+                b = abs( diff(a) );
+                c = find(b == 1);
+                %d = vec.sample_wlen( c );
+                % we could implement a function which find the zero with
+                % bisection, it's a pain in the ass but it's reliable
+                d = (vec.sample_wlen( c+1 ) - vec.sample_wlen( c ))./(zData(c+1,tt) - zData(c,tt)).*(1 - zData(c,tt)) + vec.sample_wlen( c );
+                e = d(2:2:end) - d(1:2:end);
+                
+                y2(tt, 1:length(e)) = e;
+                clear a b c d e zData_0
             end
-            y(:, maxL+1:end) = [];
-            plot(vec.sample_temp, vec.sample_wlen(y));
-            hold on;
-            axis([250 700 1.4e-6 1.7e-6]);
             
+            y(:, maxL+1:end) = [];
+            y = vec.sample_wlen(y);
             y2(:, maxL+1:end) = [];
             
-            subplot2 = subplot(1,2,2, 'Parent', f );
-            title('bandwidth');
-            plot(vec.sample_temp, y2);
-            hold on;
+            for tt=1:maxL
+                [results.max.ft, ~] = fit( vec.sample_temp, y(:,tt), 'poly1');
+                results.max.m(rr, tt)   = results.max.ft.p1;
+                results.max.q(rr, tt)   = y(1,tt);
+                
+                [results.bw.ft, ~] = fit( vec.sample_temp, y2(:,tt), 'poly1');
+                results.bw.m(rr, tt)	= results.bw.ft.p1;
+                results.bw.q(rr, tt)	= y2(1,tt);
+            end
+            clear results.max.ft results.bw.ft
             
-        end
+            hold(subplot1,'on');
+            plot(vec.sample_temp, y );
+            axis([250 700 1.4e-6 1.7e-6]);
+            annotation( f,'textbox',...
+                        [0.2 0.82 0.2 0.1],...
+                        'String',{strcat('q = ', num2str(results.max.q(rr,1)) ), strcat( 'm = ', num2str(1e11*results.max.m(rr,1)) )});
+
+            
+            top = round( max([1,max(y2(:)*2e9)] ),1,'significant');
+            
+            subplot2 = subplot( 1,2,2, 'Parent', f, ...
+                                'YTick',[0 : top/10 : top]);
+            title('bandwidth');
+            hold(subplot2,'on');
+            plot(vec.sample_temp, y2.*1e9);
+            ylim(subplot2,[0 top ]);
+            annotation( f,'textbox',...
+                        [0.65 0.82 0.2 0.1],...
+                        'String',{strcat('q = ', num2str(results.bw.q(rr,1)) ), strcat( 'm = ', num2str(1e11*results.bw.m(rr,1)) )});
+            
+            results.maxima( 1:size(y,1), 1:size(y,2), rr, 1, 1) = y;
+            results.bwid( 1:size(y2,1), 1:size(y2,2), rr, 1, 1) = y2;
+            
+        end 
     end
 end
+results.indexes = find(results.indexes == 1);
+results.n_final = length(results.indexes);
 toc
-
+%%
 clear ans xGrid yGrid zdata zData rr jj tt y y2 maxL locs bw fitresult f name subplot1 subplot2
+
+%% 2D plots data vs orders
+
+f = figure;
+plot( 1e11*results.max.m(results.indexes,1), 'o' );
+
+f = figure;
+plot( 1e11*results.bw.m(results.indexes,1), 'o' );
 
 %% SAVING
 
@@ -362,7 +410,10 @@ tic
 setting.save_path = '../data/';         % filepath of filesaves
 setting.FILE_EXT	= '.mat';         	% Determines the extension of the files: .mat or .dat
 
-choice = questdlg('Import a file or to exit the program?', 'Save File', 'Save File', 'End script');
+choice = questdlg(  'Save to file or end script?', ...
+                    ' ', ...
+                    'Save to file', 'End script', ...
+                    'Save to file' );
 % Handle response
 switch choice
 	case 'Save File'
@@ -372,7 +423,7 @@ switch choice
         fprintf('\nSaving data in %s\n',fp);
         save(fp);
         
-	case 'Exit program'
+	case 'End script'
         fprintf('\nScript End.\n');
 end    
 
