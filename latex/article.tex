@@ -51,9 +51,7 @@ Therefore it is about the pump wave and a second weaker one (signal) which gener
 
 \section{Electromagnetic waves in dielectric media}
 
-**** 	pg 156 saleh or chp 2 agrawal
-\vspace{12pt}
-
+%pg 156 saleh or chp 2 agrawal
 To understand electromagnetic phenomena the starting point is the well known Maxwell's equations:
 \begin{subequations}
 \begin{align}
@@ -64,7 +62,7 @@ To understand electromagnetic phenomena the starting point is the well known Max
 \end{align}
 \label{eq_maxwell}
 \end{subequations}
-where \textbf{E} and \textbf{H} are electri and magnetic field vectors and \textbf{D} and \textbf{B} are corresponding electric and magnetic flux densities. \textbf{J} is the current density vector and $\rho_{\mathrm{f}}$ is the free charge density.
+where \textbf{E} and \textbf{H} are electric and magnetic field vectors and \textbf{D} and \textbf{B} are corresponding electric and magnetic flux densities. \textbf{J} is the current density vector and $\rho_{\mathrm{f}}$ is the free charge density.
 In dielectric media, such as silicon, we can also consider $\textbf{J} = 0$ and $\rho_\mathrm{f} = 0$.
 
 \textbf{D} and \textbf{B} are related to the electromagnetic fields through the relations:
@@ -77,6 +75,7 @@ In dielectric media, such as silicon, we can also consider $\textbf{J} = 0$ and 
 where $\varepsilon_0$ is the vacuum permittivity, $\mu_0$ is the vacuum permeability, and \textbf{P} and \textbf{M} are the induced electric and magnetic polarizations repectively.
 For a nonmagnetic medium, as in our case, $\textbf{M} = 0$.
 
+\subsubsection*{Solution in linear dielectric medium}
 A linear dielectric medium is characterized by a linear relation between the polarization density and the electric field:
 \begin{equation}
 \textbf{P} = \varepsilon_0 \chi \textbf{E}
@@ -92,14 +91,24 @@ where $c = 1/\sqrt{\mu_0 \varepsilon_0}$ is the speed of light in vacuum.
 
 Defining the refractive index $n \equiv \sqrt{\varepsilon_r}$ of the material the previous equation (\ref{eq_helm_P})
 \begin{equation}
-\nabla^2 \textbf{E} - \frac{n^2}{c^2}\frac{\partial^2 \textbf{E}}{\partial t^2} = 0
+	\nabla^2 \textbf{E} - \frac{n^2}{c^2}\frac{\partial^2 \textbf{E}}{\partial t^2} = 0
+	\label{eq_helm_lin}
 \end{equation}
-Moreover, $n$ represent the ratio between the speed of light in vacuum and in the material $n = c/v$.
+Moreover, $n$ represent the ratio between the speed of light in vacuum and in the material $n = c/v$ and it depends on the frequency of the EM wave.
 
+The general solution of eq (\ref{eq_helm_P}) is a transverse electromagnetic (TEM) wave, whose electric and magnetic fields are perpendicular to the propagation direction.
+Without losing generality, we could assume $\hat{z}$ as the propagation direction and electric field of the form:
+\begin{equation}
+	\textbf{E} = \frac{1}{2}\hat{x}\,E\,\mathrm{exp}[\mathrm{i}(kz-\omega t)] + c.c.
+	\label{eq_wave}
+\end{equation}
+with $E$ amplitude of the electric field, $k = 2\pi/\lambda$ the wavevector and $\omega = 2\pi f$ the angular frequency. $\lambda$ and $f$ are relatively the wavelenght and the frequency of the electromagnetic wave.
+The magnetic field has a similar equation.
+
+\subsection{Silicon waveguides}
 In linear optics the technology for trasmitting a light wave by confining it in a finite space is the guided-wave optics.
 The instruments employed for achieving such purpose are called waveguides.
 
-\subsection{Silicon waveguides}
 In a ray-optics picture, silicon waveguides are dielectric waveguides and make use of the interface between two media with different refractive index.
 Precisely they exploit the phenomenon of total internal reflection: if a propagating wave reaches a boundary between two mediums, one with higher refractive index ($n_H$) and another with lower refractive index ($n_L$), with an angle of incidence greater than the \textit{critical angle}, then the wave is completely reflected in the first medium.
 %accorciare la precedente frase%
@@ -112,11 +121,26 @@ The former is the higher refractive index medium in which the wave is confined, 
 
 \vspace{18pt}
 **** ripresa delle eq di maxwell?
+
+**** soluzione generale: onde TE, TM
 \vspace{12pt}
 
-Considering an ideal dielectric waveguide (no absorption) and the total field distribution as sum of transverse electromagnetic (TEM) plane waves is possible to study the propagation of the wave along the waveguide with an electromagnetic analysis.
-Furthermore it can be shown that not all field distribution are transmitted through the waveguide without energy loss \textbf{(?)}.
+Considering an ideal dielectric waveguide (no absorption) with the purpose of transmitting EM waves in the $\hat{z}$ direction, the total field distribution is a sum of continous TEM plane waves.
+Defining the amplitude of the fields as $E(\textbf{r},t) = F(x,y)A(z,t)$ is possible to study the propagation of the wave along the waveguide using the Helmholtz equation (\ref{eq_helm_P}) or (\ref{eq_helm_lin}).
+\vspace{18pt}
+Defining $k=\beta$ in eq (\ref{eq_wave}) leads to the following equations:
+\begin{subequations}
+\begin{align}
+	\frac{\partial^2F(x,y)}{\partial x^2} + \frac{\partial^2F(x,y)}{\partial y^2} + \left[ k_0^2n^2-\beta^2\right]F(x,y) = 0 \\
+	??? \qquad \qquad \frac{\partial^2A(z,t)}{\partial z^2} + \frac{n^2}{c^2}\frac{\partial^2A(z,t)}{\partial t^2} = 0 \\
+	??? \qquad \qquad \frac{\partial^2A(z,t)}{\partial z^2} + k^2n^2\frac{\partial^2A(z,t)}{\partial t^2} = 0
+\end{align}
+\end{subequations}
+\vspace{18pt}
+****
+\vspace{12pt}
 
+Not all field distribution are transmitted through the waveguide without energy loss \textbf{(?)}.
 % Modes are fields that maintain the same transverse distribution and polarization at all locations along the waveguide axis.
 Those field distributions which maintain the same transverse distribution and polarization at all locations along the waveguide axis are called modes.
 These modes can be categorized in two main groups, depending on the polarization of the wave: transverse electric (TE) modes and transverse magnetic (TM) modes, which have respectively the electric and magnetic field transverse to the waveguide axis.
@@ -133,9 +157,7 @@ Moreover it is noteworthy that the field distributions of odd orders are even fu
 	\caption{graphical rapresentation of field distribution of 1D modes}
 \end{figure}
 
-\vspace{18pt}
-****		\textit{effective index}
-\vspace{12pt}
+\subsubsection*{Propagation constant and effective index}
 
 A very important parameter of each mode is its \textit{propagation constant} $\beta$, defined as the component of the wavevector $k$ in the waveguide axis:
 \begin{equation}
@@ -168,14 +190,14 @@ Only one significant index is then left to describe the order of modes.
 \end{figure}
 
 \section{Non-linear optics}
-A nonlinear dielectric medium is characterized by a nonlinear relation between P and E, such as
+A nonlinear dielectric medium is characterized by a nonlinear relation between \textbf{P} and \textbf{E}, such as
 \begin{equation}
 \textbf{P} = \varepsilon_0 \left( \chi^{(1)} \cdot \textbf{E} + \chi^{(2)} : \textbf{E}^2 + \chi^{(3)} \vdots \textbf{E}^3 + \cdots \right)
 \end{equation}
 which originates from the behaviour of bound electrons.
 
 In everyday condition linear effects are much larger than nonlinear ones.
-The relation between $\mathrm{P}$ and $\mathrm{E}$ becomes nonlinear when $\mathrm{E}$ has a value comparable to interatomic electric fields, which are typically $\sim 10^5-10^8$ \si{\V\per\m}.
+The relation between \textbf{P} and \textbf{E} becomes nonlinear when $\mathrm{E}$ has a value comparable to interatomic electric fields, which are typically $\sim 10^5-10^8$ \si{\V\per\m}.
 
 For an isotropic medium the second order term is zero (in the dipole approximation) and this is our scenario.
 Thus the dominant nonlinearity is the third order and the material is called a Kerr medium.
@@ -196,9 +218,7 @@ $$ \textbf{P}_{NL} = \varepsilon_0 \chi^{(3)} \vdots \textbf{E}^3 $$
 	\textbf{E} = \frac{1}{2}\hat{x} \sum_{j=1}^4 E_j \mathrm{exp}[i(\beta_j z - \omega_j t)] + c.c.
 	\label{eq_E}
 \end{equation}
-(``c.c." means complex conjugate)
-
-
+and the induced electric polarization:
 \begin{equation}
 	\textbf{P} = \frac{1}{2}\hat{x} \sum_{j=1}^4 P_j \mathrm{exp}[i(\beta_j z - \omega_j t)] + c.c.
 	\label{eq_P}
