@@ -7,7 +7,7 @@
 \usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage{parcolumns}
-\usepackage[left=2.cm,right=2.cm,top=2.cm,bottom=2.cm]{geometry}
+\usepackage[left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm]{geometry}
 \usepackage[final]{pdfpages} %serve per aggiungere altre pagine pdf al file
 \usepackage{siunitx}
 
@@ -55,12 +55,15 @@ Therefore it is about the pump wave and a second weaker one (signal) which gener
 To understand electromagnetic phenomena the starting point is the well known Maxwell's equations:
 \begin{subequations}
 \begin{align}
-	\nabla \times \textbf{E} &= -\frac{\partial \textbf{B}}{\partial t} \\
-	\nabla \times \textbf{H} &= \textbf{J} + \frac{\partial \textbf{D}}{\partial t} \\
-	\nabla \cdot \textbf{D} &= \rho_{\mathrm{f}} \\
+	\nabla \times \textbf{E} &= -\frac{\partial \textbf{B}}{\partial t}
+		\label{eq_maxwell_a} \\
+	\nabla \times \textbf{H} &= \textbf{J} + \frac{\partial \textbf{D}}{\partial t}
+		\label{eq_maxwell_b} \\
+	\nabla \cdot \textbf{D} &= \rho_{\mathrm{f}} 
+		\label{eq_maxwell_c} \\
 	\nabla \cdot \textbf{B} &= 0
+		\label{eq_maxwell_d}
 \end{align}
-\label{eq_maxwell}
 \end{subequations}
 where \textbf{E} and \textbf{H} are electric and magnetic field vectors and \textbf{D} and \textbf{B} are corresponding electric and magnetic flux densities. \textbf{J} is the current density vector and $\rho_{\mathrm{f}}$ is the free charge density.
 In dielectric media, such as silicon, we can also consider $\textbf{J} = 0$ and $\rho_\mathrm{f} = 0$.
@@ -83,27 +86,27 @@ A linear dielectric medium is characterized by a linear relation between the pol
 \end{equation}
 where $\chi$ is the susceptibility of the medium and $\varepsilon_r \equiv 1+\chi$ is the relative dielectric constant.
 
-Taking the curl of eq (\ref{eq_maxwell}a) and substituting in it eq (\ref{eq_maxwell}c) it leads to the Helmholtz equation:
+Taking the curl of Eq. (\ref{eq_maxwell_a}) and substituting in it Eq. (\ref{eq_maxwell_c}) it leads to the Helmholtz equation:
 \begin{equation}
 \nabla^2 \textbf{E} - \frac{1}{c^2}\frac{\partial^2 \textbf{E}}{\partial t^2} = \mu_0\frac{\partial^2 \textbf{P}}{\partial t^2}
 \label{eq_helm_P}
 \end{equation}
 where $c = 1/\sqrt{\mu_0 \varepsilon_0}$ is the speed of light in vacuum.
 
-Defining the refractive index $n \equiv \sqrt{\varepsilon_r}$ of the material the previous equation (\ref{eq_helm_P}) and using the definition of \textbf{P} as in eq (\ref{eq_P_L})
+Defining the refractive index $n \equiv \sqrt{\varepsilon_r}$ of the material the previous equation (\ref{eq_helm_P}) and using the definition of \textbf{P} as in Eq. (\ref{eq_P_L})
 \begin{equation}
 	\nabla^2 \textbf{E} - \frac{n^2}{c^2}\frac{\partial^2 \textbf{E}}{\partial t^2} = 0
 	\label{eq_helm_lin}
 \end{equation}
 Moreover, $n$ represent the ratio between the speed of light in vacuum and in the material $n = c/v$ and it depends on the frequency of the EM wave.
 
-The general solution of eq (\ref{eq_helm_P}) is a transverse electromagnetic (TEM) wave, whose electric and magnetic fields are perpendicular to the propagation direction.
+The general solution of Eq. (\ref{eq_helm_P}) is a transverse electromagnetic (TEM) wave, whose electric and magnetic fields are perpendicular to the propagation direction.
 Without losing generality, we could assume $\hat{z}$ as the propagation direction and electric field of the form:
 \begin{equation}
 	\textbf{E} = \frac{1}{2}\hat{x}\,E\,\mathrm{exp}[\mathrm{i}(kz-\omega t)] + c.c.
 	\label{eq_wave}
 \end{equation}
-with $E$ amplitude of the electric field, $k = 2\pi/\lambda$ the wavevector and $\omega = 2\pi f$ the angular frequency. $\lambda$ and $f$ are relatively the wavelenght and the frequency of the electromagnetic wave.
+with $E$ amplitude of the electric field, $k = 2\pi/\lambda$ the wavevector and $\omega = 2\pi f$ the angular frequency. $\lambda$ and $f$ are relatively the wavelength and the frequency of the electromagnetic wave.
 The magnetic field has a similar equation.
 
 \subsection{Silicon waveguides}
@@ -122,7 +125,7 @@ The former is the higher refractive index medium in which the wave is confined, 
 
 \subsubsection*{Wave equation and modes}
 Considering an ideal dielectric waveguide (no absorption) with the purpose of transmitting EM waves in the $\hat{z}$ direction, the total field distribution is a sum of continous TEM plane waves.
-Defining the amplitude of the fields as $E(\textbf{r},t) = F(x,y)A(z,t)$ and $k=\beta$ and substituting them in eq (\ref{eq_wave}) leads to the following equation:
+Defining the amplitude of the fields as $E(\textbf{r},t) = F(x,y)A(z,t)$ and $k=\beta$ and substituting them in Eq. (\ref{eq_wave}) leads to the following equation:
 \begin{equation*}
 	\textbf{E} = \frac{1}{2}\hat{x}\,F(x,y)A(z,t)\,\mathrm{exp}[\mathrm{i}(\beta z-\omega t)] + c.c.
 \end{equation*}
@@ -135,33 +138,32 @@ Is then possible to study the propagation of the wave along the waveguide using 
 
 \begin{subequations}
 \begin{align}
-	\frac{\partial^2F(x,y)}{\partial x^2} + \frac{\partial^2F(x,y)}{\partial y^2} + \left[ k_0^2n^2-\beta^2\right]F(x,y) = 0 \\
-	\frac{\partial^2A(z,t)}{\partial z^2} + \frac{n^2}{c^2}\frac{\partial^2A(z,t)}{\partial t^2} = 0
-	\quad ??? \quad or \quad ??? \quad
-	\frac{\partial^2A(z,t)}{\partial z^2} + k^2n^2\frac{\partial^2A(z,t)}{\partial t^2} = 0
+	\frac{\partial^2F(x,y)}{\partial x^2} + \frac{\partial^2F(x,y)}{\partial y^2} + \left[ k_0^2n^2(x,y)-\beta^2\right]F(x,y) = 0
+	\label{eq_wg_a} \\
+	\frac{\partial^2\tilde{A}(z,\omega)}{\partial z^2} +2\mathrm{i}\beta\frac{\partial \tilde{A}(z,\omega)}{\partial z} +3n^2k_0^2\tilde{A}(z,\omega) = 0
+	\quad ! \neq ! \quad
+	2\mathrm{i}\beta_0\frac{\partial \tilde{A}(z,\omega)}{\partial z} +(\tilde{\beta}^2 - \beta_0^2)\tilde{A}(z,\omega) = 0
+	\label{eq_wg_b}
 \end{align}
 \end{subequations}
-where $k_0$ is the wavevector in vacuum and $n$ is a function of the position (mainly $x$ and $y$).
+where $k_0$ is the wavevector in vacuum and $n=n(x,y)$ is a function of the position (mainly $x$ and $y$ for a straight waveguide).
 
-\vspace{18pt}
-************************************************************************
-\vspace{12pt}
+The first equation, once solved, leads to the field distribution $F(x,y)$ in the plane perpendicular to the waveguide axis ($\hat{z}$).
+Its solution is strictly linked to the geometry of the waveguide and to the dependence of the refractive index $n$ to the position in the plane.
 
-These equations, once solved, lead to the distribution of the fields in the plane xy and to their modification along the z axis.
-
-\vspace{18pt}
-************************************************************************
-\vspace{12pt}
-
-Not all field distribution are transmitted through the waveguide without energy loss \textbf{(?)}.
+The second equation (\ref{eq_wg_b}), on the other hand, define the change of field distribution along the $\hat{z}$ axis, or the waveguide axis.
+Imposing to this equation to be zero means that we force the field distribution $F$ not to change.
+Indeed not all field distributions are transmitted through the waveguide without energy loss \textbf{(?)} and thus without changing $F$.
 % Modes are fields that maintain the same transverse distribution and polarization at all locations along the waveguide axis.
 Those field distributions which maintain the same transverse distribution and polarization at all locations along the waveguide axis are called modes.
 These modes can be categorized in two main groups, depending on the polarization of the wave: transverse electric (TE) modes and transverse magnetic (TM) modes, which have respectively the electric and magnetic field transverse to the waveguide axis.
 
-Both TE and TM modes can be again classified by their order, that is proportional to the number of maxima of the modulus of the electric and magnetic fields in the core section.
+Solving for $\beta$, we obtain that only a discrete set of values $\beta_m$ verify the equation.
+Replacing those values in Eq. (\ref{eq_wg_a}), leads to the field distribution F(x,y) to be defined.
+Therefore both TE and TM modes can be again classified by their order, that is proportional to the number of maxima of the modulus of the electric and magnetic fields in the core section.
 The first order has only one maximum at the center of the core, the second order has two maxima placed simmetrically from the center and so on.
 
-Moreover it is noteworthy that the field distributions of odd orders are even functions and those of even order are odd functions.
+Moreover it is noteworthy that the field distributions of even orders are even functions and those of odd orders are odd functions.
 
 \begin{figure}[ht]
 	\centering
@@ -174,7 +176,7 @@ Moreover it is noteworthy that the field distributions of odd orders are even fu
 
 A very important parameter of each mode is its \textit{propagation constant} $\beta$, defined as the component of the wavevector $k$ in the waveguide axis:
 \begin{equation}
-\beta \equiv k_z
+\beta \equiv k|_z
 \end{equation}
 
 Higher-order modes travel with smaller propagation constants.
@@ -208,7 +210,7 @@ Only one significant index is then left to describe the order of modes.
 \section{Non-linear optics}
 A nonlinear dielectric medium is characterized by a nonlinear relation between \textbf{P} and \textbf{E}, such as
 \begin{equation}
-	\textbf{P} = \varepsilon_0 \left( \chi^{(1)} \cdot \textbf{E} + \chi^{(2)} : \textbf{E}^2 + \chi^{(3)} \vdots \textbf{E}^3 + \cdots \right)
+	\textbf{P} = \varepsilon_0 \left( \chi^{(1)} \cdot \textbf{E} + \chi^{(2)} : \textbf{E}^2 + \chi^{(3)} \vdots \textbf{E}^3 + \cdots \right) = \textbf{P}_L + \textbf{P}_{NL}
 	\label{eq_P_general}
 \end{equation}
 which originates from the behaviour of bound electrons.
@@ -230,29 +232,39 @@ The nonlinear component of the induced electric polarization vector, considering
 	\label{eq_P_NL}
 \end{equation}
 
-\vspace{18pt}
-************************************************************************
-\vspace{12pt}
-
+Considering a silicon waveguide with a rectangular core section, to study the propagation of four wave, the total electric field and be expressed as
 \begin{equation}
 	\textbf{E} = \frac{1}{2}\hat{x} \sum_{j=1}^4 E_j \mathrm{exp}[i(\beta_j z - \omega_j t)] + c.c.
 	\label{eq_E}
 \end{equation}
-and the induced electric polarization:
+
+Substituting Eq. (\ref{eq_P_NL}) in Eq. (\ref{eq_E}) we obtain $8^3=512$ terms.
+We can then write the non linear terms $P_{NL}$ of the induced electric polarization as
 \begin{equation}
 	\textbf{P} = \frac{1}{2}\hat{x} \sum_{j=1}^4 P_j \mathrm{exp}[i(\beta_j z - \omega_j t)] + c.c.
 	\label{eq_P}
 \end{equation}
+
+Replacing \ref{} in Eq. (\ref{eq_helm_P}) leads to eight coupled equation: four of them are equivalent of Eq. (\ref{eq_wg_a}) and describe the field distribution of the mode of each wave.
+The latter four are the equivalent of Eq. (\ref{eq_wg_b}) and describe how the field change while travelling through the waveguide.
+
+\vspace{18pt}
+************************************************************************
+\vspace{12pt}
+
 considering $E_j(\textbf{r}) = F_j(x,y)A_j(z)$ where $F_j$ is the spatial distribution of the mode
 
 \begin{subequations}
 \begin{align}
-	\frac{dA_1}{dz} &= \frac{\mathrm{i}n_L\omega_1}{c}\left[ \left( f_{11} |A_1|^2 + 2 \sum_{k\neq1} f_{1k}|A_k|^2\right)A_1 + 2f_{1234}A_2^*A_3A_4\mathrm{e}^{+\mathrm{i}\Delta k_z} \right] \\
-	\frac{dA_2}{dz} &= \frac{\mathrm{i}n_L\omega_2}{c}\left[ \left( f_{22} |A_2|^2 + 2 \sum_{k\neq2} f_{2k}|A_k|^2\right)A_2 + 2f_{2134}A_1^*A_3A_4\mathrm{e}^{+\mathrm{i}\Delta k_z} \right] \\
-	\frac{dA_3}{dz} &= \frac{\mathrm{i}n_L\omega_3}{c}\left[ \left( f_{33} |A_3|^2 + 2 \sum_{k\neq3} f_{3k}|A_k|^2\right)A_3 + 2f_{3412}A_1A_2A_4^*\mathrm{e}^{-\mathrm{i}\Delta k_z} \right] \\
+	\frac{dA_1}{dz} &= \frac{\mathrm{i}n_L\omega_1}{c}\left[ \left( f_{11} |A_1|^2 + 2 \sum_{k\neq1} f_{1k}|A_k|^2\right)A_1 + 2f_{1234}A_2^*A_3A_4\mathrm{e}^{+\mathrm{i}\Delta k_z} \right]
+		\label{eq_coupled_amplitude_a}\\
+	\frac{dA_2}{dz} &= \frac{\mathrm{i}n_L\omega_2}{c}\left[ \left( f_{22} |A_2|^2 + 2 \sum_{k\neq2} f_{2k}|A_k|^2\right)A_2 + 2f_{2134}A_1^*A_3A_4\mathrm{e}^{+\mathrm{i}\Delta k_z} \right]
+		\label{eq_coupled_amplitude_b}\\
+	\frac{dA_3}{dz} &= \frac{\mathrm{i}n_L\omega_3}{c}\left[ \left( f_{33} |A_3|^2 + 2 \sum_{k\neq3} f_{3k}|A_k|^2\right)A_3 + 2f_{3412}A_1A_2A_4^*\mathrm{e}^{-\mathrm{i}\Delta k_z} \right]
+		\label{eq_coupled_amplitude_c}\\
 	\frac{dA_4}{dz} &= \frac{\mathrm{i}n_L\omega_4}{c}\left[ \left( f_{44} |A_4|^2 + 2 \sum_{k\neq4} f_{4k}|A_k|^2\right)A_4 + 2f_{4321}A_1A_2A_3^*\mathrm{e}^{-\mathrm{i}\Delta k_z} \right]
+		\label{eq_coupled_amplitude_d}
 \end{align}
-\label{eq_coupled_amplitude}
 \end{subequations}
 
 where
@@ -281,50 +293,63 @@ From this definition follows naturally the nonlinear parameter definition
 \end{equation}
 where $\gamma$ is the average value (because frequencies have relatively small differencies).
 
-Using the last two equations and the undepleted pump approximation, (\ref{eq_coupled_amplitude}a) and (\ref{eq_coupled_amplitude}b) are easily solved to obtain the pump fields
+Using the last two equations and the undepleted pump approximation, (\ref{eq_coupled_amplitude_a}) and (\ref{eq_coupled_amplitude_b}) are easily solved to obtain the pump fields
 \begin{subequations}
 \begin{align}
 	A_1(z) &= A_1(0)\mathrm{exp}[\mathrm{i}\gamma(P_1 + 2P_2)z] \\
 	A_2(z) &= A_2(0)\mathrm{exp}[\mathrm{i}\gamma(P_2 + 2P_1)z]
-	\label{eq_pump_sol}
 \end{align}
+	\label{eq_pump_sol}
 \end{subequations}
 where $P_j = |A_j(z=0)|^2$.
 
-Using the same approximations on (\ref{eq_coupled_amplitude}c) and (\ref{eq_coupled_amplitude}d) and replacing eq (\ref{eq_pump_sol}) where needed we obtain two linear coupled equation for signal and idler:
+Using the same approximations on (\ref{eq_coupled_amplitude_c}) and (\ref{eq_coupled_amplitude_d}) and replacing Eqs (\ref{eq_pump_sol}) where needed we obtain two linear coupled equations for signal and idler:
 \begin{subequations}
 \begin{align}
-	\frac{dA_3}{dz} &= 2\mathrm{i}\gamma [(P_1 + P_2)A_3 + A_1(0)A_2(0)\mathrm{e}^{-\mathrm{i}\phi}A_4^*] \\
+	\frac{dA_3}{dz} &= 2\mathrm{i}\gamma [(P_1 + P_2)A_3 + A_1(0)A_2(0)\mathrm{e}^{-\mathrm{i}\phi}A_4^*]
+	\label{eq_sig}\\
 	\frac{dA_4}{dz} &= 2\mathrm{i}\gamma [(P_1 + P_2)A_4 + A_1(0)A_2(0)\mathrm{e}^{-\mathrm{i}\phi}A_3^*]
-	\label{eq_sig_idl}
+	\label{eq_idl}
 \end{align}
 \end{subequations}
-where $\phi = [\Delta k - 3\gamma(P_1 + P_2)]z$
+where $\phi = [\Delta k - 3\gamma(P_1 + P_2)]z$.
+
+These equations can be solved introducing $B_j = A_j \,\mathrm{exp}[-2\mathrm{i}\gamma(P_1+P_2)z]$ for $j=3,4$ giving their general solution as
+\begin{equation*}
+	B_j(z) = (a_j\mathrm{e}^{gz}+b_j\mathrm{e}^{-gz})\mathrm{exp}(-i\kappa z/2)
+\end{equation*}
+with $\kappa = \Delta + \gamma(P_1 + P_2)$ \textit{effective phase mismatch} and $g = \sqrt{4\gamma^2P_1P_2 - \kappa^2/4}$ the \textit{parametric gain}.
+
+The solutions of Eqs (\ref{eq_sig}) and (\ref{eq_idl}) are therefore
+\begin{subequations}
+\begin{align}
+	A_3(z) &= \left(a_3\mathrm{e}^{gz}+b_3\mathrm{e}^{-gz}\right)\mathrm{exp}\left[-\frac{\mathrm{i}}{2}(\Delta k -3\gamma(P_1 + P_2))z\right]
+		\label{eq_sig_sol} \\
+	A_4(z) &= \left(a_4\mathrm{e}^{gz}+b_4\mathrm{e}^{-gz}\right)\mathrm{exp}\left[-\frac{\mathrm{i}}{2}(\Delta k -3\gamma(P_1 + P_2))z\right]	
+		\label{eq_idl_sol}
+\end{align}
+\end{subequations}
 
 \vspace{18pt}
 ************************************************************************
 \vspace{12pt}
 
-The \textit{effective} phase mismatch is therefore given by
-\begin{equation}
-	\kappa = \Delta k + \gamma(P_1 + P_2)
-\end{equation}
-
-\vspace{18pt}
 ****		è necessario verificare conservazione di energia e momento
 \vspace{12pt}
 
 In order to be efficient, the parametric process needs to verify both the conservation of energy and momentum.
-\begin{equation}
-\omega_1 + \omega_2 = \omega_3 + \omega_4
-\end{equation}
-\begin{equation}
-\beta_1 + \beta_2 = \beta_3 + \beta_4
-\end{equation}
-%\Delta k = \beta_3 + \beta_4 - \beta_1 - \beta_2
+$$\omega_1 + \omega_2 = \omega_3 + \omega_4$$
+$$\Delta k = \beta_3 + \beta_4 - \beta_1 - \beta_2$$
+****
+$$\Omega_S = \omega_1 + \omega_3 = \omega_4 - \omega_1$$
+where we assume $\omega_3 < \omega_4$.
+$$\Omega_S = |\omega_P - \omega_I| = |\omega_S - \omega_P|$$
+****
 
-\section{Simulating and coding}
+parlare di $L_{coh}$
 
+\section{Computational models}
+\subsection{Simulation}
 To understand the behaviour of the waveguide, it is necessary to first know how waves of different frequency are transmitted through the waveguide.
 We chose to simulate the modes with temperature and frequency as a parameters.
 
@@ -332,7 +357,7 @@ Our aim was to develop a model to work with an infrared laser pump with $\lambda
 We narrowed our simulations to a frequency gap centered in $\omega_p = 2\pi \nu_p = 2\pi c / \lambda_{p}$.
 The gap chosen was precisely $[\SI{1.45}{\um} ,\, \SI{1.65}{\um}]$ or the equivalent $[\SI{182}{\THz} ,\, \SI{207}{\THz}]$.
 
-The reason for this choice is that silicon is transparent at these wavelenght and also for the availability of laser that emit at the specific wavelenght.
+The reason for this choice is that silicon is transparent at these wavelength and also because of the availability of lasers that emit at the specific wavelength.
 
 \vspace{18pt}
 ****
@@ -358,21 +383,36 @@ Due to the intrinsic symmetry of the problem (and thus of the integrals) not all
 Only those in which the sum of the orders is an even number are interesting.
 To narrow the possible sets, we chose to permit only full TE or full TM  combinations.
 
-We eventually obtained a list of combinations, for each of which we verified the conservation of energy and momentum.
+We eventually obtained a list of combinations and for each one we verified the conservation of energy and momentum.
 
+\subsubsection*{Conservation of energy and momentum}
+Starting from the data of the effective index of each order at different wavelengths and temperatures, we evaluated the phase mismatch of all sets.
+The evaluation was made on a grid of temperature and signal wavelength.
 
-$$\omega_1 = \omega_2 = \omega_P$$
-$$\omega_I = 2\omega_P - \omega_S$$
-$$\Omega_S = \omega_1 + \omega_3 = \omega_4 - \omega_1$$
-where we assume $\omega_3 < \omega_4$.
-$$\Omega_S = |\omega_P - \omega_I| = |\omega_S - \omega_P|$$
+Each point was evaluated with the next system:
+\[
+\left\{
+	\begin{array}{rl}
+		\omega_I		&= 2\omega_P - \omega_S \\
+		\\
+		\Delta k		&= \beta_S + \beta_I - 2\beta_P \\
+					&= \frac{2\pi}{\lambda_S}n_{eff}\left( \omega_s, T \right) + \frac{2\pi}{\lambda_I}n_{eff}\left( \omega_I, T \right) - 2\frac{2\pi}{\lambda_P}n_{eff}\left( \omega_P, T \right)
+	\end{array}
+\right.
+\]
+Imposing the conservation of energy, we obtained the only frequency permitted for $\omega_I$.
+We replaced its value in the conservation of momentum formula, giving us the phase mismatch as a function of signal wavelength and temperature, for each set of orders.
 
-$$\Delta k = \beta_3 + \beta_4 - 2\beta_1$$
+\subsubsection*{Selection of sets}
+Once evaluated all the points on the grid for all the sets available, we selected only the interesting combinations.
+The critical parameter on which the choice was based on is the coherence length: only those sets which had a maximum value of coherence length greater than a supposed sample length $L_{sam} = $\SI{1}{\cm} was chosen.
+$$L_{coh} = \frac{2\pi}{|\Delta k|} \geq L_{sam}$$
+Again, we had a list of the only combination interesting for our purpose.
 
-$$L_{coh} = \frac{2\pi}{|\Delta k|}$$
+It is important to note that, in general, each combination could have more that one maximum of coherence length $L_{coh}$ in wavelength for each temperature value.
 
-
-
+\subsubsection*{Data aggregation}
+After the selection of sets, we evaluated the dependence of each maximum in temperature.
 \section{Prototyping}
 
 \subsection{Heater configurations}
