@@ -210,7 +210,7 @@ Only one significant index is then left to describe the order of modes.
 \section{Non-linear optics}
 A nonlinear dielectric medium is characterized by a nonlinear relation between \textbf{P} and \textbf{E}, such as
 \begin{equation}
-	\textbf{P} = \varepsilon_0 \left( \chi^{(1)} \cdot \textbf{E} + \chi^{(2)} : \textbf{E}^2 + \chi^{(3)} \vdots \textbf{E}^3 + \cdots \right) = \textbf{P}_L + \textbf{P}_{NL}
+	\textbf{P} = \varepsilon_0 \left( \chi^{(1)} \cdot \textbf{E} + \chi^{(2)} : \textbf{E}^2 + \chi^{(3)} \vdots \textbf{E}^3 + \cdots \right) = \mathrm{\textbf{P}_L} + \mathrm{\textbf{P}_{NL}}
 	\label{eq_P_general}
 \end{equation}
 which originates from the behaviour of bound electrons.
@@ -239,20 +239,31 @@ Considering a silicon waveguide with a rectangular core section, to study the pr
 \end{equation}
 
 Substituting Eq. (\ref{eq_P_NL}) in Eq. (\ref{eq_E}) we obtain $8^3=512$ terms.
-We can then write the non linear terms $P_{NL}$ of the induced electric polarization as
+We can then write the non linear terms $\mathrm{\textbf{P}_{NL}}$ of the induced electric polarization as
 \begin{equation}
-	\textbf{P} = \frac{1}{2}\hat{x} \sum_{j=1}^4 P_j \mathrm{exp}[i(\beta_j z - \omega_j t)] + c.c.
+	\mathrm{\textbf{P}_{NL}} = \frac{1}{2}\hat{x} \sum_{j=1}^4 P_j \mathrm{exp}[i(\beta_j z - \omega_j t)] + c.c.
 	\label{eq_P}
 \end{equation}
 
-Replacing \ref{} in Eq. (\ref{eq_helm_P}) leads to eight coupled equation: four of them are equivalent of Eq. (\ref{eq_wg_a}) and describe the field distribution of the mode of each wave.
-The latter four are the equivalent of Eq. (\ref{eq_wg_b}) and describe how the field change while travelling through the waveguide.
+where for example $P_4$ would be
+\[
+\begin{array}{rl}
+	P_4 &= \frac{3\varepsilon_0}{4} \chi^3_{xxxx}\left[ |\mathrm{E}_4|^2\mathrm{E}_4 2(|\mathrm{E}_1|^2+|\mathrm{E}_2|^2+|\mathrm{E}_3|^2)\mathrm{E}_4 \right. \\
+	&+ \left. 2\mathrm{E}_1\mathrm{E}_2\mathrm{E}_3\mathrm{e}^{i\phi_+}+2\mathrm{E}_1\mathrm{E}_2\mathrm{E}_3^*\mathrm{e}^{i\phi_-}\right] \\
 
-\vspace{18pt}
-************************************************************************
-\vspace{12pt}
+\end{array}
+\]
+\hspace{18pt}with $\phi_+$ and $\phi_-$ defined as
+\[
+\begin{array}{lr}
+\phi_+ &= (\beta_1+\beta_2+\beta_3-\beta_4+)z - (\omega_1+\omega_2+\omega_3-\omega_4)t \\
+\phi_- &= (\beta_1+\beta_2-\beta_3-\beta_4+)z - (\omega_1+\omega_2-\omega_3-\omega_4)t \\
+\end{array}
+\]
 
-considering $E_j(\textbf{r}) = F_j(x,y)A_j(z)$ where $F_j$ is the spatial distribution of the mode
+Replacing Eq. (\ref{eq_P}) in Helmholtz equation (\ref{eq_helm_P}) leads to eight coupled equations: four of them are equivalent of Eq. (\ref{eq_wg_a}) and describe the field distribution of the mode of each wave.
+The remaining four are the equivalent of Eq. (\ref{eq_wg_b}) and describe how the field change while travelling through the waveguide.
+Those, considering $E_j(\textbf{r}) = F_j(x,y)A_j(z)$ where $F_j$ is the spatial distribution of the mode, can be written as:
 
 \begin{subequations}
 \begin{align}
@@ -268,14 +279,15 @@ considering $E_j(\textbf{r}) = F_j(x,y)A_j(z)$ where $F_j$ is the spatial distri
 \end{subequations}
 
 where
-
 \begin{equation}
 	f_{ij} = \frac{\langle |F_i|^2 |F_j|^2 \rangle}{\sqrt{\langle |F_i|^2 \rangle\langle |F_j|^2 \rangle}}
 \end{equation}
-and
+\hspace{18pt}and
 \begin{equation}
 	f_{ijkl} = \frac{\langle F_i^* F_j^* F_k F_l \rangle}{\sqrt{\langle |F_i|^2 \rangle\langle |F_j|^2 \rangle\langle |F_k|^2 \rangle\langle |F_l|^2 \rangle}}
 \end{equation}
+\hspace{18pt}are the overlap integrals of the different modes, where the brackets mean an integration on a plane $\langle g(x,y)\rangle = \int\int_{-\inf}^{\inf}g(x,y)\mathrm{dxdy}$.
+The physical interpretation of such quantities is how much different modes are superimposed/\ref{}/overlapped with each others.
 
 \subsubsection*{Approximate solution}
 The previous equations are quite general (they include SPM, XPM in addition to FWM) and require a numerical approach to be solved exactly.
@@ -318,7 +330,7 @@ These equations can be solved introducing $B_j = A_j \,\mathrm{exp}[-2\mathrm{i}
 \begin{equation*}
 	B_j(z) = (a_j\mathrm{e}^{gz}+b_j\mathrm{e}^{-gz})\mathrm{exp}(-i\kappa z/2)
 \end{equation*}
-with $\kappa = \Delta + \gamma(P_1 + P_2)$ \textit{effective phase mismatch} and $g = \sqrt{4\gamma^2P_1P_2 - \kappa^2/4}$ the \textit{parametric gain}.
+with $\kappa = \Delta k + \gamma(P_1 + P_2)$ \textit{effective phase mismatch} and $g = \sqrt{4\gamma^2P_1P_2 - \kappa^2/4}$ the \textit{parametric gain}.
 
 The solutions of Eqs (\ref{eq_sig}) and (\ref{eq_idl}) are therefore
 \begin{subequations}
@@ -347,6 +359,9 @@ $$\Omega_S = |\omega_P - \omega_I| = |\omega_S - \omega_P|$$
 ****
 
 parlare di $L_{coh}$
+
+We can define a length scale, known as the coherence length, using $L_{coh} = 2\pi/|\Delta\kappa|$, where $\Delta\kappa$ is the maximum value of the effective phase mismatch that can be tolerated.
+Moreover significant FWM occurs if $L_{sam}<L_{coh}$ where $L_{sam}$ is the sample length.
 
 \section{Computational models}
 \subsection{Simulation}
@@ -417,7 +432,7 @@ After the selection of sets, we evaluated the dependence of each maximum in temp
 
 \subsection{Heater configurations}
 In order to achieve a greater effect from the different temperature, we tried to move the heater from over the center of the core to the side.
-This operation was intended to increase the difference of behaviour between low and high orders.
+This operation was intended to increase the difference of behaviour between low and high orders enabling thus the creation of new peaks in the coherence length.
 \subsection{Different geometries}
 
 \section{Conclusion}

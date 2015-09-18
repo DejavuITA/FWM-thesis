@@ -16,7 +16,7 @@ while ( ans1 == 0 )
     % Handle response
     switch choice
         case 'Import File'
-            disp('File chosen.')
+            disp('Choose the file to import.\nShould be something like yyyy-MM-dd_HH:mm:ss.mat\n');
             ans1 = 0;
         case 'Exit program'
             %disp('\n\nExiting right now.')
@@ -30,9 +30,9 @@ while ( ans1 == 0 )
     end
     
     if (ans1 == 0 )
-        fprintf('\nChoose the file to import.\nShould be something like yyyy-MM-dd_HH:mm:ss.mat\n');
         [ans1, ans2] = uigetfile({'../data/*.mat'});     % choose file to load
         
+        fprintf('File chosen: ', strcat(ans2, ans1));
         load( strcat(ans2, ans1) );
     end
 end
@@ -64,7 +64,7 @@ pm.low_w = 1.45e-6;             % [m]
 pm.high_w = 1.65e-6;            % [m]
 
 % number of points in wlen interval [low_w, high_w]
-pm.n_sample_wl = 4001;              % should be an odd number, to center the pump wlen.
+pm.n_sample_wl = 601;              % should be an odd number, to center the pump wlen.
 pm.step = (pm.high_w - pm.low_w)/(pm.n_sample_wl - 1);
 
 vec.sample_wlen = zeros(pm.n_sample_wl,1);
@@ -328,8 +328,10 @@ for rr=1:pm.n_results;
             
             for tt=1:pm.n_sample_t
                 [~, locs] = findpeaks(zData(:,tt));
+                locs = locs( find(zData(locs,tt) >= 1 ) );
+                
                 maxL = max([maxL, length(locs)]);
-                y(tt, 1:length(locs)) = locs;
+                y(tt, 1:length(locs)) = vec.sample_wlen(locs);
                 
                 zData_0 = zData;
                 zData_0(1,tt) = 0;
@@ -349,18 +351,34 @@ for rr=1:pm.n_results;
             end
             
             y(:, maxL+1:end) = [];
-            y = vec.sample_wlen(y);
             y2(:, maxL+1:end) = [];
             
             for tt=1:maxL
-                [results.max.ft, ~] = fit( vec.sample_temp, y(:,tt), 'poly1');
-                results.max.m(rr, tt)   = results.max.ft.p1;
-                results.max.q(rr, tt)   = y(1,tt);
+                a = y(:,tt);
+                b = find(isnan(a) == 0);
+                if length(b)>1
+                    [results.max.ft, ~] = fit( vec.sample_temp(b), a(b), 'poly1');
+                    results.max.m(rr, tt)   = results.max.ft.p1;
+                    results.max.q(rr, tt)   = y(1,tt);
+                else
+                    results.max.m(rr, tt)   = NaN;
+                    results.max.q(rr, tt)   = NaN;
+                end
                 
-                [results.bw.ft, ~] = fit( vec.sample_temp, y2(:,tt), 'poly1');
-                results.bw.m(rr, tt)	= results.bw.ft.p1;
-                results.bw.q(rr, tt)	= y2(1,tt);
+                a = y2(:,tt);
+                b = find(isnan(a) == 0);
+                if length(b)>1
+                    [results.bw.ft, ~] = fit( vec.sample_temp(b), a(b), 'poly1');
+                    results.bw.m(rr, tt)	= results.bw.ft.p1;
+                    results.bw.q(rr, tt)	= y2(1,tt);
+                else
+                    results.bw.m(rr, tt)   = NaN;
+                    results.bw.q(rr, tt)   = NaN;
+                end
+                
+                clear a b
             end
+            
             clear results.max.ft results.bw.ft
             
             hold(subplot1,'on');
@@ -387,6 +405,7 @@ for rr=1:pm.n_results;
             results.bwid( 1:size(y2,1), 1:size(y2,2), rr, 1, 1) = y2;
             
             saveas(f, strcat('sol',num2str(rr),'_',num2str(pm.comb(2,:,rr))), 'pdf');
+            close 1
             
         end 
     end
