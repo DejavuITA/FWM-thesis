@@ -317,7 +317,7 @@ f = figure(1);
 axes1 = axes('Parent',f);
 mesh(wlen_grid, temp_grid, f_Lcoh(wlen_grid, temp_grid));
 hold(axes1,'on');
-zlim(axes1,[0.9 1]);
+zlim(axes1,[-0.1 2]);
 
 clear wlen_grid temp_grid
 
