@@ -64,7 +64,7 @@ pm.low_w = 1.45e-6;             % [m]
 pm.high_w = 1.65e-6;            % [m]
 
 % number of points in wlen interval [low_w, high_w]
-pm.n_sample_wl = 2001;              % should be an odd number, to center the pump wlen.
+pm.n_sample_wl = 1001;              % should be an odd number, to center the pump wlen.
 pm.step = (pm.high_w - pm.low_w)/(pm.n_sample_wl - 1);
 
 vec.sample_wlen = zeros(pm.n_sample_wl,1);
@@ -73,7 +73,7 @@ for ww=1:pm.n_sample_wl
 end
 
 % sampling temperature
-pm.n_sample_t = 401;
+pm.n_sample_t = 1001;
 pm.step_t = (vec.temp(end) - vec.temp(1) )/(pm.n_sample_t - 1);
 
 vec.sample_temp = zeros(pm.n_sample_t,1);
@@ -311,15 +311,48 @@ toc
 
 %% 3D surface plot w/ temperature
 % creat grid of evaluation
+tic
 [wlen_grid, temp_grid]  = meshgrid(vec.sample_wlen, vec.sample_temp);
 
 f = figure(1);
 axes1 = axes('Parent',f);
 mesh(wlen_grid, temp_grid, f_Lcoh(wlen_grid, temp_grid));
 hold(axes1,'on');
-zlim(axes1,[-0.1 2]);
+zlim(axes1,[0.1 2]);
 
+toc
 clear wlen_grid temp_grid
 
-%% 2D plots of center & bandwidth
+%% 2D contour plots
 
+tic
+[wlen_grid, temp_grid]  = meshgrid(vec.sample_wlen, vec.sample_temp);
+
+f = figure(2);
+axes1 = axes('Parent',f);
+contour(1.1>f_Lcoh(wlen_grid, temp_grid)>=1);
+toc
+
+%% 2D plots of center & bandwidth
+%{
+f_z     = @(xs,L) 2.*pi./abs(f_delta(xs,t))-L;
+f_zero  = @(xs) f_z(xs,L);
+
+contx = zeros(pm.n_sample_t,10).*NaN;
+conty = zeros(pm.n_sample_t,10).*NaN;
+
+L = 1;
+for tt=1:pm.n_sample_t
+    fprintf(tt,'\n');
+    t = vec.sample_temp(tt);
+    %z = fnzeros(f_zero,[1.45e-6,1.65e-6]);
+    %z = fzero(f_zero,1.5e-6);
+    z = fsolve(f_zero,1.5e-6);
+    num = length(z);
+    
+    y = zeros(num,1).*t;
+    
+    contx(tt,1:num) = z;
+    conty(tt,1:num) = y;
+end
+%}
