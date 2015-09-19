@@ -412,9 +412,9 @@ define the density $\rho$ in [\si{\kg\m^3}], the thermal conductivity $\kappa_{T
 		& \multicolumn{3}{c}{Properties} \\
     \cmidrule(r){2-5}
     	\multirow{2}{*}{Materials}    & $\rho$ & $\kappa_{TH}$ & $C_P$ & TOC\\
-  		& [\si{\kg\m^3}] & [\si{\W\per\m\per\K}] & [\si{\J\per\kg\per\K}] & [$10^{-4}$\si{\per\K}] \\
+  		& [\si{\kg\m^3}] & [\si{\W\per\m\per\K}] & [\si{\J\per\kg\per\K}] & [\si{\per\K}] \\
     \midrule
-    Silicon (Si)			& 2329	& 130	& 700	& 1.87\\
+    Silicon (Si)			& 2329	& 130	& 700	& \num{1.87e-4}\\
     Silica (SiO$_2$)		& 2203	& 1.38	& 703	& 0\\
     \bottomrule
   \end{tabular}
@@ -465,33 +465,30 @@ Starting from raw data consisting of the effective index for each parametric con
 $$n_{eff} = f_{mt,\,mo} \left( \omega, T \right) = f'_{mt,\,mo} \left( \lambda, T \right)$$
 where $mt$ and $mo$ means respectively \textit{mode type} (TE or TM) and \textit{mode order} (1, 2, 3, ...)
 
-Specifically, we used a polynomial expression of fifth order in wavelength and of second order in temperature ``\texttt{poly52}".
+Specifically, we used a polynomial expression of fifth order in wavelength and second order in temperature ``\texttt{poly52}".
 
 \subsubsection{Order combination}
 
 Due to the intrinsic symmetry of the problem (and thus of the integrals) not all combinations of orders can produce FWM.
 Only those in which the sum of the orders is an even number are interesting.
-To narrow the possible sets, we chose to permit only full TE or full TM  combinations.
+To narrow the possible sets, we chose only full TE or full TM  combinations.
 
-We eventually obtained a list of combinations and for each one we verified the conservation of energy and momentum.
+We eventually obtained a list of combinations and for each one we evaluated the phase mismatch.
 
 \subsubsection{Conservation of energy and momentum}
-Starting from the data of the effective index of each order at different wavelengths and temperatures, we evaluated the phase mismatch of all sets.
-The evaluation was made on a grid of temperature and signal wavelength.
+As it is, the phase mismatch is a function of the wavelenghts of pump, signal and idler.
+Imposing the conservation of energy,
+\begin{equation}
+2\omega_P = \omega_S + \omega_I
+\qquad \Longrightarrow \qquad
+\omega_I = 2\omega_P - \omega_S \\
+\end{equation}
+we obtained the only frequency permitted for $\omega_I$.
 
-Each point was evaluated with the next system:
-\[
-\left\{
-	\begin{array}{rl}
-		\omega_I		&= 2\omega_P - \omega_S \\
-		\\
-		\Delta k		&= \beta_S + \beta_I - 2\beta_P \\
-					&= \frac{2\pi}{\lambda_S}n_{eff}\left( \omega_s, T \right) + \frac{2\pi}{\lambda_I}n_{eff}\left( \omega_I, T \right) - 2\frac{2\pi}{\lambda_P}n_{eff}\left( \omega_P, T \right)
-	\end{array}
-\right.
-\]
-Imposing the conservation of energy, we obtained the only frequency permitted for $\omega_I$.
-We replaced its value in the conservation of momentum formula, giving us the phase mismatch as a function of signal wavelength and temperature, for each set of orders.
+We replaced its value in the conservation of momentum formula, giving us the phase mismatch as a function only of signal wavelength and temperature of the heater, for each set of orders.
+
+Then, starting from the fits of the effective index at different wavelengths and temperatures, we evaluated the phase mismatch of all sets.
+The evaluation was made on a grid of temperature and signal wavelength arbitrarily dense.
 
 \subsubsection{Selection of sets}
 Once evaluated all the points on the grid for all the sets available, we selected only the interesting combinations.
@@ -509,9 +506,10 @@ In order to achieve a greater effect from the different temperature, we tried to
 This operation was intended to increase the difference of behaviour between low and high orders enabling thus the creation of new peaks in the coherence length.
 \subsection{Different geometries}
 
+\section{Results}
 \section{Conclusions}
 \subsection{Improvements}
-\subsection{Results}
+\subsection{Summary}
 
 \cleardoublepage
 \begin{thebibliography}{9}
