@@ -333,11 +333,11 @@ for rr=1:pm.n_results;
                 maxL = max([maxL, length(locs)]);
                 y(tt, 1:length(locs)) = vec.sample_wlen(locs);
                 
-                zData_0 = zData;
-                zData_0(1,tt) = 0;
-                zData_0(end,tt) = 0;
+                zData_0 = zData(:,tt);
+                zData_0(1) = 0;
+                zData_0(end) = 0;
                 
-                a = zData_0(:,tt) >= 1;
+                a = zData_0(:) >= 1;
                 b = abs( diff(a) );
                 c = find(b == 1);
                 %d = vec.sample_wlen( c );

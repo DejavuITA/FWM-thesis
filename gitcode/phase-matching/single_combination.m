@@ -73,7 +73,7 @@ for ww=1:pm.n_sample_wl
 end
 
 % sampling temperature
-pm.n_sample_t = 201;
+pm.n_sample_t = 501;
 pm.step_t = (vec.temp(end) - vec.temp(1) )/(pm.n_sample_t - 1);
 
 vec.sample_temp = zeros(pm.n_sample_t,1);
@@ -220,7 +220,7 @@ if ~overwrite
         end
     end
     
-    clear check str order TE
+    clear check str order TE ss ii pp
 else
     % overwrite here
     TE      = true;
@@ -255,6 +255,8 @@ p.fit   = data.fit_neff( ww, hh, pm.comb(1,1), pm.comb(2,1)).fit;
 s.fit   = data.fit_neff( ww, hh, pm.comb(1,2), pm.comb(2,2)).fit;
 i.fit   = data.fit_neff( ww, hh, pm.comb(1,3), pm.comb(2,3)).fit;
 
+clear ww hh
+
 % get coefficients
 cn = cell2mat( coeffnames(p.fit) );
 cv = coeffvalues(p.fit);
@@ -273,6 +275,8 @@ cv = coeffvalues(i.fit);
 for jj=1:length(cv)
     eval([ 'i.', cn(jj,:), '= cv(jj);']);
 end
+
+clear jj cv cn
 
 % get formulas
 p.fstr      = formula(p.fit);
@@ -322,7 +326,7 @@ hold(axes1,'on');
 zlim(axes1,[0.1 2]);
 
 toc
-clear wlen_grid temp_grid
+clear wlen_grid temp_grid axes1 f
 
 %% 2D contour plots
 
@@ -335,14 +339,61 @@ contourf(f_Lcoh_cm(wlen_grid, temp_grid)>=1);
 toc
 
 tic
-[wlen_grid, temp_grid]  = meshgrid(vec.sample_wlen, vec.sample_temp);
-
 f = figure(3);
 axes1 = axes('Parent',f);
 contour(f_Lcoh_cm(wlen_grid, temp_grid)>=1);
 toc
 
+clear wlen_grid temp_grid axes1 f
+
 %% 2D plots of center & bandwidth
+
+tic
+[wlen_grid, temp_grid]  = meshgrid(vec.sample_wlen, vec.sample_temp);
+
+x       = temp_grid;
+y       = wlen_grid;
+z       = f_Lcoh_cm(wlen_grid, temp_grid);
+bool_z  = z(:,:) >=1;
+
+peaks   = zeros(pm.n_sample_t, 30).*NaN; %idivide(int32(pm.n_sample_wl),int32(2)) ).*NaN;
+bws     = zeros(pm.n_sample_t, 30).*NaN;
+
+maxL = 0;
+for tt=1:pm.n_sample_t
+	[~, locs]   = findpeaks(z(tt,:),'MinPeakHeight',1);
+    n_peaks     = length(locs);
+    peaks(tt,1:n_peaks) = locs;
+    
+    maxL = max(maxL,n_peaks);
+    
+    a   = bool_z(tt,:);
+    
+    clear locs n_peaks
+end
+
+toc
+
+%{
+                maxL = max([maxL, length(locs)]);
+                y(tt, 1:length(locs)) = vec.sample_wlen(locs);
+                
+                zData_0 = zData(:,tt);
+                zData_0(1) = 0;
+                zData_0(end) = 0;
+                
+                a = zData_0(:) >= 1;
+                b = abs( diff(a) );
+                c = find(b == 1);
+                %d = vec.sample_wlen( c );
+                % we could implement a function which find the zero with
+                % bisection, it's a pain in the ass but it's reliable
+                d = (vec.sample_wlen( c+1 ) - vec.sample_wlen( c ))./(zData(c+1,tt) - zData(c,tt)).*(1 - zData(c,tt)) + vec.sample_wlen( c );
+                e = d(2:2:end) - d(1:2:end);
+                
+                y2(tt, 1:length(e)) = e;
+%}
+
 %{
 f_z     = @(xs,L) 2.*pi./abs(f_delta(xs,t))-L;
 f_zero  = @(xs) f_z(xs,L);
