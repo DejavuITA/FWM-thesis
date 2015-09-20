@@ -64,7 +64,7 @@ pm.low_w = 1.45e-6;             % [m]
 pm.high_w = 1.65e-6;            % [m]
 
 % number of points in wlen interval [low_w, high_w]
-pm.n_sample_wl = 1001;              % should be an odd number, to center the pump wlen.
+pm.n_sample_wl = 4001;              % should be an odd number, to center the pump wlen.
 pm.step = (pm.high_w - pm.low_w)/(pm.n_sample_wl - 1);
 
 vec.sample_wlen = zeros(pm.n_sample_wl,1);
@@ -176,8 +176,8 @@ toc
 % ex: TE P,S,I = [1, 1, 1; 4,2,6] or TM P,S,I = [2, 2, 2; 5, 3, 1]
 
 tic
-%overwrite = true;
-overwrite = false;
+overwrite = true;
+%overwrite = false;
 
 if ~overwrite
     check = false;
@@ -225,8 +225,8 @@ else
     % overwrite here
     TE      = true;
     %TE      = false;
-    pump    = 5;
-    signal  = 5;
+    pump    = 4;
+    signal  = 3;
     idler   = 5;
     if TE
         pm.comb = [1, 1, 1; pump, signal, idler];
@@ -354,65 +354,119 @@ tic
 x       = temp_grid;
 y       = wlen_grid;
 z       = f_Lcoh_cm(wlen_grid, temp_grid);
-bool_z  = z(:,:) >=1;
 
 peaks   = zeros(pm.n_sample_t, 30).*NaN; %idivide(int32(pm.n_sample_wl),int32(2)) ).*NaN;
 bws     = zeros(pm.n_sample_t, 30).*NaN;
 
 maxL = 0;
 for tt=1:pm.n_sample_t
-	[~, locs]   = findpeaks(z(tt,:),'MinPeakHeight',1);
+    zv          = z(tt,:)';
+	[~, locs]   = findpeaks(zv,'MinPeakHeight',1);
     n_peaks     = length(locs);
-    peaks(tt,1:n_peaks) = locs;
+    peaks(tt,1:n_peaks) = vec.sample_wlen(locs);
     
-    maxL = max(maxL,n_peaks);
+    maxL = max([maxL,n_peaks]);
     
-    a   = bool_z(tt,:);
+    zv0      = zv;
+    zv0(1)   = 0;
+    zv0(end) = 0;
     
-    clear locs n_peaks
+    a   = zv0 >= 1;
+    b   = abs(diff(a));
+    c   = find(b == 1)';
+    d   = (vec.sample_wlen( c+1 ) - vec.sample_wlen( c ))./(zv(c+1) - zv(c)).*(1 - zv(c)) + vec.sample_wlen( c );
+    e   = d(2:2:end) - d(1:2:end);
+    
+    bws(tt, 1:n_peaks)    = e;
+    
+    clear locs n_peaks a b c d e
+end
+
+peaks(:, maxL+1:end)    = [];
+bws(:, maxL+1:end)      = [];
+
+for jj=1:maxL
+    a = peaks(:,jj);
+    b = find(isnan(a) == 0);
+    if length(b)>1
+        [mp.ft, ~] = fit( vec.sample_temp(b), a(b), 'poly1');
+        mp.m(jj)   = mp.ft.p1;
+        mp.q(jj)   = peaks(1,jj);
+    else
+        mp.m(jj)   = NaN;
+        mp.q(jj)   = NaN;
+    end
+
+    a = bws(:,jj);
+    b = find(isnan(a) == 0);
+    if length(b)>1
+        [bw.ft, ~] = fit( vec.sample_temp(b), a(b), 'poly1');
+        bw.m(jj)	= bw.ft.p1;
+        bw.q(jj)	= bws(1,jj);
+    else
+        bw.m(jj)   = NaN;
+        bw.q(jj)   = NaN;
+    end
+
+    clear a b
 end
 
 toc
+clear ans
 
-%{
-                maxL = max([maxL, length(locs)]);
-                y(tt, 1:length(locs)) = vec.sample_wlen(locs);
-                
-                zData_0 = zData(:,tt);
-                zData_0(1) = 0;
-                zData_0(end) = 0;
-                
-                a = zData_0(:) >= 1;
-                b = abs( diff(a) );
-                c = find(b == 1);
-                %d = vec.sample_wlen( c );
-                % we could implement a function which find the zero with
-                % bisection, it's a pain in the ass but it's reliable
-                d = (vec.sample_wlen( c+1 ) - vec.sample_wlen( c ))./(zData(c+1,tt) - zData(c,tt)).*(1 - zData(c,tt)) + vec.sample_wlen( c );
-                e = d(2:2:end) - d(1:2:end);
-                
-                y2(tt, 1:length(e)) = e;
-%}
-
-%{
-f_z     = @(xs,L) 2.*pi./abs(f_delta(xs,t))-L;
-f_zero  = @(xs) f_z(xs,L);
-
-contx = zeros(pm.n_sample_t,10).*NaN;
-conty = zeros(pm.n_sample_t,10).*NaN;
-
-L = 1;
-for tt=1:pm.n_sample_t
-    fprintf(tt,'\n');
-    t = vec.sample_temp(tt);
-    %z = fnzeros(f_zero,[1.45e-6,1.65e-6]);
-    %z = fzero(f_zero,1.5e-6);
-    z = fsolve(f_zero,1.5e-6);
-    num = length(z);
-    
-    y = zeros(num,1).*t;
-    
-    contx(tt,1:num) = z;
-    conty(tt,1:num) = y;
+% plotting
+tic
+if pm.comb(1,1) == 1
+    TE = ' TE: ';
+else
+    TE = ' TM: ';
 end
-%}
+name = strcat( 'Peaks position of combination ',TE,[' ', num2str(pm.comb(2,:))] );
+f = figure('name', name); % 'OuterPosition',[100, 100, 960, 480]
+axes1 = axes('Parent',f);
+hold(axes1,'on');
+plot(vec.sample_temp, peaks.*1e6 );
+ylim(axes1, [1.4 1.7] );
+%axis([250 700 1.4e-6 1.7e-6]);
+
+% Create xlabel
+xlabel({'T_H [K]'});
+
+% Create ylabel
+ylabel({'\lambda [\mum]'});
+
+% Create title
+title(name);
+
+
+
+
+
+top = round( max([1,max(bws(:)*2e9)] ),1,'significant');
+
+name = strcat( 'Bandwidth of combination ',TE,[' ', num2str(pm.comb(2,:))] );
+f = figure('name', name);
+axes1 = axes('Parent',f);
+hold(axes1,'on');
+plot(vec.sample_temp, bws.*1e9 );
+ylim(axes1, [0 top] );
+%axis([250 700 0 top]);
+
+% Create xlabel
+xlabel({'T_H [K]'});
+
+% Create ylabel
+ylabel({'Bandwidth [nm]'});
+
+% Create title
+title(name);
+
+%subplot2 = subplot( 1,2,2, 'Parent', f, ...
+%                    'YTick',[0 : top/10 : top]);
+                   
+%saveas(f, strcat('sol',num2str(rr),'_',num2str(pm.comb(2,:,rr))), 'pdf');
+%close 1
+
+toc
+
+clear TE name
