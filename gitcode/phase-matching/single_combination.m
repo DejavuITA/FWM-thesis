@@ -64,7 +64,7 @@ pm.low_w = 1.45e-6;             % [m]
 pm.high_w = 1.65e-6;            % [m]
 
 % number of points in wlen interval [low_w, high_w]
-pm.n_sample_wl = 10001;              % should be an odd number, to center the pump wlen.
+pm.n_sample_wl = 1001;              % should be an odd number, to center the pump wlen.
 pm.step = (pm.high_w - pm.low_w)/(pm.n_sample_wl - 1);
 
 vec.sample_wlen = zeros(pm.n_sample_wl,1);
@@ -304,8 +304,9 @@ i.fi2       = @(xi,t) i.fi(xi,t,i.p00,i.p10,i.p01,i.p20,i.p11,i.p02,i.p30,i.p21,
 
 xp = 1.55e-6;
 
-f_delta = @(xs,t) 2.*pi.*( 2.*p.fp2(xp,t)./xp - s.fs2(xs,t)./xs - i.fi2(2.*xp-xs,t)./(2.*xp-xs) );
-f_Lcoh  = @(xs,t) 2.*pi./abs(f_delta(xs,t));
+f_delta     = @(xs,t) 2.*pi.*( 2.*p.fp2(xp,t)./xp - s.fs2(xs,t)./xs - i.fi2(2.*xp-xs,t)./(2.*xp-xs) );
+f_Lcoh      = @(xs,t) 2.*pi./abs(f_delta(xs,t));
+f_Lcoh_cm   = @(xs,t) 200*pi./abs(f_delta(xs,t));
 
 toc
 
@@ -316,7 +317,7 @@ tic
 
 f = figure(1);
 axes1 = axes('Parent',f);
-mesh(wlen_grid, temp_grid, f_Lcoh(wlen_grid, temp_grid) );
+mesh(wlen_grid, temp_grid, f_Lcoh_cm(wlen_grid, temp_grid) );
 hold(axes1,'on');
 zlim(axes1,[0.1 2]);
 
@@ -330,7 +331,15 @@ tic
 
 f = figure(2);
 axes1 = axes('Parent',f);
-contourf(1.1>f_Lcoh(wlen_grid, temp_grid));
+contourf(f_Lcoh_cm(wlen_grid, temp_grid)>=1);
+toc
+
+tic
+[wlen_grid, temp_grid]  = meshgrid(vec.sample_wlen, vec.sample_temp);
+
+f = figure(3);
+axes1 = axes('Parent',f);
+contour(f_Lcoh_cm(wlen_grid, temp_grid)>=1);
 toc
 
 %% 2D plots of center & bandwidth

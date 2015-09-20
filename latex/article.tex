@@ -275,6 +275,26 @@ where for example $P_4$ would be
 \end{array}
 \]
 
+Significant FWM occurs only if the phase match nearly vanishes.
+This require the matching of frequencies as well as of the wave vectors.
+Thus the phase-matching condition requires a specific choice of input wavelengths and media parameters before FWM can occur with high efficiency.
+
+From the definition of $\phi_-$ and $\phi_+$ we can gather that there are two types of FWM.
+The term containing $\phi_-$ correspond to the case in which two photons at frequencies $\omega_1$ and $\omega_2$ are annihilated, while two photons at frequencies $\omega_3$ and $\omega_4$ are created simultaneously.
+On the other hand, the term containing $\phi_+$ correspond to the case in which three photons at frequencies $\omega_1$, $\omega_2$ and $\omega_3$ are annihilated, while one photon at frequency $\omega_4$ is created.
+
+Our study focuses on a special condition of the second case, where $\omega_1 = \omega_2 = \omega_P$. The setup is therefore consist of a strong pump of frequency  $\omega_P$ and a signal of frequency  $\omega_3 = \omega_S$, resulting in the creation of the idler wave of frequency $\omega_4 = \omega_I$.
+The condition of frequency and phase matching are therefore:
+\begin{equation}
+\left\{
+ 	\begin{aligned}
+		\omega_I &= 2\omega_P - \omega_S \\
+		\Delta k &= 2\beta_P - \beta_S - \beta_I = 0
+	\end{aligned}
+\right.
+\label{eq_f&pmc}
+\end{equation} %frequency & phase matching conditions
+
 \subsubsection{Coupled amplitude equations}
 
 Replacing Eq. (\ref{eq_P}) in the Helmholtz equation (\ref{eq_helm_P}) leads to eight coupled equations: four of them are equivalent of Eq. (\ref{eq_wg_a}) and describe the field distribution of the mode of each wave.
@@ -358,22 +378,13 @@ The solutions of Eqs (\ref{eq_sig}) and (\ref{eq_idl}) are therefore
 \end{align}
 \end{subequations}
 
-\vspace{18pt}
-************************************************************************
-\vspace{12pt}
+The solution that we have developed so far is valid only when the pump waves remain largely undepleted.
+For a solution that includes pump depletion it is necessary to solve exactly the complete set of four equations, Eqs (\ref{eq_coupled_amplitude_a} - \ref{eq_coupled_amplitude_d}).
 
-****		è necessario verificare conservazione di energia e momento
-\vspace{12pt}
+We made a further assumption, that is that $\kappa = \Delta k + \gamma(P_1 + P_2) \approx \Delta k$, since $\Delta \gg \gamma(P_1 + P_2)$ almost always.
+In order to be efficient, the parametric process needs to verify both the conservation of energy and momentum, as given in Eq. (\ref{eq_f&pmc}).
 
-In order to be efficient, the parametric process needs to verify both the conservation of energy and momentum.
-$$\omega_1 + \omega_2 = \omega_3 + \omega_4$$
-$$\Delta k = \beta_3 + \beta_4 - \beta_1 - \beta_2$$
-****
-$$\Omega_S = \omega_1 + \omega_3 = \omega_4 - \omega_1$$
-where we assume $\omega_3 < \omega_4$.
-$$\Omega_S = |\omega_P - \omega_I| = |\omega_S - \omega_P|$$
-
-We can define a length scale, known as the coherence length, using $L_{coh} = 2\pi/|\Delta\kappa|$, where $\Delta\kappa$ is the maximum value of the effective phase mismatch that can be tolerated.
+We can also define a length scale, known as the coherence length, using $L_{coh} = 2\pi/|\Delta\kappa|$, where $\Delta\kappa$ is the maximum value of the effective phase mismatch that can be tolerated.
 Moreover significant FWM occurs if $L_{sam}<L_{coh}$ where $L_{sam}$ is the sample length.
 
 \section{Computational model}
@@ -526,7 +537,7 @@ However, we evaluated the function on a discrete grid.
 Thus we had, as a matter of fact, a very peaked function of wavelength most of the time.
 An example is given in Figure (\ref{fig_peaks}).
 
-\begin{figure}[ht]
+\begin{figure}[!h]
 	\centering
 	\includegraphics[width=.75\textwidth]{delta_example.png}
 	\caption{Example of $L_{coh}$ at $T_H$ fixed.}
@@ -540,7 +551,7 @@ Another important parameter is the width of the peak: to be consistent with the 
 
 We obtained graphs representing the position and the bandwidth of peaks vs temperature of each solution, as shown if Figure (\ref{fig_examples}).
 
-\begin{figure}[ht]
+\begin{figure}[!h]
 	\centering
 	\begin{subfigure}[b]{0.45\textwidth}
 		\includegraphics[width=1\textwidth]{ex_pos.png}
