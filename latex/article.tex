@@ -13,6 +13,9 @@
 \usepackage{booktabs}	% better tables
 \usepackage{multirow}
 
+\usepackage{caption}		% to use subfigure
+\usepackage{subcaption}
+
 \author{Davide Bazzanella}
 \title{Improving phase-matching of FWM with temperature}
 
@@ -210,8 +213,8 @@ In Figure (\ref{fig_2dmodes}) is *** a graphical representation of the distribut
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=.5\textwidth]{2Dmodes.png}
-	\label{fig_2dmodes}
 	\caption{graphical rapresentation of field distribution of 2D modes}
+	\label{fig_2dmodes}
 \end{figure}
 
 For our purpose, due to the thin geometry of the core, modes with the higher effective index are fundamental modes in the height axis.
@@ -272,7 +275,9 @@ where for example $P_4$ would be
 \end{array}
 \]
 
-Replacing Eq. (\ref{eq_P}) in Helmholtz equation (\ref{eq_helm_P}) leads to eight coupled equations: four of them are equivalent of Eq. (\ref{eq_wg_a}) and describe the field distribution of the mode of each wave.
+\subsubsection{Coupled amplitude equations}
+
+Replacing Eq. (\ref{eq_P}) in the Helmholtz equation (\ref{eq_helm_P}) leads to eight coupled equations: four of them are equivalent of Eq. (\ref{eq_wg_a}) and describe the field distribution of the mode of each wave.
 The remaining four are the equivalent of Eq. (\ref{eq_wg_b}) and describe how the field change while travelling through the waveguide.
 Those, considering $E_j(\textbf{r}) = F_j(x,y)A_j(z)$ where $F_j$ is the spatial distribution of the mode, can be written as:
 
@@ -300,7 +305,7 @@ where
 \hspace{18pt}are the overlap integrals of the different modes, where the brackets mean an integration on a plane $\langle g(x,y)\rangle = \int\int_{-\inf}^{\inf}g(x,y)\mathrm{dxdy}$.
 The physical interpretation of such quantities is how much different modes are superimposed/\ref{}/overlapped with each others.
 
-\subsubsection*{Approximate solution}
+\subsubsection{Approximate solution}
 The previous equations are quite general (they include SPM, XPM in addition to FWM) and require a numerical approach to be solved exactly.
 For this reason, we propose an approximate solution to understand the physical implication.
 The first approximation is called ``undepleted pump" and consist of assuming the pump waves to be much more intense than the other waves.
@@ -371,7 +376,7 @@ $$\Omega_S = |\omega_P - \omega_I| = |\omega_S - \omega_P|$$
 We can define a length scale, known as the coherence length, using $L_{coh} = 2\pi/|\Delta\kappa|$, where $\Delta\kappa$ is the maximum value of the effective phase mismatch that can be tolerated.
 Moreover significant FWM occurs if $L_{sam}<L_{coh}$ where $L_{sam}$ is the sample length.
 
-\section{Computational models}
+\section{Computational model}
 To understand the behaviour of the waveguide, it is necessary to first know how waves of different frequency are transmitted through the waveguide.
 We chose to simulate the modes with temperature and frequency as a parameters.
 
@@ -387,21 +392,21 @@ To obtain definite solutions, we had to assign the materials and a geometry to t
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=.55\textwidth]{geometry.png}
+	\includegraphics[width=1\textwidth]{geometry.pdf}
 	\label{fig_wg_Section}
 	\caption{Section of the rectangular waveguide}
 \end{figure}
 
 We modelized a dielectric waveguide with a silicon (Si) core \SI{3}{\um} wide and \SI{.25}{\um} high.
 The cladding was set to be silica (SiO2) and coated the top of the core with a thickness of \SI{.35}{\um}.
-For both materials was defined a refractive index dependent on the wavelength $n=n(\lambda)$, as given by the empirical relationship called \textit{Sellmeier equation}.
+For both materials was defined a refractive index dependent on the wavelength $n=n(\lambda)$, as given by the empirical relationship called \textit{Sellmeier equation}:
 \begin{equation}
 	n^2(\lambda) = 1+ \sum_i \chi_{0i}\frac{\lambda^2}{\lambda^2-\lambda^2_i}
 	\label{eq_sellmeier}
 \end{equation}
 where the weights are defined experimentally and vary depending on the material.
 
-We positioned a thermal reservoir, a ``\textit{heater}", \SI{0.3}{\um} wide at the top of the cladding, exactly over the center of the waveguide core and set to mantain a specific temperature in the gap, given by the configuration chosen.
+We positioned a thermal reservoir, a ``\textit{heater}", \SI{0.3}{\um} wide at the top of the cladding, exactly over the center of the waveguide core and set to mantain a specific temperature $T_H$ in the gap $[\SI{293.15}{\K} - \SI{693.15}{\K}]$, given by the configuration chosen.
 To 
 define the density $\rho$ in [\si{\kg\m^3}], the thermal conductivity $\kappa_{TH}$ in [\si{\W\per\m\per\K}] and the heat capacity $C_P$ in [\si{\J\per\kg\per\K}] of the different materials.
 
@@ -412,7 +417,7 @@ define the density $\rho$ in [\si{\kg\m^3}], the thermal conductivity $\kappa_{T
 		& \multicolumn{3}{c}{Properties} \\
     \cmidrule(r){2-5}
     	\multirow{2}{*}{Materials}    & $\rho$ & $\kappa_{TH}$ & $C_P$ & TOC\\
-  		& [\si{\kg\m^3}] & [\si{\W\per\m\per\K}] & [\si{\J\per\kg\per\K}] & [\si{\per\K}] \\
+  		& [\si{\kg\m^3}] & [\si{\W\per(\m\K)}] & [\si{\J\per(\kg\K)}] & [\si{\per\K}] \\
     \midrule
     Silicon (Si)			& 2329	& 130	& 700	& \num{1.87e-4}\\
     Silica (SiO$_2$)		& 2203	& 1.38	& 703	& 0\\
@@ -427,7 +432,7 @@ For our purpose this dependence can easily be considered linear:
 \begin{equation}
 n = n(\lambda)+\mathrm{TOC}\cdot T
 \end{equation}
-where $\mathrm{TOC}|_{\mathrm{Si}} = \SI{1.87e-4}{\per\K}$\cite{n_db} is called Termo-Optic Coefficient. The coefficient of silica glass is negligible and coefficient was therefore considered zero $\mathrm{TOC}|_{\mathrm{SiO}_2} \approx 0$.
+where $\mathrm{TOC}|_{\mathrm{Si}} = \SI{1.87e-4}{\per\K}$\cite{n_db} is called Termo-Optic Coefficient. The coefficient of silica glass is negligible and therefore was considered zero $\mathrm{TOC}|_{\mathrm{SiO}_2} \approx 0$.
 
 \subsubsection{Numerical solution}
 Because the degree of freedom of the problem were too many, we resorted to automated algorithms which gave us a numerical, and therefore approximate, solution.
@@ -436,12 +441,24 @@ Because the degree of freedom of the problem were too many, we resorted to autom
 The first step was solving the equation for the heat transfer to obtain a stationary solution for each temperature in the gap.
 That means to know the local temperature for each position in the core and in the cladding, for each initial setup.
 
+It was necessary to set the boundary conditions: the two sides (left, right) and the bottom the condition were considered as thermal reservoirs with a temperature $T = T_{amb} = \SI{293.15}{\K}$.
+The top was, instead, split into three sections: the heater, as we explained before, and the remaining two parts.
+Those were set to have a convective heat flux with air at ambient temperature.
+Silica heat transfer coefficient was set to $\mathrm{HTC}_{\mathrm{SiO}_2} = \SI{5}{\W\per(\m^2\K)}$.
+
+It is important to note that the value of the heat transfer coefficient can vary a lot depending on the air motion.
+We considered the typical laboratory condition.
+
 \paragraph{EM mode analysis}
 
 The second step was to find the different modes of the waveguide for each set of parameters, such as temperature and wavelength.
 
-We emploied an automated algorithm to solve, in the frequency domain, the Helmholtz equation on a fine grid in the waveguide section.
+We employed an automated algorithm to solve, in the frequency domain, the Helmholtz equation on a fine grid in the waveguide section.
 Each point of evaluation took into account the effective index of the material, slightly changed by the local temperature obtained by the stationary solution.
+
+As in the stationary solution of the heat transfer, we needed the boundary conditions.
+We set all four sides (top, bottom, left, right) to ``\texttt{scattering boundary condition}", that is a condition where the boundary is completely transparent to scattered waves.
+That means that the core and cladding is isolated from the outside. \ref{}
 
 This algorithm was set to find the eight modes which effective index $n_{eff}$ was closest to $n_{eff}=4$ in absolute value.
 \subsubsection{Data output}
@@ -459,10 +476,9 @@ We obtained then a well organized data matrix filled with the value of effective
 
 \subsection{Data processing}
 
-
 \subsubsection{Polynomial fit}
 Starting from raw data consisting of the effective index for each parametric configuration, we fitted them with a polinomial function of frequency $\omega = 2\pi \nu$ or $\lambda$ and temperature $T$, obtaining:
-$$n_{eff} = f_{mt,\,mo} \left( \omega, T \right) = f'_{mt,\,mo} \left( \lambda, T \right)$$
+$$n_{eff} = f_{mt,\,mo} \left( \omega, T_H \right) = f'_{mt,\,mo} \left( \lambda, T_H \right)$$
 where $mt$ and $mo$ means respectively \textit{mode type} (TE or TM) and \textit{mode order} (1, 2, 3, ...)
 
 Specifically, we used a polynomial expression of fifth order in wavelength and second order in temperature ``\texttt{poly52}".
@@ -485,7 +501,7 @@ Imposing the conservation of energy,
 \end{equation}
 we obtained the only frequency permitted for $\omega_I$.
 
-We replaced its value in the conservation of momentum formula, giving us the phase mismatch as a function only of signal wavelength and temperature of the heater, for each set of orders.
+We replaced its value in the conservation of momentum formula, giving us the phase mismatch as a function of signal wavelength and temperature of the heater only, for each set of orders.
 
 Then, starting from the fits of the effective index at different wavelengths and temperatures, we evaluated the phase mismatch of all sets.
 The evaluation was made on a grid of temperature and signal wavelength arbitrarily dense.
@@ -493,22 +509,132 @@ The evaluation was made on a grid of temperature and signal wavelength arbitrari
 \subsubsection{Selection of sets}
 Once evaluated all the points on the grid for all the sets available, we selected only the interesting combinations.
 The critical parameter on which the choice was based on is the coherence length: only those sets which had a maximum value of coherence length greater than a supposed sample length $L_{sam} = $\SI{1}{\cm} was chosen.
-$$L_{coh} = \frac{2\pi}{|\Delta k|} \geq L_{sam}$$
+\begin{equation}
+	L_{coh} = \frac{2\pi}{|\Delta k|} \geq L_{sam}
+	\label{eq_lcoh_crit}
+\end{equation}
 Again, we had a list of the only combination interesting for our purpose.
 
 It is important to note that, in general, each combination could have more that one maximum of coherence length $L_{coh}$ in wavelength for each temperature value.
 
-\subsubsection{Data aggregation}
-After the selection of sets, we evaluated the dependence of each maximum on temperature.
+\subsection{Data analysis}
+We studied the value of $L_{coh}$ of the selected configurations with a rough analysis of 3D plots of $L_{coh}(\lambda,T_{H})$.
+We observed the presence of different (mainly one or two) peaks in wavelength wich were almost conserved in the temperature shift.
+
+Given the definition of function $L_{coh}$, it value should technically diverge in the proximity of phase-match condition.
+However, we evaluated the function on a discrete grid.
+Thus we had, as a matter of fact, a very peaked function of wavelength most of the time.
+An example is given in Figure (\ref{fig_peaks}).
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=.75\textwidth]{delta_example.png}
+	\caption{Example of $L_{coh}$ at $T_H$ fixed.}
+	\label{fig_peaks}
+\end{figure}
+
+We could therefore find the local maxima of such function and assume they are the centers of the peaks.
+If their position change significally while shifting the temperature, it means we are able to control the phase-match condition.
+
+Another important parameter is the width of the peak: to be consistent with the seletion criteria used in (\ref{eq_lcoh_crit}), we defined the bandwidth as the peak width at $L_{coh} = 1$.
+
+We obtained graphs representing the position and the bandwidth of peaks vs temperature of each solution, as shown if Figure (\ref{fig_examples}).
+
+\begin{figure}[ht]
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=1\textwidth]{ex_pos.png}
+		\caption{Example of peaks vs $T_H$.}
+		\label{fig_example_position}
+	\end{subfigure}\hspace{.05\textwidth}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=1\textwidth]{ex_bw.png}
+		\caption{Example of bandwidth vs $T_H$.}
+		\label{fig_example_bandwidth}
+	\end{subfigure}
+	\caption{Examples of peaks position and bandwidth dependence on temperature $T_H$}
+	\label{fig_examples}
+\end{figure}
+
+\section{Results}
+\subsubsection{data aggregation}
+Examining the graphs obtained from the data analysis of the symmetric configuration, we noticed that for each solution selected were one or two straight lines.
+Therefore we summarized them by collecting the slopes and the value of the functions at ambient temperature.
+
+The next Figures (\ref{fig_sym_pp}) and (\ref{fig_sym_bw}) show the results obtained, excluding the sets which only phasematch was at $\lambda = \SI{1.55}{\um}$
+
+\begin{figure}[h!]
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=1\textwidth]{ppaat2.pdf}
+		\label{fig_sym_pp@t2} 	% pp@t = bandwidth @ T_amb,
+								% 2 = no points at 1.55um
+		\caption{Example of peaks vs $T_H$.}
+	\end{subfigure}\hspace{.05\textwidth}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=1\textwidth]{ppc2.pdf}
+		\label{fig_sym_ppc2} % ppc = bandwidth change
+		\caption{Example of bandwidth vs $T_H$.}
+	\end{subfigure}
+	\caption{Peak position summary}
+	\label{fig_sym_pp}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=1\textwidth]{baat2.pdf}
+		\label{fig_sym_b@t2} % b@t = bandwidth @ T_amb
+		\caption{Example of peaks vs $T_H$.}
+	\end{subfigure}\hspace{.05\textwidth}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=1\textwidth]{bc2.pdf}
+		\label{fig_sym_bc2} % bc = bandwidth change
+		\caption{Example of bandwidth vs $T_H$.}
+	\end{subfigure}
+	\caption{Bandwidth summary}
+	\label{fig_sym_bw}
+\end{figure}
 
 \subsection{Second heater configuration}
 In order to achieve a greater effect from the different temperature, we tried to move the heater from over the center of the core to the side.
 This operation was intended to increase the difference of behaviour between low and high orders enabling thus the creation of new peaks in the coherence length.
-\subsection{Different geometries}
 
-\section{Results}
+The new geometry is represented in Figure (\ref{fig_geometry_asym}).
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=1\textwidth]{geometry2.pdf}
+	\caption{Scheme of the side heater configuration.}
+	\label{fig_geometry_asym}
+\end{figure}
+
+\subsubsection{data aggregation}
+Examining the graphs obtained from the data analysis of the asymmetric configuration, we noticed variety of different situation.
+Therefore we could not anymore summarize the results with slopes an value at $T_{amb}$.
+
+
 \section{Conclusions}
 \subsection{Improvements}
+
+There are a few improvements which were not introduced in our study because of the limited time available.
+They could be eventually implemented in an extended study of the very same topic.
+
+A rough list of them is proposed next:
+\begin{itemize}
+\item	The heater should be simulated as a metal conductor media, instead of a simple boundary condition, in addition to its thermal reservoir property. This is necessary because a metal plaque over the waveguide core could interfere with the wave propagation in the waveguide, drawing energy from the EM wave.
+
+\item	It should be considered the thermal expansion of materials.
+The thermal expansion coefficients of both silicon and silica are small but, on the other hand, the temperature change is quite high.
+It should not easily considered as negligible contribution as it could change the waveguide geometry and therefore the modes.
+
+\item	The aim of this study was to understand if it was possible at all to control FWM with temperature.
+It is important also to develop the correlation between temperature and efficiency of energy conversion from the pump to the idler.
+
+\item	As next step in enhancing the influence of temperature on effective index, different core geometries could be studied.
+This could greatly condition the wave propagation, but is also a difficult problem with many degrees of freedom.
+
+\end{itemize}
+
 \subsection{Summary}
 
 \cleardoublepage
