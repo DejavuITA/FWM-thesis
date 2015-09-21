@@ -419,29 +419,42 @@ clear ans xGrid yGrid zdata zData rr jj tt y y2 maxL locs bw fitresult f name su
 
 %% 2D plots data vs orders
 
+tmp = [];
+for jj=1:length(results.indexes)
+    tmp = [tmp; num2str(pm.comb( 2,:,results.indexes(jj) ) ) ];
+end
+
 f = figure('name', 'peak position at ambient temperature');
-title('peak position at ambient temperature [um]');
-hold on;
+axes1 = axes('Parent',f,...%'YGrid','on','XGrid','on',...
+    'XTickLabel', {'   ',mat2cell( squeeze( pm.comb(2,:,results.indexes) )', ones(length(results.indexes),1), 3 ),'   '},...
+    'XTickLabelRotation', 90,...
+    'XTick', {0:1:length(results.indexes+1)},...
+    'LineStyleOrderIndex',2);
+hold(axes1,'on');
+title('Peaks position at ambient temperature [\mum]');
 plot( 1e6*results.max.q(results.indexes,1:end), 'o' );
-saveas(f, 'ppaat', 'pdf');
+ylabel({'Position [\mum]'});
+xlabel({'Combination'});
+
+saveas(f, 'ppaat', 'png');
 
 f = figure('name', 'peak position: m');
-title('peak position change [nm/100°C]');
+title('Change in peaks position [nm/100°C]');
 hold on;
 plot( 1e11*results.max.m(results.indexes,1:end), 'o' );
-saveas(f, 'ppc', 'pdf');
+saveas(f, 'ppc', 'png');
 
 f = figure('name', 'bandwidth');
-title('bandwidth at ambient temperature [nm]');
+title('Bandwidth at ambient temperature [nm]');
 hold on;
 plot( 1e9*results.bw.q(results.indexes,1:end), 'o' );
-saveas(f, 'baat', 'pdf');
+saveas(f, 'baat', 'png');
 
 f = figure('name', 'bandwidth: m');
-title('bandwidth change [nm/100°C]');
+title('Bandwidth change [nm/100°C]');
 hold on;
 plot( 1e11*results.bw.m(results.indexes,1:end), 'o' );
-saveas(1, 'bc', 'pdf');
+saveas(1, 'bc', 'png');
 
 %% 2D plots data vs orders, w/out degenerate states
 

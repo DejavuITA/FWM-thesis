@@ -439,9 +439,6 @@ ylabel({'\lambda [\mum]'});
 title(name);
 
 
-
-
-
 top = round( max([1,max(bws(:)*2e9)] ),1,'significant');
 
 name = strcat( 'Bandwidth of combination ',TE,[' ', num2str(pm.comb(2,:))] );
