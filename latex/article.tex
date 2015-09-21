@@ -550,13 +550,19 @@ By imposing the conservation of energy,
 \qquad \Longrightarrow \qquad
 \omega_I = 2\omega_P - \omega_S \\
 \end{equation}
+$$or \qquad \qquad \lambda_I = \left( \frac{2}{\lambda_P} - \frac{1}{\lambda_S}\right)^{-1} $$
 we obtained the only frequency permitted for $\omega_I$.
 
 We replaced its value in the conservation of momentum formula, giving us the phase mismatch as a function of signal wavelength and temperature of the heater only, for each set of orders.
 
-\begin{equation}
-	\Delta k = 2\beta_P(\omega_P)-\beta_S(\omega_S)-\beta_I(2\omega_P-\omega_S)
-\end{equation}
+%\begin{equation}
+\begin{align*}
+	\Delta k &= 2\beta_P(\omega_P)-\beta_S(\omega_S)-\beta_I(2\omega_P-\omega_S)\\
+			 &= 2\pi\left[ 2\frac{n_{eff}^P(\omega_P)}{\lambda_P}
+			 - \frac{n_{eff}^S(\lambda_S)}{\lambda_S}
+			 - \frac{n_{eff}^I(\lambda_I)}{\lambda_I}\right]
+\end{align*}
+%\end{equation}
 
 Then, starting from the fits of the effective index at different wavelengths and temperatures, we evaluated the phase mismatch of all sets.
 The evaluation was made on a grid of temperature and signal wavelength arbitrarily dense.
