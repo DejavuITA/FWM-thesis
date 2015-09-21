@@ -101,7 +101,7 @@ setting.fit_str = 'poly52';
 
 for ww=1:par.n_wg_wid
     for hh=1:par.n_wg_hgt
-        for pp=1:2
+        for pp=1:1 % no TM
             for mm=1:par.n_modi
                 
                 data.fit_neff(ww,hh,pp,mm).exist = false;

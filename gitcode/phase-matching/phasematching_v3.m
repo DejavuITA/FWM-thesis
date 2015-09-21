@@ -64,7 +64,7 @@ pm.low_w = 1.45e-6;             % [m]
 pm.high_w = 1.65e-6;            % [m]
 
 % number of points in wlen interval [low_w, high_w]
-pm.n_sample_wl = 601;              % should be an odd number, to center the pump wlen.
+pm.n_sample_wl = 3001;              % should be an odd number, to center the pump wlen.
 pm.step = (pm.high_w - pm.low_w)/(pm.n_sample_wl - 1);
 
 vec.sample_wlen = zeros(pm.n_sample_wl,1);
@@ -73,7 +73,7 @@ for ww=1:pm.n_sample_wl
 end
 
 % sampling temperature
-pm.n_sample_t = 201;
+pm.n_sample_t = 301;
 pm.step_t = (vec.temp(end) - vec.temp(1) )/(pm.n_sample_t - 1);
 
 vec.sample_temp = zeros(pm.n_sample_t,1);
@@ -109,7 +109,7 @@ setting.fit_str = 'poly52';
 
 for ww=1:par.n_wg_wid
     for hh=1:par.n_wg_hgt
-        for pp=1:2
+        for pp=1:1 % no TM!!
             for mm=1:par.n_modi
                 
                 data.fit_neff(ww,hh,pp,mm).exist = false;
@@ -184,8 +184,9 @@ clear ww hh pp mm ll tt ans fit1 gof1 xdata ydata zdata index disp
 fprintf('\nListing the configuration of permitted orders\n');
 
 tic
+par.ord_max = par.n_modi;
 pm.comb = [];
-for TE=1:2
+for TE=1:1  % no TM!!!
     for pp=1:par.ord_max       % DA CORREGGERE! corretto?
         for ss=1:par.ord_max
             for ii=1:par.ord_max

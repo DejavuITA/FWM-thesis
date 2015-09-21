@@ -45,13 +45,13 @@
 
 \section{Introduction}
 \subsection{Motivation}
-In my scholastic career I approached the study of optics in an elective course of my third year of undergraduate academic degree.
-I became very interested in the subject, in particular because of the potential developement of photonics for communication and computing.
-I discussed different topics with the professors and some researchers.
-One of the researchers, who would later become my advisor, suggested me a few interesting topics in guided-wave optics which could be studied as a undergraduate thesis.
+In my academic career I first approached the study of optics during an elective course of my third year of undergraduate academic degree.
+I became very interested in the subject, in particular because of the potential developement of photonics for communications and computing.
+I discussed different topics with several professors and researchers.
+One of the researchers, who would later become my advisor, suggested me a few interesting topics in guided-wave optics which could be studied in an undergraduate thesis.
 
 I chose to study the temperature behaviour of silicon waveguides.
-The reason of the choice is that there are always discrepancies between the design of silicon objects and their actual production by the factory.
+The reason of this choice is the constant presence of discrepancies between the design of silicon objects and their actual industrial production.
 The aim of the study is to exploit behaviour of silicon to correct these possible production defects of the materials.
 
 The study is focused on a silicon-based waveguide with a silicon ($\mathrm{Si}$) core of rectangular section and a silica ($\mathrm{SiO}_2$) cladding.
@@ -62,8 +62,8 @@ Four-Wave Mixing (FWM) is a nonlinear optical effect due to the susceptibility o
 Silicon is an isotropic material and therefore second order susceptibility $\chi^{(2)}$ (almost) vanishes.
 Third order susceptibility $\chi^{(3)}$, on the other hand, is non-zero and is responsible among the other effects for FWM, which is indeed a third order phenomenon.
 
-In general FWM implies the mix of four waves of different frequency.
-Partial degenerate FWM, instead, is a specific case in which two waves have the same frequency and are considered as one (pump).
+In general FWM implies the mixing of four waves of different frequencies.
+Partial degenerate FWM, instead, is a specific case where two waves have the same frequency and are considered as one (pump).
 Therefore it is about the pump wave and a second weaker one (signal) which generate a third wave (idler) of frequency different from that of the former two.
 
 \section{Electromagnetic waves in dielectric media}
@@ -103,42 +103,43 @@ A linear dielectric medium is characterized by a linear relation between the pol
 \end{equation}
 where $\chi$ is the susceptibility of the medium and $\varepsilon_r \equiv 1+\chi$ is the relative dielectric constant.
 
-Taking the curl of Eq. (\ref{eq_maxwell_a}) and substituting in it Eq. (\ref{eq_maxwell_c}) it leads to the Helmholtz equation:
+Taking the curl of Eq. (\ref{eq_maxwell_a}) and substituting it in Eq. (\ref{eq_maxwell_c}) leads to the Helmholtz equation:
 \begin{equation}
 \nabla^2 \textbf{E} - \frac{1}{c^2}\frac{\partial^2 \textbf{E}}{\partial t^2} = \mu_0\frac{\partial^2 \textbf{P}}{\partial t^2}
 \label{eq_helm_P}
 \end{equation}
 where $c = 1/\sqrt{\mu_0 \varepsilon_0}$ is the speed of light in vacuum.
 
-Defining the refractive index $n \equiv \sqrt{\varepsilon_r}$ of the material the previous equation (\ref{eq_helm_P}) and using the definition of \textbf{P} as in Eq. (\ref{eq_P_L})
+Defining the refractive index of the material $n \equiv \sqrt{\varepsilon_r}$ and using the definition of \textbf{P} as in Eq. (\ref{eq_P_L}), the previous Eq. (\ref{eq_helm_P}) becomes
 \begin{equation}
 	\nabla^2 \textbf{E} - \frac{n^2}{c^2}\frac{\partial^2 \textbf{E}}{\partial t^2} = 0
 	\label{eq_helm_lin}
 \end{equation}
-Moreover, $n$ represent the ratio between the speed of light in vacuum and in the material $n = c/v$ and it depends on the frequency of the EM wave.
+Moreover, $n$ represents the ratio between the speed of light in vacuum and in the material ($n = c/v$) and it depends on the frequency of the EM wave.
 
-The general solution of Eq. (\ref{eq_helm_P}) is a transverse electromagnetic (TEM) wave, whose electric and magnetic fields are perpendicular to the propagation direction.
-Without losing generality, we could assume $\hat{z}$ as the propagation direction and electric field of the form:
+The general solution of Eq. (\ref{eq_helm_P}) is a transverse electromagnetic (TEM) wave, whose electric and magnetic fields are perpendicular to the direction of propagation.
+Without losing generality, we could assume $\hat{z}$ as the propagation direction and an electric field of the form:
 \begin{equation}
 	\textbf{E} = \frac{1}{2}\hat{x}\,E\,\mathrm{exp}[\mathrm{i}(kz-\omega t)] + c.c.
 	\label{eq_wave}
 \end{equation}
-with $E$ amplitude of the electric field, $k = 2\pi/\lambda$ the wavevector and $\omega = 2\pi f$ the angular frequency. $\lambda$ and $f$ are relatively the wavelength and the frequency of the electromagnetic wave.
+with $E$ amplitude of the electric field, $k = 2\pi/\lambda$ the wavevector and $\omega = 2\pi f$ the angular frequency.
+$\lambda$ and $f$ are respectively the wavelength and the frequency of the electromagnetic wave.
 The magnetic field has a similar equation.
 
 \subsection{Silicon waveguides}
-In linear optics the technology for trasmitting a light wave by confining it in a finite space is the guided-wave optics.
+In linear optics the technology for trasmitting a light wave by confining it in a finite space is called guided-wave optics.
 The instruments employed for achieving such purpose are called waveguides.
 
 In a ray-optics picture, silicon waveguides are dielectric waveguides and make use of the interface between two media with different refractive index.
-Precisely they exploit the phenomenon of total internal reflection: if a propagating wave reaches a boundary between two mediums, one with higher refractive index ($n_H$) and another with lower refractive index ($n_L$), with an angle of incidence greater than the \textit{critical angle}, then the wave is completely reflected in the first medium.
+They exploit the phenomenon of total internal reflection: if a propagating wave reaches a boundary between two mediums, one with higher refractive index ($n_H$) and another with lower refractive index ($n_L$), with an angle of incidence greater than the \textit{critical angle}, then the wave is completely reflected in the first medium.
 %accorciare la precedente frase%
-Angles are defined relative to the normal vector of the interface and the critical angle can be obtained by the Snell law:
+Angles are defined relative to the normal vector of the interface and the critical angle can be obtained through the Snell's law:
 
 $$	\theta_C = \arcsin \left( \frac{n_L}{n_H} \right)$$
 
-Silicon waveguides are composed by core and cladding \textbf{(?)}. %is called cladding only for fiber or also for slab/strip wg?
-The former is the higher refractive index medium in which the wave is confined, the latter is the lower refractive index medium which surrounds the core, thus creating the interface. Theoretically the cladding could also be vacuum.
+Silicon waveguides are composed by core and cladding. %is called cladding only for fiber or also for slab/strip wg?
+The former is the higher refractive index medium in which the wave is confined, the latter is the lower refractive index medium which surrounds the core, thus creating the interface. Theoretically, the cladding could also be vacuum.
 
 \subsubsection*{Wave equation and modes}
 Considering an ideal dielectric waveguide (no absorption) with the purpose of transmitting EM waves in the $\hat{z}$ direction, the total field distribution is a sum of continous TEM plane waves.
@@ -148,7 +149,7 @@ Defining the amplitude of the fields as $E(\textbf{r},t) = F(x,y)A(z,t)$ and $k=
 \end{equation*}
 
 The previous equation represents what is called a ``transverse electric" (TE) wave.
-A second family of solution could be acquired by defining the sum of TEM wave with the magnetic field always perpendicular to the propagation direction.
+A second family of solutions could be acquired by defining the sum of TEM waves with the magnetic field always perpendicular to the propagation direction.
 This is called a ``transverse magnetic" (TM) wave.
 
 Is then possible to study the propagation of the wave along the waveguide using the Helmholtz equation (\ref{eq_helm_P}) or (\ref{eq_helm_lin}), obtaining the next equations:
@@ -168,12 +169,13 @@ where $k_0$ is the wavevector in vacuum and $n=n(x,y)$ is a function of the posi
 The first equation, once solved, leads to the field distribution $F(x,y)$ in the plane perpendicular to the waveguide axis ($\hat{z}$).
 Its solution is strictly linked to the geometry of the waveguide and to the dependence of the refractive index $n$ to the position in the plane.
 
-The second equation (\ref{eq_wg_b}), on the other hand, defines the change of field distribution along the $\hat{z}$ axis, or the waveguide axis.
-Imposing to this equation to be zero means that we force the field distribution $F$ not to change.
-Indeed not all field distributions are transmitted through the waveguide without energy loss \textbf{(?)} and thus without changing $F$.
+The second equation (\ref{eq_wg_b}), on the other hand, defines the change in field distribution along the $\hat{z}$ axis, or the waveguide axis.
+Imposing this equation to be zero means that we force the field distribution $F$ not to change.
+%Indeed not all field distributions are transmitted through the waveguide without energy loss \textbf{(?)} and thus without changing $F$.
 % Modes are fields that maintain the same transverse distribution and polarization at all locations along the waveguide axis.
 Those field distributions which maintain the same transverse distribution and polarization at all locations along the waveguide axis are called modes.
-These modes can be categorized in two main groups, depending on the polarization of the wave: transverse electric (TE) modes and transverse magnetic (TM) modes, which have respectively the electric and magnetic field transverse to the waveguide axis.
+These modes are the eigenfunctions of the system.
+They can be categorized in two main groups, according to the polarization of the wave: transverse electric (TE) modes and transverse magnetic (TM) modes, which have respectively the electric and magnetic field transverse to the waveguide axis.
 
 Solving for $\beta$, we obtain that only a discrete set of values $\beta_m$ verify the equation.
 Replacing those values in Eq. (\ref{eq_wg_a}), leads to the field distribution F(x,y) to be defined.
@@ -197,7 +199,8 @@ A very important parameter of each mode is its \textit{propagation constant} $\b
 \end{equation}
 
 Higher-order modes travel with smaller propagation constants.
-For a 1D slab waveguide $\beta$ has a simple relation with the bounce angles $\theta_m$, which are quantized between $0$ and $\bar{\theta}_C = \pi - \theta_C$:
+Considering the simplest case: a 1D waveguide, which has a planar core of thickness $d$ and cladding over and under it expanding to infinite.
+For this waveguide, also called a \textit{slab}, $\beta$ has a simple relation with the bounce angles $\theta_m$, which are quantized between $0$ and $\bar{\theta}_C = \pi - \theta_C$:
 $$\beta_m = n_H k_0 \cos \theta_m$$
 
 From the propagation constant, we can also define the refractive index relative to the propagation mode, called \textit{effective index}:
@@ -209,22 +212,30 @@ Its value is between the higher index of the core and lower one of the cladding.
 Again, for the 1D slab waveguide case, the effective index can be rewritten as in the following formula:
 $$ n_{eff} \equiv n_H \cos \theta_m$$
 
-\subsection{Rectangular dielectric waveguides}
-In general, in a rectangular dielectric waveguide the classification of modes need two indexes because we have two degrees of freedom.
-In Figure (\ref{fig_2dmodes}) is *** a graphical representation of the distribution of the fields in modulus.
-
-\begin{figure}[ht]
+\begin{figure}[!hb]
 	\centering
-	\includegraphics[width=.5\textwidth]{2Dmodes.png}
-	\caption{graphical rapresentation of field distribution of 2D modes}
+	\includegraphics[width=.45\textwidth]{2Dmodes.png}
+	\caption{Graphical rapresentation of field distribution of 2D modes}
 	\label{fig_2dmodes}
 \end{figure}
 
-For our purpose, due to the thin geometry of the core, modes with the higher effective index are fundamental modes in the height axis.
+\subsection{Rectangular dielectric waveguides}
+In general, in a rectangular dielectric waveguide the classification of modes need two indexes because we have two degrees of freedom.
+In Figure (\ref{fig_2dmodes}) is graphically represented the distribution of the fields in modulus.
+
+For our purpose, due to the thin geometry of the core, the waveguide does not support modes with the higher order in the height axis than the fundamental one.
 The first row is of our interest.
 Only one significant index is then left to describe the order of modes.
 
 \section{Non-linear optics}
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=.75\textwidth]{nonlinearity.png}
+	\caption{Example of nonlinear relation between \textbf{P} and \textbf{E}}
+	\label{fig_nonlinearity}
+\end{figure}
+
 A nonlinear dielectric medium is characterized by a nonlinear relation between \textbf{P} and \textbf{E}, such as
 \begin{equation}
 	\textbf{P} = \varepsilon_0 \left( \chi^{(1)} \cdot \textbf{E} + \chi^{(2)} : \textbf{E}^2 + \chi^{(3)} \vdots \textbf{E}^3 + \cdots \right) = \mathrm{\textbf{P}_L} + \mathrm{\textbf{P}_{NL}}
@@ -232,7 +243,7 @@ A nonlinear dielectric medium is characterized by a nonlinear relation between \
 \end{equation}
 which originates from the behaviour of bound electrons.
 
-In everyday condition linear effects are much larger than nonlinear ones.
+In everyday conditions linear effects are much larger than nonlinear ones.
 The relation between \textbf{P} and \textbf{E} becomes nonlinear when $\mathrm{E}$ has a value comparable to interatomic electric fields, which are typically $\sim 10^5-10^8$ \si{\V\per\m}.
 
 For an isotropic medium the second order term is zero (in the dipole approximation) and this is our scenario.
@@ -243,13 +254,13 @@ Many processes are result of third order nonlinearities: Third-Harmonic Generati
 
 The parametric process of Four-Wave Mixing originates from the third order nonlinear response of a material to an electromagnetic field and involves interaction among four optical waves.
 
-The nonlinear component of the induced electric polarization vector, considering significant only the third-order term, is
+Considering significant only the third-order term, the nonlinear component of the induced electric polarization vector is
 \begin{equation}
 	\textbf{P}_{NL} = \varepsilon_0 \chi^{(3)} \vdots \textbf{E}^3
 	\label{eq_P_NL}
 \end{equation}
 
-Considering a silicon waveguide with a rectangular core section, to study the propagation of four wave, the total electric field and be expressed as
+Considering a silicon waveguide with a rectangular core section, to study the propagation of four waves, the total electric field can be expressed as
 \begin{equation}
 	\textbf{E} = \frac{1}{2}\hat{x} \sum_{j=1}^4 E_j \mathrm{exp}[i(\beta_j z - \omega_j t)] + c.c.
 	\label{eq_E}
@@ -266,7 +277,7 @@ where for example $P_4$ would be
 \[
 \begin{array}{rl}
 	P_4 &= \frac{3\varepsilon_0}{4} \chi^3_{xxxx}\left[ |\mathrm{E}_4|^2\mathrm{E}_4 2(|\mathrm{E}_1|^2+|\mathrm{E}_2|^2+|\mathrm{E}_3|^2)\mathrm{E}_4 \right. \\
-	&+ \left. 2\mathrm{E}_1\mathrm{E}_2\mathrm{E}_3\mathrm{e}^{i\phi_+}+2\mathrm{E}_1\mathrm{E}_2\mathrm{E}_3^*\mathrm{e}^{i\phi_-}\right] \\
+	&+ \left. 2\mathrm{E}_1\mathrm{E}_2\mathrm{E}_3\mathrm{e}^{i\phi_+}+2\mathrm{E}_1\mathrm{E}_2\mathrm{E}_3^*\mathrm{e}^{i\phi_-} + ...\right]\\
 
 \end{array}
 \]
@@ -284,9 +295,9 @@ Thus the phase-matching condition requires a specific choice of input wavelength
 
 From the definition of $\phi_-$ and $\phi_+$ we can gather that there are two types of FWM.
 The term containing $\phi_-$ corresponds to the case in which two photons at frequencies $\omega_1$ and $\omega_2$ are annihilated, while two photons at frequencies $\omega_3$ and $\omega_4$ are created simultaneously.
-On the other hand, the term containing $\phi_+$ correspond to the case in which three photons at frequencies $\omega_1$, $\omega_2$ and $\omega_3$ are annihilated, while one photon at frequency $\omega_4$ is created.
+On the other hand, the term containing $\phi_+$ corresponds to the case in which three photons at frequencies $\omega_1$, $\omega_2$ and $\omega_3$ are annihilated, while one photon at frequency $\omega_4$ is created.
 
-Our study focuses on a special condition of the second case, where $\omega_1 = \omega_2 = \omega_P$. The setup therefore consists of a strong pump of frequency  $\omega_P$ and a signal of frequency  $\omega_3 = \omega_S$, resulting in the creation of the idler wave of frequency $\omega_4 = \omega_I$.
+Our study focuses on a special condition of the second case, where $\omega_1 = \omega_2 = \omega_P$. The setup therefore consists of a strong pump of frequency  $\omega_P$ and a signal of frequency  $\omega_3 = \omega_S$, resulting in the creation of the idler wave of frequency $\omega_4 = \omega_I$, as in Figure (\ref{fig_setup}).
 The condition of frequency and phase matching are therefore:
 \begin{equation}
 \left\{
@@ -298,11 +309,19 @@ The condition of frequency and phase matching are therefore:
 \label{eq_f&pmc}
 \end{equation} %frequency & phase matching conditions
 
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=.55\textwidth]{setup.png}
+	\caption{Symbolical rapresentation of the setup}
+	\label{fig_setup}
+\end{figure}
+
+
 \subsubsection{Coupled amplitude equations}
 
 Replacing Eq. (\ref{eq_P}) in the Helmholtz equation (\ref{eq_helm_P}) leads to eight coupled equations: four of them are equivalent of Eq. (\ref{eq_wg_a}) and describe the field distribution of the mode of each wave.
 The remaining four are the equivalent of Eq. (\ref{eq_wg_b}) and describe how the fields change while travelling through the waveguide.
-Those, considering $E_j(\textbf{r}) = F_j(x,y)A_j(z)$ where $F_j$ is the spatial distribution of the mode, can be written as:
+Considering $E_j(\textbf{r}) = F_j(x,y)A_j(z)$ where $F_j$ is the spatial distribution of the mode, they can be written as:
 
 \begin{subequations}
 \begin{align}
@@ -315,6 +334,7 @@ Those, considering $E_j(\textbf{r}) = F_j(x,y)A_j(z)$ where $F_j$ is the spatial
 	\frac{dA_4}{dz} &= \frac{\mathrm{i}n_L\omega_4}{c}\left[ \left( f_{44} |A_4|^2 + 2 \sum_{k\neq4} f_{4k}|A_k|^2\right)A_4 + 2f_{4321}A_1A_2A_3^*\mathrm{e}^{-\mathrm{i}\Delta k_z} \right]
 		\label{eq_coupled_amplitude_d}
 \end{align}
+\label{eq_coupled}
 \end{subequations}
 
 where
@@ -326,12 +346,12 @@ where
 	f_{ijkl} = \frac{\langle F_i^* F_j^* F_k F_l \rangle}{\sqrt{\langle |F_i|^2 \rangle\langle |F_j|^2 \rangle\langle |F_k|^2 \rangle\langle |F_l|^2 \rangle}}
 \end{equation}
 \hspace{18pt}are the overlap integrals of the different modes, where the brackets mean an integration on a plane $\langle g(x,y)\rangle = \int\int_{-\inf}^{\inf}g(x,y)\mathrm{dxdy}$.
-The physical interpretation of such quantities is how much different modes are superimposed/\ref{}/overlapped with each others.
+The physical interpretation of such quantities is how much different modes are overlapped with each others.
 
 \subsubsection{Approximate solution}
 The previous equations are quite general (they include SPM, XPM in addition to FWM) and require a numerical approach to be solved exactly.
-For this reason, we propose an approximate solution to understand the physical implication.
-The first approximation is called ``undepleted pump" and consist of assuming the pump waves to be much more intense than the other waves.
+For this reason, we propose an approximate solution to understand the physical implications.
+The first approximation is called ``undepleted pump" and consists in assuming the pump waves to be much more intense than the other waves.
 As a further simplification, we assume that all overlap integrals are nearly the same
 \begin{equation}
 	f_{ijkl} \approx f_{ij} \approx \frac{1}{A_{eff}}	\qquad \qquad i,j,k,l = 1,2,3,4
@@ -354,7 +374,7 @@ Using the last two equations and the undepleted pump approximation, (\ref{eq_cou
 \end{subequations}
 where $P_j = |A_j(z=0)|^2$.
 
-Using the same approximations on (\ref{eq_coupled_amplitude_c}) and (\ref{eq_coupled_amplitude_d}) and replacing Eqs (\ref{eq_pump_sol}) where needed we obtain two linear coupled equations for signal and idler:
+Using the same approximations on (\ref{eq_coupled_amplitude_c}) and (\ref{eq_coupled_amplitude_d}) and replacing Eqs (\ref{eq_pump_sol}a) and (\ref{eq_pump_sol}b) where needed we obtain two linear coupled equations for signal and idler:
 \begin{subequations}
 \begin{align}
 	\frac{dA_3}{dz} &= 2\mathrm{i}\gamma [(P_1 + P_2)A_3 + A_1(0)A_2(0)\mathrm{e}^{-\mathrm{i}\phi}A_4^*]
@@ -384,22 +404,37 @@ The solutions of Eqs (\ref{eq_sig}) and (\ref{eq_idl}) are therefore
 The solution that we have developed so far is valid only when the pump waves remain largely undepleted.
 For a solution that includes pump depletion it is necessary to solve exactly the complete set of four equations, Eqs (\ref{eq_coupled_amplitude_a} - \ref{eq_coupled_amplitude_d}).
 
-We made a further assumption, that is that $\kappa = \Delta k + \gamma(P_1 + P_2) \approx \Delta k$, since $\Delta \gg \gamma(P_1 + P_2)$ almost always.
-In order to be efficient, the parametric process needs to verify the conservation of both energy and momentum, as given in Eq. (\ref{eq_f&pmc}).
-
 We can also define a length scale, known as the coherence length, using $L_{coh} = 2\pi/|\Delta\kappa|$, where $\Delta\kappa$ is the maximum value of the effective phase mismatch that can be tolerated.
 Moreover significant FWM occurs if $L_{sam}<L_{coh}$ where $L_{sam}$ is the sample length.
+This definition allow us to make a further assumption, that is $\kappa = \Delta k + \gamma(P_1 + P_2) \approx \Delta k$.
+Considering a pump power $P_1+P_2 = \SI{1}{\W}$ and a sample length $L_{sample} = \SI{1}{\cm}$ we obtain
+\begin{equation}
+\left\{
+ 	\begin{aligned}
+		\gamma(P_1 + P_2) = \frac{n_2\omega}{cA_{eff}}P_0 = \frac{\SI{4.5e-18}{\m^2\per\W}}{}
+		\Delta k &= 2\beta_P - \beta_S - \beta_I = 0
+	\end{aligned}
+\right.
+\label{eq_f&pmc}
+\end{equation}
+
+since $\Delta k \gg \gamma(P_1 + P_2)$ almost always.
+In order to be efficient, the parametric process needs to verify the conservation of both energy and momentum, as given in Eq. (\ref{eq_f&pmc}).
 
 \section{Computational model}
+
+Our aim is to study how the generation of a new wave at different frequency through FWM is influenced by the different modes of the waveguide.
+Waveguide modes indeed react differently to the change of frequency and temperature of the system, which are the free variables of the problem.
+
 To understand the behaviour of the waveguide, it is first necessary to know how waves of different frequencies are transmitted through the waveguide.
 We chose to simulate the modes with temperature and frequency as a parameters.
 
 Our aim was to develop a model to work with an infrared laser pump with $\lambda_{p} = \SI{1.55}{\um}$.
-The reason for this choice is that silicon is transparent at these wavelength and also because of the availability of lasers that emit at the specific wavelength.
+The reasons are that silicon is transparent at these wavelength and also that lasers that emit at the specific wavelength are largely available.
 
 We narrowed our simulations to a frequency gap centered in $\omega_p = 2\pi \nu_p = 2\pi c / \lambda_{p}$.
-The gap chosen was precisely $[\SI{1.45}{\um} ,\, \SI{1.65}{\um}]$ or the equivalent $[\SI{182}{\THz} ,\, \SI{207}{\THz}]$.
-The temperature gap, on the other hand, was chosen to be $[\SI{0}{\K} - \SI{400}{\K}]$ over ambient temperature $T_{amb} = \SI{293.15}{\K} = \SI{20}{\celsius}$, that is $[\SI{293.15}{\K} - \SI{693.15}{\K}]$.
+The gap chosen was precisely $[\SI{1.45}{\um} ,\, \SI{1.65}{\um}]$ or the equivalent $[\SI{182}{\THz} ,\, \SI{207}{\THz}]$, because we have tunable lasers which work in this spectral range.
+The temperature gap, on the other hand, was chosen to be $[\SI{0}{\K} - \SI{400}{\K}]$ over ambient temperature $T_{amb} = \SI{293.15}{\K} = \SI{20}{\celsius}$, that is $[\SI{293.15}{\K} - \SI{693.15}{\K}]$. It is reasonable to heat the silicon up to \SI{400}{\celsius}.
 
 \subsection{Simulation}
 To obtain definite solutions, we had to assign the materials and a geometry to the problem first.
@@ -411,7 +446,7 @@ To obtain definite solutions, we had to assign the materials and a geometry to t
 	\caption{Section of the rectangular waveguide}
 \end{figure}
 
-We modelized a dielectric waveguide with a silicon (Si) core \SI{3}{\um} wide and \SI{.25}{\um} high.
+We modelled a dielectric waveguide with a silicon (Si) core \SI{3}{\um} wide and \SI{.25}{\um} high.
 The cladding was set to be silica (SiO2) and coated the top of the core with a thickness of \SI{.35}{\um}.
 For both materials was defined a refractive index dependent on the wavelength $n=n(\lambda)$, as given by the empirical relationship called \textit{Sellmeier equation}:
 \begin{equation}
@@ -421,8 +456,7 @@ For both materials was defined a refractive index dependent on the wavelength $n
 where the weights are defined experimentally and vary depending on the material.
 
 We positioned a thermal reservoir, a ``\textit{heater}", \SI{0.3}{\um} wide at the top of the cladding, exactly over the center of the waveguide core and set to mantain a specific temperature $T_H$ in the gap $[\SI{293.15}{\K} - \SI{693.15}{\K}]$, given by the configuration chosen.
-To **** 
-define the density $\rho$ in [\si{\kg\m^3}], the thermal conductivity $\kappa_{TH}$ in [\si{\W\per\m\per\K}] and the heat capacity $C_P$ in [\si{\J\per\kg\per\K}] of the different materials.
+To solve the heat equation we defined the density $\rho$ in [\si{\kg\m^3}], the thermal conductivity $\kappa_{TH}$ in [\si{\W\per\m\per\K}] and the heat capacity $C_P$ in [\si{\J\per\kg\per\K}] of the different materials.
 
 \begin{table}[ht]
 \centering
@@ -449,15 +483,15 @@ n = n(\lambda)+\mathrm{TOC}\cdot T
 where $\mathrm{TOC}|_{\mathrm{Si}} = \SI{1.87e-4}{\per\K}$\cite{n_db} is called Termo-Optic Coefficient. The coefficient of silica glass is negligible and therefore was considered zero $\mathrm{TOC}|_{\mathrm{SiO}_2} \approx 0$.
 
 \subsubsection{Numerical solution}
-Because the degrees of freedom of the problem were too many, we resorted to automated algorithms which gave us a numerical, and therefore approximate, solution.
+Since the degrees of freedom of the problem were too many, we resorted to automated algorithms which gave us a numerical, and therefore approximate, solution.
 
 \paragraph{Heat transfer: stationary solution}
 The first step was solving the equation for the heat transfer to obtain a stationary solution for each temperature in the gap.
 That means to know the local temperature for each position in the core and in the cladding, for each initial setup.
 
 It was necessary to set the boundary conditions: the two sides (left, right) and the bottom were considered as thermal reservoirs with a temperature $T = T_{amb} = \SI{293.15}{\K}$.
-The top was, instead, split into three sections: the heater, as we explained before, and the remaining two parts.
-Those were set to have a convective heat flux with air at ambient temperature.
+The top was, instead, split into three sections: the heater, as we explained previously, and the remaining two parts.
+These were set to have a convective heat flux with air at ambient temperature.
 Silica heat transfer coefficient was set to $\mathrm{HTC}_{\mathrm{SiO}_2} = \SI{5}{\W\per(\m^2\K)}$.
 
 It is important to note that the value of the heat transfer coefficient can vary a lot depending on the air motion.
@@ -467,14 +501,14 @@ We considered the typical laboratory condition.
 
 The second step was to find the different modes of the waveguide for each set of parameters, such as temperature and wavelength.
 
-We employed an automated algorithm to solve, in the frequency domain, the Helmholtz equation on a fine grid in the waveguide section.
+We employed an automated FEM algorithm to solve, in the frequency domain, the Helmholtz equation on a fine grid in the waveguide section.
 Each point of evaluation took into account the effective index of the material, slightly changed by the local temperature obtained by the stationary solution.
 
 As in the stationary solution of the heat transfer, we needed the boundary conditions.
 We set all four sides (top, bottom, left, right) to ``\texttt{scattering boundary condition}", which is a condition where the boundary is completely transparent to scattered waves.
-That means that the core and cladding is isolated from the outside. \ref{}
+That means that the core and cladding is isolated from the outside.
 
-This algorithm was set to find the eight modes which effective index $n_{eff}$ was closest to $n_{eff}=4$ in absolute value.
+This algorithm was set to find the eight modes whose effective index $n_{eff}$ was closest to $n_{eff}=4$ in absolute value.
 \subsubsection{Data output}
 We obtained the field distribution and a series of parameters as our data output for each parametric configuration.
 In particular the parameters were the effective index $n_{eff}$, the effective area $A_{eff}$ and the nonlinear parameter $\gamma$, for each mode and for each wavelength and temperature.
@@ -501,14 +535,14 @@ Specifically, we used a polynomial expression of fifth order in wavelength and s
 \subsubsection{Order combination}
 
 Due to the intrinsic symmetry of the problem (and thus of the integrals) not all combinations of orders can produce FWM.
-Only those in which the sum of the orders is an even number are interesting.
+Only those in which the sum of the orders is an even number are interesting, because only in those combinations the overlap integrals in Eq. (\ref{eq_coupled}) are not zero.
 To narrow the possible sets, we chose only full TE or full TM  combinations.
 
 We eventually obtained a list of combinations and for each one we evaluated the phase mismatch.
 
 \subsubsection{Conservation of energy and momentum}
 As it is, the phase mismatch is a function of the wavelenghts of pump, signal and idler.
-Imposing the conservation of energy,
+By imposing the conservation of energy,
 \begin{equation}
 2\omega_P = \omega_S + \omega_I
 \qquad \Longrightarrow \qquad
@@ -549,7 +583,7 @@ An example is given in Figure (\ref{fig_peaks}).
 \end{figure}
 
 We could therefore find the local maxima of such function and assume they are the centers of the peaks.
-If their position change significally while shifting the temperature, it means we are able to control the phase-match condition.
+If their position changes significantly while shifting the temperature, it means we are able to control the phase-match condition.
 
 Another important parameter is the width of the peak: to be consistent with the seletion criteria used in (\ref{eq_lcoh_crit}), we defined the bandwidth as the peak width at $L_{coh} = 1$.
 
@@ -646,17 +680,17 @@ Therefore we could not summarize the results with slopes and value at $T_{amb}$ 
 \subsection{Improvements}
 
 There are a few improvements which were not introduced in our study because of the limited time available.
-They could be eventually implemented in an extended study of the very same topic.
+They could be eventually implemented in an extended study of this topic.
 
 A rough list of them is proposed next:
 \begin{itemize}
 \item	The heater should be simulated as a metal conductor media, instead of a simple boundary condition, in addition to its thermal reservoir property. This is necessary because a metal plaque over the waveguide core could interfere with the wave propagation in the waveguide itself, drawing energy from the EM wave.
 
-\item	It should be considered the thermal expansion of materials.
-The thermal expansion coefficients of both silicon and silica are small but, on the other hand, the temperature change is quite high.
-It should not be easily considered as negligible contribution as it could change the waveguide geometry and therefore the modes.
+\item	Thermal expansion of materials should be considered.
+While the thermal expansion coefficients of both silicon and silica are small, the temperature change is quite high.
+It should not be lightly considered as a negligible contribution as it could change the waveguide geometry and therefore the modes.
 
-\item	The aim of this study was to understand if it was possible at all to control FWM with temperature.
+\item	The aim of this study was limited to understanding if it was possible at all to control FWM with temperature.
 It is also important to develop the correlation between temperature and efficiency of energy conversion from the pump to the idler.
 
 \item	As next step in enhancing the influence of temperature on effective index, different core geometries could be studied.
