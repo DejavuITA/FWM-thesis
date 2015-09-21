@@ -408,18 +408,19 @@ We can also define a length scale, known as the coherence length, using $L_{coh}
 Moreover significant FWM occurs if $L_{sam}<L_{coh}$ where $L_{sam}$ is the sample length.
 This definition allow us to make a further assumption, that is $\kappa = \Delta k + \gamma(P_1 + P_2) \approx \Delta k$.
 Considering a pump power $P_1+P_2 = \SI{1}{\W}$ and a sample length $L_{sample} = \SI{1}{\cm}$ we obtain
-\begin{equation}
+\begin{equation*}
 \left\{
  	\begin{aligned}
-		\gamma(P_1 + P_2) = \frac{n_2\omega}{cA_{eff}}P_0 = \frac{\SI{4.5e-18}{\m^2\per\W}}{}
-		\Delta k &= 2\beta_P - \beta_S - \beta_I = 0
+		\gamma(P_1 + P_2) &= \frac{n_2\omega}{cA_{eff}}P_0 = \frac{\SI{4.5e-18}{\m^2\per\W}}{c\SI{e-12}{\m^2}}\frac{2\pi c}{\SI{1.55e-6}{\m}}\SI{1}{\W} \approx \SI{20}{\per\m} \approx \SI{e1}{\per\m}\\
+		|\Delta k |&= \frac{2\pi}{L_{sam}} = \frac{2\pi}{\SI{1}{\cm}} \approx \SI{600}{\per\m} \approx \num{e2} - \SI{e3}{\per\m}
 	\end{aligned}
 \right.
 \label{eq_f&pmc}
-\end{equation}
+\end{equation*}
 
-since $\Delta k \gg \gamma(P_1 + P_2)$ almost always.
-In order to be efficient, the parametric process needs to verify the conservation of both energy and momentum, as given in Eq. (\ref{eq_f&pmc}).
+since |$\Delta k| \gg \gamma(P_1 + P_2)$ almost always we can consider it trascurable.
+
+Therefore, in order to be efficient, the parametric process needs to verify the conservation of both energy and momentum, as given in Eq. (\ref{eq_f&pmc}).
 
 \section{Computational model}
 
@@ -567,13 +568,6 @@ Again, we obtained a list containing only the combinations interesting for our p
 It is important to note that, in general, each combination could have more than one maximum of coherence length $L_{coh}$ in wavelength for each temperature value.
 
 \subsection{Data analysis}
-We studied the value of $L_{coh}$ of the selected configurations with a rough analysis of 3D plots of $L_{coh}(\lambda,T_{H})$.
-We observed the presence of different (mainly one or two) peaks in wavelength which were almost conserved in the temperature shift.
-
-Given the definition of function $L_{coh}$, its value should technically diverge in the proximity of phase-match condition.
-However, we evaluated the function on a discrete grid.
-Thus we had, as a matter of fact, a very peaked function of wavelength most of the time.
-An example is given in Figure (\ref{fig_peaks}).
 
 \begin{figure}[!h]
 	\centering
@@ -581,6 +575,14 @@ An example is given in Figure (\ref{fig_peaks}).
 	\caption{Example of $L_{coh}$ at $T_H$ fixed.}
 	\label{fig_peaks}
 \end{figure}
+
+We studied the value of $L_{coh}$ of the selected configurations with a rough analysis of 3D plots of $L_{coh}(\lambda,T_{H})$.
+We observed the presence of different (mainly one or two) peaks in wavelength which were almost conserved in the temperature shift.
+
+Given the definition of function $L_{coh}$, its value should technically diverge in the proximity of phase-match condition.
+However, we evaluated the function on a discrete grid.
+Thus we had, as a matter of fact, a very peaked function of wavelength most of the time.
+An example is given in Figure (\ref{fig_peaks}).
 
 We could therefore find the local maxima of such function and assume they are the centers of the peaks.
 If their position changes significantly while shifting the temperature, it means we are able to control the phase-match condition.
@@ -628,14 +630,14 @@ Therefore we summarized them by collecting the slopes and the value of the funct
 
 \begin{figure}[h!]
 	\centering
-	\begin{subfigure}[b]{0.45\textwidth}
-		\includegraphics[width=1\textwidth]{ppaat2.pdf}
+	\begin{subfigure}[b]{0.75\textwidth}
+		\includegraphics[width=1\textwidth]{ppaat2.png}
 		\label{fig_sym_pp@t2} 	% pp@t = bandwidth @ T_amb,
 								% 2 = no points at 1.55um
 		\caption{Peaks position at $T_{amb}$.}
-	\end{subfigure}\hspace{.05\textwidth}
-	\begin{subfigure}[b]{0.45\textwidth}
-		\includegraphics[width=1\textwidth]{ppc2.pdf}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.75\textwidth}
+		\includegraphics[width=1\textwidth]{ppc2.png}
 		\label{fig_sym_ppc2} % ppc = bandwidth change
 		\caption{Change of peak position.}
 	\end{subfigure}
@@ -645,13 +647,13 @@ Therefore we summarized them by collecting the slopes and the value of the funct
 
 \begin{figure}[h!]
 	\centering
-	\begin{subfigure}[b]{0.45\textwidth}
-		\includegraphics[width=1\textwidth]{baat2.pdf}
+	\begin{subfigure}[b]{0.75\textwidth}
+		\includegraphics[width=1\textwidth]{baat2.png}
 		\label{fig_sym_b@t2} % b@t = bandwidth @ T_amb
 		\caption{Bandwidth at $T_{amb}$.}
-	\end{subfigure}\hspace{.05\textwidth}
-	\begin{subfigure}[b]{0.45\textwidth}
-		\includegraphics[width=1\textwidth]{bc2.pdf}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.75\textwidth}
+		\includegraphics[width=1\textwidth]{bc2.png}
 		\label{fig_sym_bc2} % bc = bandwidth change
 		\caption{Change of bandwidth.}
 	\end{subfigure}

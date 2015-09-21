@@ -419,44 +419,74 @@ clear ans xGrid yGrid zdata zData rr jj tt y y2 maxL locs bw fitresult f name su
 
 %% 2D plots data vs orders
 
-tmp = [];
+tmp = [''];
 for jj=1:length(results.indexes)
     tmp = [tmp; num2str(pm.comb( 2,:,results.indexes(jj) ) ) ];
 end
+tmp = [tmp; '' ];
+tmp = cellstr(tmp)';
 
-f = figure('name', 'peak position at ambient temperature');
-axes1 = axes('Parent',f,...%'YGrid','on','XGrid','on',...
-    'XTickLabel', {'   ',mat2cell( squeeze( pm.comb(2,:,results.indexes) )', ones(length(results.indexes),1), 3 ),'   '},...
-    'XTickLabelRotation', 90,...
-    'XTick', {0:1:length(results.indexes+1)},...
+f = figure('name', 'Peak position at ambient temperature');
+axes1 = axes('Parent',f,'XGrid','on','YGrid','on',...
+    'XTickLabelRotation', 60,...
+    'XTick', [1:1:length(results.indexes)],...
+    'XTickLabel', tmp,...
     'LineStyleOrderIndex',2);
 hold(axes1,'on');
-title('Peaks position at ambient temperature [\mum]');
+title('Peak position at ambient temperature [µm]');
 plot( 1e6*results.max.q(results.indexes,1:end), 'o' );
-ylabel({'Position [\mum]'});
+xlim([0 length(results.indexes)+1])
+ylabel({'Position [µm]'});
 xlabel({'Combination'});
 
-saveas(f, 'ppaat', 'png');
+saveas(1, 'ppaat', 'png');
 
-f = figure('name', 'peak position: m');
-title('Change in peaks position [nm/100°C]');
-hold on;
+f = figure('name', 'Change in peaks position [nm/100°C]');
+axes1 = axes('Parent',f,'XGrid','on','YGrid','on',...
+    'XTickLabelRotation', 60,...
+    'XTick', [1:1:length(results.indexes)],...
+    'XTickLabel', tmp,...
+    'LineStyleOrderIndex',2);
+hold(axes1,'on');
+title('Change in peak position [nm/100°C]');
 plot( 1e11*results.max.m(results.indexes,1:end), 'o' );
-saveas(f, 'ppc', 'png');
+xlim([0 length(results.indexes)+1])
+ylabel({'Δ-position [nm/100°C]'});
+xlabel({'Combination'});
 
-f = figure('name', 'bandwidth');
+saveas(2, 'ppc', 'png');
+
+f = figure('name', 'Bandwidth [nm]');
+axes1 = axes('Parent',f,'XGrid','on','YGrid','on',...
+    'XTickLabelRotation', 60,...
+    'XTick', [1:1:length(results.indexes)],...
+    'XTickLabel', tmp,...
+    'LineStyleOrderIndex',2);
+hold(axes1,'on');
 title('Bandwidth at ambient temperature [nm]');
-hold on;
 plot( 1e9*results.bw.q(results.indexes,1:end), 'o' );
-saveas(f, 'baat', 'png');
+xlim([0 length(results.indexes)+1])
+ylabel({'Bandwidth [nm]'});
+xlabel({'Combination'});
 
-f = figure('name', 'bandwidth: m');
-title('Bandwidth change [nm/100°C]');
-hold on;
+saveas(3, 'baat', 'png');
+
+f = figure('name', 'Change in bandwidth [nm/100°C]');
+axes1 = axes('Parent',f,'XGrid','on','YGrid','on',...
+    'XTickLabelRotation', 60,...
+    'XTick', [1:1:length(results.indexes)],...
+    'XTickLabel', tmp,...
+    'LineStyleOrderIndex',2);
+hold(axes1,'on');
+title('Change in bandwidth [nm/100°C]');
 plot( 1e11*results.bw.m(results.indexes,1:end), 'o' );
-saveas(1, 'bc', 'png');
+xlim([0 length(results.indexes)+1])
+ylabel({'Δ-bandwidth [nm/100°C]'});
+xlabel({'Combination'});
 
-%% 2D plots data vs orders, w/out degenerate states
+saveas(4, 'bc', 'png');
+
+% 2D plots data vs orders, w/out degenerate states
 
 results.indexes2 = [];
 for jj=1:results.n_final
@@ -466,29 +496,72 @@ for jj=1:results.n_final
 end
 clear jj
 
+tmp = [''];
+for jj=1:length(results.indexes2)
+    tmp = [tmp; num2str(pm.comb( 2,:,results.indexes2(jj) ) ) ];
+end
+tmp = [tmp; '' ];
+tmp = cellstr(tmp)';
+
 f = figure('name', 'peak position at ambient temperature');
-title('peak position at ambient temperature [um]');
-hold on;
+axes1 = axes('Parent',f,'XGrid','on','YGrid','on',...
+    'XTickLabelRotation', 60,...
+    'XTick', [1:1:length(results.indexes2)],...
+    'XTickLabel', tmp,...
+    'LineStyleOrderIndex',2);
+hold(axes1,'on');
+title('Peak position at ambient temperature [µm]');
 plot( 1e6*results.max.q(results.indexes2,1:end), 'o' );
-saveas(f, 'ppaat2', 'pdf');
+xlim([0 length(results.indexes2)+1])
+ylabel({'Position [µm]'});
+xlabel({'Combination'});
 
-f = figure('name', 'peak position: m');
-title('peak position change [nm/100°C]');
-hold on;
+saveas(5, 'ppaat2', 'png');
+
+f = figure('name', 'Change in peak position [nm/100°C]');
+axes1 = axes('Parent',f,'XGrid','on','YGrid','on',...
+    'XTickLabelRotation', 60,...
+    'XTick', [1:1:length(results.indexes2)],...
+    'XTickLabel', tmp,...
+    'LineStyleOrderIndex',2);
+hold(axes1,'on');
+title('Change in peak position [nm/100°C]');
 plot( 1e11*results.max.m(results.indexes2,1:end), 'o' );
-saveas(f, 'ppc2', 'pdf');
+xlim([0 length(results.indexes2)+1])
+ylabel({'Δ-position [nm/100°C]'});
+xlabel({'Combination'});
 
-f = figure('name', 'bandwidth');
-title('bandwidth at ambient temperature [nm]');
-hold on;
+saveas(6, 'ppc2', 'png');
+
+f = figure('name', 'Bandwidth [nm]');
+axes1 = axes('Parent',f,'XGrid','on','YGrid','on',...
+    'XTickLabelRotation', 60,...
+    'XTick', [1:1:length(results.indexes2)],...
+    'XTickLabel', tmp,...
+    'LineStyleOrderIndex',2);
+hold(axes1,'on');
+title('Bandwidth at ambient temperature [nm]');
 plot( 1e9*results.bw.q(results.indexes2,1:end), 'o' );
-saveas(f, 'baat2', 'pdf');
+xlim([0 length(results.indexes2)+1])
+ylabel({'Bandwidth [nm]'});
+xlabel({'Combination'});
 
-f = figure('name', 'bandwidth: m');
-title('bandwidth change [nm/100°C]');
-hold on;
+saveas(7, 'baat2', 'png');
+
+f = figure('name', 'Change in bandwidth [nm/100°C]');
+axes1 = axes('Parent',f,'XGrid','on','YGrid','on',...
+    'XTickLabelRotation', 60,...
+    'XTick', [1:1:length(results.indexes2)],...
+    'XTickLabel', tmp,...
+    'LineStyleOrderIndex',2);
+hold(axes1,'on');
+title('Change in bandwidth [nm/100°C]');
 plot( 1e11*results.bw.m(results.indexes2,1:end), 'o' );
-saveas(f, 'bc2', 'pdf');
+xlim([0 length(results.indexes2)+1])
+ylabel({'Δ-bandwidth [nm/100°C]'});
+xlabel({'Combination'});
+
+saveas(8, 'bc2', 'png');
 
 clear f
 

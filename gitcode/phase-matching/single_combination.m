@@ -421,7 +421,7 @@ if pm.comb(1,1) == 1
 else
     TE = ' TM: ';
 end
-name = strcat( 'Peaks position of combination ',TE,[' ', num2str(pm.comb(2,:))] );
+name = strcat( 'Peak position of combination ',TE,[' ', num2str(pm.comb(2,:))] );
 f = figure('name', name); % 'OuterPosition',[100, 100, 960, 480]
 axes1 = axes('Parent',f);
 hold(axes1,'on');
@@ -433,7 +433,7 @@ ylim(axes1, [1.4 1.7] );
 xlabel({'T_H [K]'});
 
 % Create ylabel
-ylabel({'\lambda [\mum]'});
+ylabel({'λ [µm]'});
 
 % Create title
 title(name);
@@ -475,12 +475,13 @@ clear TE name
 f = figure('name', 'sol27 213 sym');
 axes1 = axes('Parent',f);
 hold(axes1,'on');
-plot(vec.sample_wlen,f_Lcoh_cm(wlen_grid(1,:), temp_grid(1,:)) )
+plot(1e6.*vec.sample_wlen,f_Lcoh_cm(wlen_grid(1,:), temp_grid(1,:)) )
 ylim([0 2]);
-xlabel({'\lambda [\mum]'});
+xlim([1.45 1.65])
+xlabel({'λ [µm]'});
 ylabel({'L_{coh} [cm]'});
-title('L_{coh}(\lambda) at T_H = T_{amb} = 293.15 K');
-plot(vec.sample_wlen, ones(pm.n_sample_wl,1), '--')
+title('L_{coh}(λ) at T_H = T_{amb} = 293.15 K');
+plot(1e6.*vec.sample_wlen, ones(pm.n_sample_wl,1), '--')
 %}
 %%  import asym, sol 213, and print L_coh [cm] (λ) @ T_amb = 293.15
 %{
@@ -492,7 +493,7 @@ axes1 = axes('Parent',f);
 hold(axes1,'on');
 plot(vec.sample_wlen,f_Lcoh_cm(wlen_grid(1,:), temp_grid(1,:)) )
 ylim([0 2]);
-xlabel({'\lambda [\mum]'});
+xlabel({'λ [\mum]'});
 ylabel({'L_{coh} [cm]'});
 title('L_{coh}(\lambda) at T_H = T_{amb} = 293.15 K');
 plot(vec.sample_wlen, ones(pm.n_sample_wl,1), '--')
@@ -506,7 +507,7 @@ axes1 = axes('Parent',f);
 hold(axes1,'on');
 plot(vec.sample_wlen,f_Lcoh_cm(wlen_grid(1,:), temp_grid(1,:)) )
 ylim([0 2]);
-xlabel({'\lambda [\mum]'});
+xlabel({'λ [\mum]'});
 ylabel({'L_{coh} [cm]'});
 title('L_{coh}(\lambda) at T_H = T_{amb} = 293.15 K');
 plot(vec.sample_wlen, ones(pm.n_sample_wl,1), '--')
