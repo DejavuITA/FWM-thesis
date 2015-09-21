@@ -413,7 +413,7 @@ end
 results.indexes = find(results.indexes == 1);
 results.n_final = length(results.indexes);
 toc
-%%
+
 clear ans xGrid yGrid zdata zData rr jj tt y y2 maxL locs bw fitresult f name subplot1 subplot2 top
 
 %% 2D plots data vs orders

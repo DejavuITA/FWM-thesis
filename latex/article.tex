@@ -16,6 +16,9 @@
 \usepackage{caption}		% to use subfigure
 \usepackage{subcaption}
 
+
+\usepackage{svg}			% to include svgs
+
 \author{Davide Bazzanella}
 \title{Improving phase-matching of FWM with temperature}
 
@@ -154,7 +157,7 @@ Is then possible to study the propagation of the wave along the waveguide using 
 \begin{align}
 	\frac{\partial^2F(x,y)}{\partial x^2} + \frac{\partial^2F(x,y)}{\partial y^2} + \left[ k_0^2n^2(x,y)-\beta^2\right]F(x,y) = 0
 	\label{eq_wg_a} \\
-	\frac{\partial^2\tilde{A}(z,\omega)}{\partial z^2} +2\mathrm{i}\beta\frac{\partial \tilde{A}(z,\omega)}{\partial z} +3n^2k_0^2\tilde{A}(z,\omega) = 0
+	\frac{\partial^2\tilde{A}(z,\omega)}{\partial z^2} +2\mathrm{i}\beta\frac{\partial \tilde{A}(z,\omega)}{\partial z} -n^2k_0^2\tilde{A}(z,\omega) = 0
 	\quad ! \neq ! \quad
 	2\mathrm{i}\beta_0\frac{\partial \tilde{A}(z,\omega)}{\partial z} +(\tilde{\beta}^2 - \beta_0^2)\tilde{A}(z,\omega) = 0
 	\label{eq_wg_b}
@@ -165,7 +168,7 @@ where $k_0$ is the wavevector in vacuum and $n=n(x,y)$ is a function of the posi
 The first equation, once solved, leads to the field distribution $F(x,y)$ in the plane perpendicular to the waveguide axis ($\hat{z}$).
 Its solution is strictly linked to the geometry of the waveguide and to the dependence of the refractive index $n$ to the position in the plane.
 
-The second equation (\ref{eq_wg_b}), on the other hand, define the change of field distribution along the $\hat{z}$ axis, or the waveguide axis.
+The second equation (\ref{eq_wg_b}), on the other hand, defines the change of field distribution along the $\hat{z}$ axis, or the waveguide axis.
 Imposing to this equation to be zero means that we force the field distribution $F$ not to change.
 Indeed not all field distributions are transmitted through the waveguide without energy loss \textbf{(?)} and thus without changing $F$.
 % Modes are fields that maintain the same transverse distribution and polarization at all locations along the waveguide axis.
@@ -486,6 +489,7 @@ The number of maxima of the modulus of the field showed us the order of the mode
 We obtained then a well organized data matrix filled with the value of effective index $n_{eff}$, effective area $A_{eff}$ and nonlinear parameter $\gamma$ for each combination of parameters.
 
 \subsection{Data processing}
+We focused on the information given by the effective index.
 
 \subsubsection{Polynomial fit}
 Starting from raw data consisting of the effective index for each parametric configuration, we fitted them with a polinomial function of frequency $\omega = 2\pi \nu$ or $\lambda$ and temperature $T$, obtaining:
@@ -549,30 +553,44 @@ If their position change significally while shifting the temperature, it means w
 
 Another important parameter is the width of the peak: to be consistent with the seletion criteria used in (\ref{eq_lcoh_crit}), we defined the bandwidth as the peak width at $L_{coh} = 1$.
 
-We obtained graphs representing the position and the bandwidth of peaks vs temperature of each solution, as shown if Figure (\ref{fig_examples}).
+We obtained graphs representing the position and the bandwidth of peaks vs temperature of each solution, as shown in Figures (\ref{fig_example_position}) and (\ref{fig_example_bandwidth}).
 
 \begin{figure}[!h]
 	\centering
-	\begin{subfigure}[b]{0.45\textwidth}
-		\includegraphics[width=1\textwidth]{ex_pos.png}
-		\caption{Example of peaks vs $T_H$.}
-		\label{fig_example_position}
-	\end{subfigure}\hspace{.05\textwidth}
-	\begin{subfigure}[b]{0.45\textwidth}
-		\includegraphics[width=1\textwidth]{ex_bw.png}
-		\caption{Example of bandwidth vs $T_H$.}
-		\label{fig_example_bandwidth}
-	\end{subfigure}
-	\caption{Examples of peaks position and bandwidth dependence on temperature $T_H$}
-	\label{fig_examples}
+	\includegraphics[width=.75\textwidth]{ex_pos.png}
+	\caption{Example of peaks vs $T_H$.}
+	\label{fig_example_position}
 \end{figure}
+\begin{figure}[!h]
+	\centering
+%	\includegraphics[scale=1]{ex_bw.png}
+	\includegraphics[width=.75\textwidth]{ex_bw.png}
+	\caption{Example of bandwidth vs $T_H$.}
+	\label{fig_example_bandwidth}
+\end{figure}
+
+%\begin{figure}[!h]
+%	\centering
+%	\begin{subfigure}[b]{0.45\textwidth}
+%		\includegraphics[width=1\textwidth]{ex_pos.png}
+%		\caption{Example of peaks vs $T_H$.}
+%		\label{fig_example_position}
+%	\end{subfigure}%\hspace{.02\textwidth}
+%	\begin{subfigure}[b]{0.45\textwidth}
+%		\includegraphics[width=1\textwidth]{ex_bw.png}
+%		\caption{Example of bandwidth vs $T_H$.}
+%		\label{fig_example_bandwidth}
+%	\end{subfigure}
+%	\caption{Examples of peaks position and bandwidth dependence on temperature $T_H$}
+%	\label{fig_examples}
+%\end{figure}
 
 \section{Results}
 \subsubsection{data aggregation}
 Examining the graphs obtained from the data analysis of the symmetric configuration, we noticed that for each solution selected there were one or two straight lines.
 Therefore we summarized them by collecting the slopes and the value of the functions at ambient temperature.
 
-The next Figures (\ref{fig_sym_pp}) and (\ref{fig_sym_bw}) show the results obtained, excluding the sets which only phasematch was at $\lambda = \SI{1.55}{\um}$
+%The next Figures (\ref{fig_sym_pp}) and (\ref{fig_sym_bw}) show the results obtained, excluding the sets which only phasematch was at $\lambda = \SI{1.55}{\um}$
 
 \begin{figure}[h!]
 	\centering

@@ -225,9 +225,9 @@ else
     % overwrite here
     TE      = true;
     %TE      = false;
-    pump    = 4;
-    signal  = 3;
-    idler   = 5;
+    pump    = 2;
+    signal  = 1;
+    idler   = 3;
     if TE
         pm.comb = [1, 1, 1; pump, signal, idler];
     else
@@ -470,3 +470,47 @@ title(name);
 toc
 
 clear TE name
+
+%%  import  sym, sol 213, and print L_coh [cm] (λ) @ T_amb = 293.15
+%{
+[wlen_grid, temp_grid]  = meshgrid(vec.sample_wlen, vec.sample_temp);
+
+f = figure('name', 'sol27 213 sym');
+axes1 = axes('Parent',f);
+hold(axes1,'on');
+plot(vec.sample_wlen,f_Lcoh_cm(wlen_grid(1,:), temp_grid(1,:)) )
+ylim([0 2]);
+xlabel({'\lambda [\mum]'});
+ylabel({'L_{coh} [cm]'});
+title('L_{coh}(\lambda) at T_H = T_{amb} = 293.15 K');
+plot(vec.sample_wlen, ones(pm.n_sample_wl,1), '--')
+%}
+%%  import asym, sol 213, and print L_coh [cm] (λ) @ T_amb = 293.15
+%{
+
+[wlen_grid, temp_grid]  = meshgrid(vec.sample_wlen, vec.sample_temp);
+
+f = figure('name', 'sol27 213 asym');
+axes1 = axes('Parent',f);
+hold(axes1,'on');
+plot(vec.sample_wlen,f_Lcoh_cm(wlen_grid(1,:), temp_grid(1,:)) )
+ylim([0 2]);
+xlabel({'\lambda [\mum]'});
+ylabel({'L_{coh} [cm]'});
+title('L_{coh}(\lambda) at T_H = T_{amb} = 293.15 K');
+plot(vec.sample_wlen, ones(pm.n_sample_wl,1), '--')
+%}
+%%  import bsym, sol 213, and print L_coh [cm] (λ) @ T_amb = 293.15
+%{
+[wlen_grid, temp_grid]  = meshgrid(vec.sample_wlen, vec.sample_temp);
+
+f = figure('name', 'sol27 213 bsym');
+axes1 = axes('Parent',f);
+hold(axes1,'on');
+plot(vec.sample_wlen,f_Lcoh_cm(wlen_grid(1,:), temp_grid(1,:)) )
+ylim([0 2]);
+xlabel({'\lambda [\mum]'});
+ylabel({'L_{coh} [cm]'});
+title('L_{coh}(\lambda) at T_H = T_{amb} = 293.15 K');
+plot(vec.sample_wlen, ones(pm.n_sample_wl,1), '--')
+%}
