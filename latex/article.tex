@@ -15,6 +15,7 @@
 
 \usepackage{caption}		% to use subfigure
 \usepackage{subcaption}
+\usepackage{sidecap}
 
 
 \usepackage{svg}			% to include svgs
@@ -553,6 +554,10 @@ we obtained the only frequency permitted for $\omega_I$.
 
 We replaced its value in the conservation of momentum formula, giving us the phase mismatch as a function of signal wavelength and temperature of the heater only, for each set of orders.
 
+\begin{equation}
+	\Delta k = 2\beta_P(\omega_P)-\beta_S(\omega_S)-\beta_I(2\omega_P-\omega_S)
+\end{equation}
+
 Then, starting from the fits of the effective index at different wavelengths and temperatures, we evaluated the phase mismatch of all sets.
 The evaluation was made on a grid of temperature and signal wavelength arbitrarily dense.
 
@@ -567,8 +572,6 @@ Again, we obtained a list containing only the combinations interesting for our p
 
 It is important to note that, in general, each combination could have more than one maximum of coherence length $L_{coh}$ in wavelength for each temperature value.
 
-\subsection{Data analysis}
-
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=.75\textwidth]{delta_example.png}
@@ -576,6 +579,7 @@ It is important to note that, in general, each combination could have more than 
 	\label{fig_peaks}
 \end{figure}
 
+\subsection{Data analysis}
 We studied the value of $L_{coh}$ of the selected configurations with a rough analysis of 3D plots of $L_{coh}(\lambda,T_{H})$.
 We observed the presence of different (mainly one or two) peaks in wavelength which were almost conserved in the temperature shift.
 
@@ -591,28 +595,28 @@ Another important parameter is the width of the peak: to be consistent with the 
 
 We obtained graphs representing the position and the bandwidth of peaks vs temperature of each solution, as shown in Figures (\ref{fig_example_position}) and (\ref{fig_example_bandwidth}).
 
-\begin{figure}[!h]
+\begin{SCfigure}%[!h]
 	\centering
-	\includegraphics[width=.75\textwidth]{ex_pos.png}
-	\caption{Example of peaks vs $T_H$.}
+	\includegraphics[width=.64\textwidth]{ex_pos.png}
+	\caption{Example of peak position vs $T_H$.}
 	\label{fig_example_position}
-\end{figure}
-\begin{figure}[!h]
+\end{SCfigure}
+\begin{SCfigure}%[!h]
 	\centering
 %	\includegraphics[scale=1]{ex_bw.png}
-	\includegraphics[width=.75\textwidth]{ex_bw.png}
+	\includegraphics[width=.64\textwidth]{ex_bw.png}
 	\caption{Example of bandwidth vs $T_H$.}
 	\label{fig_example_bandwidth}
-\end{figure}
+\end{SCfigure}
 
 %\begin{figure}[!h]
 %	\centering
-%	\begin{subfigure}[b]{0.45\textwidth}
+%	\begin{subfigure}[b]{0.49\textwidth}
 %		\includegraphics[width=1\textwidth]{ex_pos.png}
 %		\caption{Example of peaks vs $T_H$.}
 %		\label{fig_example_position}
 %	\end{subfigure}%\hspace{.02\textwidth}
-%	\begin{subfigure}[b]{0.45\textwidth}
+%	\begin{subfigure}[b]{0.49\textwidth}
 %		\includegraphics[width=1\textwidth]{ex_bw.png}
 %		\caption{Example of bandwidth vs $T_H$.}
 %		\label{fig_example_bandwidth}
@@ -625,24 +629,26 @@ We obtained graphs representing the position and the bandwidth of peaks vs tempe
 \subsubsection{data aggregation}
 Examining the graphs obtained from the data analysis of the symmetric configuration, we noticed that for each solution selected there were one or two straight lines.
 Therefore we summarized them by collecting the slopes and the value of the functions at ambient temperature.
+To make the graphs easier to read, we excluded set of data the pointsof no interest: those which peak had the same frequency $\omega_P = \SI{1.55}{\um}$ of the pump.
 
+The first Figure (\ref{fig_sym_pp@t2}) tell us where we found phase-matching condition.
+We can see that every set has its symmetric one.
+For example, combination \texttt{517} is the symmetric of \texttt{571}.
+In the coupled equations and in the 
 %The next Figures (\ref{fig_sym_pp}) and (\ref{fig_sym_bw}) show the results obtained, excluding the sets which only phasematch was at $\lambda = \SI{1.55}{\um}$
 
-\begin{figure}[h!]
+\begin{figure}[!h]
 	\centering
-	\begin{subfigure}[b]{0.75\textwidth}
-		\includegraphics[width=1\textwidth]{ppaat2.png}
-		\label{fig_sym_pp@t2} 	% pp@t = bandwidth @ T_amb,
-								% 2 = no points at 1.55um
-		\caption{Peaks position at $T_{amb}$.}
-	\end{subfigure}
-	\begin{subfigure}[b]{0.75\textwidth}
-		\includegraphics[width=1\textwidth]{ppc2.png}
-		\label{fig_sym_ppc2} % ppc = bandwidth change
-		\caption{Change of peak position.}
-	\end{subfigure}
-	\caption{Peak position summary}
-	\label{fig_sym_pp}
+	\includegraphics[width=.75\textwidth]{ppaat2.png}
+	\caption{Peak position at $T_{amb}$. The label of the x axis are to be read as pump-signal-idler orders.}
+	\label{fig_sym_pp@t2} 	% pp@t = bandwidth @ T_amb, 2 = no points at 1.55um
+\end{figure}
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=.75\textwidth]{ppc2.png}
+	\caption{Change of peak position.}
+	\label{fig_sym_ppc2} % ppc = bandwidth change
 \end{figure}
 
 \begin{figure}[h!]

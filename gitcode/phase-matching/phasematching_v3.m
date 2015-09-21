@@ -64,7 +64,7 @@ pm.low_w = 1.45e-6;             % [m]
 pm.high_w = 1.65e-6;            % [m]
 
 % number of points in wlen interval [low_w, high_w]
-pm.n_sample_wl = 3001;              % should be an odd number, to center the pump wlen.
+pm.n_sample_wl = 601;              % should be an odd number, to center the pump wlen.
 pm.step = (pm.high_w - pm.low_w)/(pm.n_sample_wl - 1);
 
 vec.sample_wlen = zeros(pm.n_sample_wl,1);
@@ -73,7 +73,7 @@ for ww=1:pm.n_sample_wl
 end
 
 % sampling temperature
-pm.n_sample_t = 301;
+pm.n_sample_t = 201;
 pm.step_t = (vec.temp(end) - vec.temp(1) )/(pm.n_sample_t - 1);
 
 vec.sample_temp = zeros(pm.n_sample_t,1);
@@ -238,7 +238,7 @@ tic
 % creat grid of evaluation
 [~, pgrid]      = meshgrid(vec.sample_temp, pm.pump_w.*ones(pm.n_sample_wl,1));
 [ygrid, sgrid]  = meshgrid(vec.sample_temp, vec.sample_wlen);
-[~, igrid]      = meshgrid(vec.sample_temp, 2*pm.pump_w - vec.sample_wlen);
+[~, igrid]      = meshgrid(vec.sample_temp, 1./(2/pm.pump_w - 1./vec.sample_wlen));
 
 for ww=1:par.n_wg_wid                                   % number of widths
     for hh=1:par.n_wg_hgt                               % number of heights
@@ -439,7 +439,7 @@ xlim([0 length(results.indexes)+1])
 ylabel({'Position [µm]'});
 xlabel({'Combination'});
 
-saveas(1, 'ppaat', 'png');
+%saveas(1, 'ppaat', 'png');
 
 f = figure('name', 'Change in peaks position [nm/100°C]');
 axes1 = axes('Parent',f,'XGrid','on','YGrid','on',...
@@ -454,7 +454,7 @@ xlim([0 length(results.indexes)+1])
 ylabel({'Δ-position [nm/100°C]'});
 xlabel({'Combination'});
 
-saveas(2, 'ppc', 'png');
+%saveas(2, 'ppc', 'png');
 
 f = figure('name', 'Bandwidth [nm]');
 axes1 = axes('Parent',f,'XGrid','on','YGrid','on',...
@@ -469,7 +469,7 @@ xlim([0 length(results.indexes)+1])
 ylabel({'Bandwidth [nm]'});
 xlabel({'Combination'});
 
-saveas(3, 'baat', 'png');
+%saveas(3, 'baat', 'png');
 
 f = figure('name', 'Change in bandwidth [nm/100°C]');
 axes1 = axes('Parent',f,'XGrid','on','YGrid','on',...
@@ -484,7 +484,7 @@ xlim([0 length(results.indexes)+1])
 ylabel({'Δ-bandwidth [nm/100°C]'});
 xlabel({'Combination'});
 
-saveas(4, 'bc', 'png');
+%saveas(4, 'bc', 'png');
 
 % 2D plots data vs orders, w/out degenerate states
 
@@ -516,7 +516,7 @@ xlim([0 length(results.indexes2)+1])
 ylabel({'Position [µm]'});
 xlabel({'Combination'});
 
-saveas(5, 'ppaat2', 'png');
+%saveas(5, 'ppaat2', 'png');
 
 f = figure('name', 'Change in peak position [nm/100°C]');
 axes1 = axes('Parent',f,'XGrid','on','YGrid','on',...
@@ -531,7 +531,7 @@ xlim([0 length(results.indexes2)+1])
 ylabel({'Δ-position [nm/100°C]'});
 xlabel({'Combination'});
 
-saveas(6, 'ppc2', 'png');
+%saveas(6, 'ppc2', 'png');
 
 f = figure('name', 'Bandwidth [nm]');
 axes1 = axes('Parent',f,'XGrid','on','YGrid','on',...
@@ -546,7 +546,7 @@ xlim([0 length(results.indexes2)+1])
 ylabel({'Bandwidth [nm]'});
 xlabel({'Combination'});
 
-saveas(7, 'baat2', 'png');
+%saveas(7, 'baat2', 'png');
 
 f = figure('name', 'Change in bandwidth [nm/100°C]');
 axes1 = axes('Parent',f,'XGrid','on','YGrid','on',...
@@ -561,9 +561,28 @@ xlim([0 length(results.indexes2)+1])
 ylabel({'Δ-bandwidth [nm/100°C]'});
 xlabel({'Combination'});
 
+%saveas(8, 'bc2', 'png');
+
+saveas(1, 'ppaat', 'png');
+saveas(2, 'ppc', 'png');
+saveas(3, 'baat', 'png');
+saveas(4, 'bc', 'png');
+saveas(5, 'ppaat2', 'png');
+saveas(6, 'ppc2', 'png');
+saveas(7, 'baat2', 'png');
 saveas(8, 'bc2', 'png');
 
 clear f
+
+%% max & min
+%{
+tmp = [''];
+for jj=1:length(results.indexes2)
+    tmp = [tmp; num2str(pm.comb( 2,:,results.indexes2(jj) ) ) ];
+end
+tmp = [tmp; '' ];
+tmp = cellstr(tmp)';
+%}
 
 %% SAVING
 
