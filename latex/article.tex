@@ -408,7 +408,7 @@ For a solution that includes pump depletion it is necessary to solve exactly the
 We can also define a length scale, known as the coherence length, using $L_{coh} = 2\pi/|\Delta\kappa|$, where $\Delta\kappa$ is the maximum value of the effective phase mismatch that can be tolerated.
 Moreover significant FWM occurs if $L_{sam}<L_{coh}$ where $L_{sam}$ is the sample length.
 This definition allow us to make a further assumption, that is $\kappa = \Delta k + \gamma(P_1 + P_2) \approx \Delta k$.
-Considering a pump power $P_1+P_2 = \SI{1}{\W}$ and a sample length $L_{sample} = \SI{1}{\cm}$ we obtain
+Considering a peak power $P_1+P_2 = \SI{1}{\W}$ of the pump and a sample length $L_{sam} = \SI{1}{\cm}$ we obtain
 \begin{equation*}
 \left\{
  	\begin{aligned}
@@ -419,7 +419,7 @@ Considering a pump power $P_1+P_2 = \SI{1}{\W}$ and a sample length $L_{sample} 
 \label{eq_f&pmc}
 \end{equation*}
 
-since |$\Delta k| \gg \gamma(P_1 + P_2)$ almost always we can consider it trascurable.
+since $|\Delta k| \gg \gamma(P_1 + P_2)$ almost always we can consider it trascurable.
 
 Therefore, in order to be efficient, the parametric process needs to verify the conservation of both energy and momentum, as given in Eq. (\ref{eq_f&pmc}).
 
@@ -480,7 +480,7 @@ To solve the heat equation we defined the density $\rho$ in [\si{\kg\m^3}], the 
 Moreover, in order to be influenced by the different temperatures, we had to add to the definition of refractive index of the silicon a term dependent on the temperature.
 For our purpose this dependence can easily be considered linear:
 \begin{equation}
-n = n(\lambda)+\mathrm{TOC}\cdot T
+n = n(\lambda)+\mathrm{TOC}\cdot (T-T_{amb})
 \end{equation}
 where $\mathrm{TOC}|_{\mathrm{Si}} = \SI{1.87e-4}{\per\K}$\cite{n_db} is called Termo-Optic Coefficient. The coefficient of silica glass is negligible and therefore was considered zero $\mathrm{TOC}|_{\mathrm{SiO}_2} \approx 0$.
 
@@ -558,7 +558,7 @@ We replaced its value in the conservation of momentum formula, giving us the pha
 %\begin{equation}
 \begin{align*}
 	\Delta k &= 2\beta_P(\omega_P)-\beta_S(\omega_S)-\beta_I(2\omega_P-\omega_S)\\
-			 &= 2\pi\left[ 2\frac{n_{eff}^P(\omega_P)}{\lambda_P}
+			 &= 2\pi\left[ 2\frac{n_{eff}^P(\lambda_P)}{\lambda_P}
 			 - \frac{n_{eff}^S(\lambda_S)}{\lambda_S}
 			 - \frac{n_{eff}^I(\lambda_I)}{\lambda_I}\right]
 \end{align*}
@@ -719,6 +719,7 @@ This could greatly condition the wave propagation, but it is also a difficult pr
 \bibitem{agrawal} G. Agrawal. Nonlinear Fiber Optics, 5th edition. 2013
 \bibitem{saleh} B. E. A. Saleh, M. C. Teich. Fundamentals of photonics, 2nd edition. 2007
 \bibitem{n_db} http://refractiveindex.info/
+\bibitem{spectrum} Lau, Ryan KW, et al. "Continuous-wave mid-infrared frequency conversion in silicon nanowaveguides." Optics letters 36.7 (2011): 1263-1265.
 \end{thebibliography}
 \end{document}
 % Ref. \cite{agrawal}

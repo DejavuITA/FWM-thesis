@@ -64,7 +64,7 @@ pm.low_w = 1.45e-6;             % [m]
 pm.high_w = 1.65e-6;            % [m]
 
 % number of points in wlen interval [low_w, high_w]
-pm.n_sample_wl = 601;              % should be an odd number, to center the pump wlen.
+pm.n_sample_wl = 3001;              % should be an odd number, to center the pump wlen.
 pm.step = (pm.high_w - pm.low_w)/(pm.n_sample_wl - 1);
 
 vec.sample_wlen = zeros(pm.n_sample_wl,1);
@@ -73,7 +73,7 @@ for ww=1:pm.n_sample_wl
 end
 
 % sampling temperature
-pm.n_sample_t = 201;
+pm.n_sample_t = 301;
 pm.step_t = (vec.temp(end) - vec.temp(1) )/(pm.n_sample_t - 1);
 
 vec.sample_temp = zeros(pm.n_sample_t,1);
@@ -405,7 +405,7 @@ for rr=1:pm.n_results;
             results.maxima( 1:size(y,1), 1:size(y,2), rr, 1, 1) = y;
             results.bwid( 1:size(y2,1), 1:size(y2,2), rr, 1, 1) = y2;
             
-            saveas(f, strcat('sol',num2str(rr),'_',num2str(pm.comb(2,:,rr))), 'pdf');
+            %saveas(f, strcat('sol',num2str(rr),'_',num2str(pm.comb(2,:,rr))), 'pdf');
             close 1
             
         end 
@@ -563,14 +563,14 @@ xlabel({'Combination'});
 
 %saveas(8, 'bc2', 'png');
 
-saveas(1, 'ppaat', 'png');
-saveas(2, 'ppc', 'png');
-saveas(3, 'baat', 'png');
-saveas(4, 'bc', 'png');
-saveas(5, 'ppaat2', 'png');
-saveas(6, 'ppc2', 'png');
-saveas(7, 'baat2', 'png');
-saveas(8, 'bc2', 'png');
+% saveas(1, 'ppaat', 'png');
+% saveas(2, 'ppc', 'png');
+% saveas(3, 'baat', 'png');
+% saveas(4, 'bc', 'png');
+% saveas(5, 'ppaat2', 'png');
+% saveas(6, 'ppc2', 'png');
+% saveas(7, 'baat2', 'png');
+% saveas(8, 'bc2', 'png');
 
 clear f
 
