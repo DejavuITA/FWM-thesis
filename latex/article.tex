@@ -37,8 +37,30 @@
 
 \includepdf[pages={1}]{intestazione.pdf} % \input{intestazione.tex}
 
+\cleardoublepage
+\section*{Abstract}
+The silicon photonics platform is broadly being studied as an attractive platform for the extremely dense integration of optical functions at telecommunication wavelengths \cite{Jalali}.
+The use of CMOS fabrication technology, leading to high yield and the potential for integration of electronic circuits, and the high refractive index contrast available on a silicon-insulator waveguide platform ($\Delta n \sim 2$) are the main drivers for this evolution.
+While photonic integrated circuits were primarily intended to serve the telecommunication and data communication markets, the use of silicon photonics in other applications is also being explored, predominantly geared towards sensing.
+Examples of such fields of research are silicon-based bio-sensors \cite{DeVos}, gas sensors \cite{Robinson} and the development of bio-medical instrumentation \cite{Dumon}.
+In these applications, one typically retains the use of the telecommunication wavelength range, for reasons of experimental simplicity, the availability of characterized building blocks, etc.
+However, a number of applications would benefit from the use of highly integrated silicon photonic circuits specifically tailored to operate at longer wavelengths.
+For the specific field of spectroscopic sensing, probing of the molecular fingerprint absorption lines of molecules exploits the strong absorption features of molecules in the short-wave (1.4-3 \si{\um}) and mid wave (3-8 \si{\um}) infrared (MIR) \cite{Crowder}.
+The availability of an integration platform covering these two wavelength ranges could enable ultra-compact, low-cost sensor solutions, designed to outperform existing solutions. Within this frame the four-wave mixing process (FWM), naturally supported by the silicon platform, could be used for this purpose to convert a telecom signal to the NIR and MIR spectral region, as previously demonstrated on-chip in silicon wire waveguides \cite{Espinola}-\cite{Foster}.
+
+The FWM process involves four optical waves that have to fulfil two conditions in order to efficiently interact which are the energy conservation, naturally satisfied, and momentum conservation.
+This work is focused on the study of the momentum conservation, the so called phase matching, that is usually not trivial to achieve due to the refractive index dispersion.
+To fulfil the momentum conservation we used the multimodal phase matching (PM) technique \cite{agrawal}.
+In this specific case, it is possible to let the four waves travel in different order modes supported by the waveguide to get the phase matching.
+The PM condition can be tailored changing the waveguide geometry and more generally by changing the waveguide dispersion.
+Moreover, the dispersion can be actively tuned exploiting the thermo-optic coefficient (TOE) of silicon, that is, the temperature dependence of the refractive index.
+
+In this work a detailed theoretical study of the phase matching condition in a multimodal waveguide as a function of the temperature is carried out.
+In particular, the converted frequency position and the process BW as a function of the temperature are investigated.
+The aim is to lay the basis and prepare a design for the fabrication of an integrated device for frequency conversion applications with the possibility to be thermal tuned.
+
 \cleardoublepage 
-\setcounter{page}{3}
+%\setcounter{page}{3}
 \tableofcontents
 
 \cleardoublepage
@@ -67,6 +89,7 @@ In general FWM implies the mixing of four waves of different frequencies.
 Partial degenerate FWM, instead, is a specific case where two waves have the same frequency and are considered as one (pump).
 Therefore it is about the pump wave and a second weaker one (signal) which generate a third wave (idler) of frequency different from that of the former two.
 
+\clearpage
 \section{Electromagnetic waves in dielectric media}
 
 %pg 156 saleh or chp 2 agrawal
@@ -159,12 +182,13 @@ Is then possible to study the propagation of the wave along the waveguide using 
 \begin{align}
 	\frac{\partial^2F(x,y)}{\partial x^2} + \frac{\partial^2F(x,y)}{\partial y^2} + \left[ k_0^2n^2(x,y)-\beta^2\right]F(x,y) = 0
 	\label{eq_wg_a} \\
-	\frac{\partial^2\tilde{A}(z,\omega)}{\partial z^2} +2\mathrm{i}\beta\frac{\partial \tilde{A}(z,\omega)}{\partial z} -n^2k_0^2\tilde{A}(z,\omega) = 0
-	\quad ! \neq ! \quad
-	2\mathrm{i}\beta_0\frac{\partial \tilde{A}(z,\omega)}{\partial z} +(\tilde{\beta}^2 - \beta_0^2)\tilde{A}(z,\omega) = 0
+	2\mathrm{i}\beta\frac{\partial \tilde{A}(z,\omega)}{\partial z} -n^2k_0^2\tilde{A}(z,\omega) = 0
 	\label{eq_wg_b}
 \end{align}
 \end{subequations}
+%	\frac{\partial^2\tilde{A}(z,\omega)}{\partial z^2} +2\mathrm{i}\beta\frac{\partial \tilde{A}(z,\omega)}{\partial z} -n^2k_0^2\tilde{A}(z,\omega) = 0
+%	\quad ! \neq ! \quad
+%	2\mathrm{i}\beta_0\frac{\partial \tilde{A}(z,\omega)}{\partial z} +(\tilde{\beta}^2 - \beta_0^2)\tilde{A}(z,\omega) = 0
 where $k_0$ is the wavevector in vacuum and $n=n(x,y)$ is a function of the position (mainly $x$ and $y$ for a straight waveguide).
 
 The first equation, once solved, leads to the field distribution $F(x,y)$ in the plane perpendicular to the waveguide axis ($\hat{z}$).
@@ -213,29 +237,32 @@ Its value is between the higher index of the core and lower one of the cladding.
 Again, for the 1D slab waveguide case, the effective index can be rewritten as in the following formula:
 $$ n_{eff} \equiv n_H \cos \theta_m$$
 
-\begin{figure}[!hb]
+
+\subsection{Rectangular dielectric waveguides}
+In general, in a rectangular dielectric waveguide the classification of modes need two indexes because we have two degrees of freedom.
+In Figure (\ref{fig_2dmodes}) is graphically represented the distribution of the fields in modulus.
+
+\begin{figure}[!ht]
 	\centering
 	\includegraphics[width=.45\textwidth]{2Dmodes.png}
 	\caption{Graphical rapresentation of field distribution of 2D modes}
 	\label{fig_2dmodes}
 \end{figure}
 
-\subsection{Rectangular dielectric waveguides}
-In general, in a rectangular dielectric waveguide the classification of modes need two indexes because we have two degrees of freedom.
-In Figure (\ref{fig_2dmodes}) is graphically represented the distribution of the fields in modulus.
-
 For our purpose, due to the thin geometry of the core, the waveguide does not support modes with the higher order in the height axis than the fundamental one.
 The first row is of our interest.
 Only one significant index is then left to describe the order of modes.
+Figure (\ref{fig_ex_mode}) portrays a TE configuration of the third order.
 
-\section{Non-linear optics}
-
-\begin{figure}[!ht]
+\begin{figure}[hb]
 	\centering
-	\includegraphics[width=.75\textwidth]{nonlinearity.png}
-	\caption{Example of nonlinear relation between \textbf{P} and \textbf{E}}
-	\label{fig_nonlinearity}
+	\includegraphics[width=0.85\textwidth]{output_mode.pdf}
+	\caption{Example of third order TE mode in a \SI{3}{\um} wide waveguide}
+	\label{fig_ex_mode}
 \end{figure}
+
+\clearpage
+\section{Non-linear optics}
 
 A nonlinear dielectric medium is characterized by a nonlinear relation between \textbf{P} and \textbf{E}, such as
 \begin{equation}
@@ -243,6 +270,13 @@ A nonlinear dielectric medium is characterized by a nonlinear relation between \
 	\label{eq_P_general}
 \end{equation}
 which originates from the behaviour of bound electrons.
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=.75\textwidth]{nonlinearity.png}
+	\caption{Example of nonlinear relation between \textbf{P} and \textbf{E}}
+	\label{fig_nonlinearity}
+\end{figure}
 
 In everyday conditions linear effects are much larger than nonlinear ones.
 The relation between \textbf{P} and \textbf{E} becomes nonlinear when $\mathrm{E}$ has a value comparable to interatomic electric fields, which are typically $\sim 10^5-10^8$ \si{\V\per\m}.
@@ -404,6 +438,13 @@ The solutions of Eqs (\ref{eq_sig}) and (\ref{eq_idl}) are therefore
 
 The solution that we have developed so far is valid only when the pump waves remain largely undepleted.
 For a solution that includes pump depletion it is necessary to solve exactly the complete set of four equations, Eqs (\ref{eq_coupled_amplitude_a} - \ref{eq_coupled_amplitude_d}).
+An example of output spectrum is given in Figure (\ref{fig_spectrum}).
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=.55\textwidth]{spectrum.png}
+	\caption{Measured FWM spectra showing broadband wavelength conversion across \SI{748}{\nm}. The signal, pump, and idler wavelengths are \num{1636}, \num{1940}, and \SI{2384}{\nm}, respectively.}
+	\label{fig_spectrum}
+\end{figure}
 
 We can also define a length scale, known as the coherence length, using $L_{coh} = 2\pi/|\Delta\kappa|$, where $\Delta\kappa$ is the maximum value of the effective phase mismatch that can be tolerated.
 Moreover significant FWM occurs if $L_{sam}<L_{coh}$ where $L_{sam}$ is the sample length.
@@ -423,6 +464,7 @@ since $|\Delta k| \gg \gamma(P_1 + P_2)$ almost always we can consider it trascu
 
 Therefore, in order to be efficient, the parametric process needs to verify the conservation of both energy and momentum, as given in Eq. (\ref{eq_f&pmc}).
 
+\clearpage
 \section{Computational model}
 
 Our aim is to study how the generation of a new wave at different frequency through FWM is influenced by the different modes of the waveguide.
@@ -599,80 +641,63 @@ If their position changes significantly while shifting the temperature, it means
 
 Another important parameter is the width of the peak: to be consistent with the seletion criteria used in (\ref{eq_lcoh_crit}), we defined the bandwidth as the peak width at $L_{coh} = 1$.
 
-We obtained graphs representing the position and the bandwidth of peaks vs temperature of each solution, as shown in Figures (\ref{fig_example_position}) and (\ref{fig_example_bandwidth}).
+We obtained graphs representing the position and the bandwidth of peaks vs temperature of each solution.
 
-\begin{SCfigure}%[!h]
+\begin{figure}[!hb]
 	\centering
-	\includegraphics[width=.64\textwidth]{ex_pos.png}
+	\includegraphics[width=.75\textwidth]{ex_pos.png}
 	\caption{Example of peak position vs $T_H$.}
 	\label{fig_example_position}
-\end{SCfigure}
-\begin{SCfigure}%[!h]
-	\centering
-%	\includegraphics[scale=1]{ex_bw.png}
-	\includegraphics[width=.64\textwidth]{ex_bw.png}
-	\caption{Example of bandwidth vs $T_H$.}
-	\label{fig_example_bandwidth}
-\end{SCfigure}
+\end{figure}
 
-%\begin{figure}[!h]
-%	\centering
-%	\begin{subfigure}[b]{0.49\textwidth}
-%		\includegraphics[width=1\textwidth]{ex_pos.png}
-%		\caption{Example of peaks vs $T_H$.}
-%		\label{fig_example_position}
-%	\end{subfigure}%\hspace{.02\textwidth}
-%	\begin{subfigure}[b]{0.49\textwidth}
-%		\includegraphics[width=1\textwidth]{ex_bw.png}
-%		\caption{Example of bandwidth vs $T_H$.}
-%		\label{fig_example_bandwidth}
-%	\end{subfigure}
-%	\caption{Examples of peaks position and bandwidth dependence on temperature $T_H$}
-%	\label{fig_examples}
-%\end{figure}
-
+\clearpage
 \section{Results}
 \subsubsection{data aggregation}
-Examining the graphs obtained from the data analysis of the symmetric configuration, we noticed that for each solution selected there were one or two straight lines.
+Examining the graphs obtained from the data analysis of the symmetric configuration, we noticed that for each solution selected there were only straight lines.
 Therefore we summarized them by collecting the slopes and the value of the functions at ambient temperature.
-To make the graphs easier to read, we excluded set of data the pointsof no interest: those which peak had the same frequency $\omega_P = \SI{1.55}{\um}$ of the pump.
+To make the graphs easier to read, we excluded set of data the points of no interest: those which peak had the same frequency $\omega_P = \SI{1.55}{\um}$ of the pump.
 
 The first Figure (\ref{fig_sym_pp@t2}) tell us where we found phase-matching condition.
-We can see that every set has its symmetric one.
-For example, combination \texttt{517} is the symmetric of \texttt{571}.
-In the coupled equations and in the 
-%The next Figures (\ref{fig_sym_pp}) and (\ref{fig_sym_bw}) show the results obtained, excluding the sets which only phasematch was at $\lambda = \SI{1.55}{\um}$
+We can see that we have only two condition in which the phasematch is verified.
+Also, combination \texttt{517} is the symmetric of \texttt{571}.
 
 \begin{figure}[!h]
 	\centering
-	\includegraphics[width=.75\textwidth]{ppaat2.png}
-	\caption{Peak position at $T_{amb}$. The label of the x axis are to be read as pump-signal-idler orders.}
+	\includegraphics[width=.85\textwidth]{ppaat2.png}
+	\caption{Peak position at $T_{amb}$. The label of the x axis are to be read as pump-signal-idler orders. We have two TE conbinations and two TM combinations.}
 	\label{fig_sym_pp@t2} 	% pp@t = bandwidth @ T_amb, 2 = no points at 1.55um
 \end{figure}
 
+The second Figure (\ref{fig_sym_ppc2}) shows us that thant the change in position is of a fraction of \si{\nm}.
+This value should be compared to the bandwidth of the phase-match condition.
+In order to be interesting, its order of magnitude should be the same as the order of the bandwidth.
+
 \begin{figure}[!h]
 	\centering
-	\includegraphics[width=.75\textwidth]{ppc2.png}
-	\caption{Change of peak position.}
+	\includegraphics[width=.85\textwidth]{ppc2.png}
+	\caption{Change of peak position. The label of the x axis are to be read as pump-signal-idler orders. We have two TE conbinations and two TM combinations.}
 	\label{fig_sym_ppc2} % ppc = bandwidth change
 \end{figure}
 
-\begin{figure}[h!]
-	\centering
-	\begin{subfigure}[b]{0.75\textwidth}
-		\includegraphics[width=1\textwidth]{baat2.png}
-		\label{fig_sym_b@t2} % b@t = bandwidth @ T_amb
-		\caption{Bandwidth at $T_{amb}$.}
-	\end{subfigure}
-	\begin{subfigure}[b]{0.75\textwidth}
-		\includegraphics[width=1\textwidth]{bc2.png}
-		\label{fig_sym_bc2} % bc = bandwidth change
-		\caption{Change of bandwidth.}
-	\end{subfigure}
-	\caption{Bandwidth summary}
-	\label{fig_sym_bw}
-\end{figure}
+In Figure (\ref{fig_sym_b@t2}) is represented the bandwidth at ambient temperature.
 
+We can see that the bandwidths are in range between \SI{.5}{\nm} and \SI{.8}{\nm} while the changes in peak position are between \SI{.2}{\nm} and \SI{.4}{\nm}, in absolute value.
+Thus, having the same order of magnitude we can state that we have a slight control over peak position with temperature tuning.
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=.85\textwidth]{baat2.png}
+	\caption{Bandwidth at $T_{amb}$. The label of the x axis are to be read as pump-signal-idler orders. We have two TE conbinations and two TM combinations.}
+	\label{fig_sym_b@t2} % b@t = bandwidth @ T_amb
+\end{figure}		
+		
+%\begin{figure}
+%	\centering
+%	\includegraphics[width=1\textwidth]{bc2.png}
+%	\caption{Change of bandwidth.}
+%	\label{fig_sym_bc2} % bc = bandwidth change
+%\end{figure}
+
+\clearpage
 \subsection{Second heater configuration}
 In order to achieve a greater effect from the different temperature, we tried to move the heater from over the center of the core to the side.
 This operation was intended to increase the difference of behaviour between low and high orders enabling thus the creation of new peaks in the coherence length.
@@ -686,8 +711,7 @@ The new geometry is represented in Figure (\ref{fig_geometry_asym}).
 \end{figure}
 
 \subsubsection{data aggregation}
-Examining the graphs obtained from the data analysis of the asymmetric configuration, we noticed a variety of different situations.
-Therefore we could not summarize the results with slopes and value at $T_{amb}$ anymore.
+Unfortunately, examining the graphs obtained from the data analysis of the asymmetric configuration, we do not noticed anything new.
 
 
 \section{Conclusions}
@@ -713,13 +737,26 @@ This could greatly condition the wave propagation, but it is also a difficult pr
 \end{itemize}
 
 \subsection{Summary}
+We had little results in the frequency gap chosen.
+This because we probably need to study further the geometry of the waveguide, in order to enhance the effect of the overlap integrals between the optical mode and the thermal profile.
 
 \cleardoublepage
 \begin{thebibliography}{9}
+\bibitem{Jalali} B. Jalali and S. Fathpour, “Silicon photonics,” J. Lightw. Technol., vol. 24, no. 12, pp. 4600-4615, 2006.
+\bibitem{DeVos} K. De Vos, I. Bartolozzi, E. Schacht, P. Bienstman, and R. Baets, “Silicon-on-insulator microring resonator for sensitive and label-free biosensing,” Opt. Exp., vol. 15, no. 12, pp. 7610–7615, 2007.
+\bibitem{Robinson} ] J. T. Robinson, L. Chen, and M. Lipson, “On-chip gas detection in silicon optical microcavities,” Opt. Exp., vol. 16, no. 6, pp. 4296–4301, 2008.
+\bibitem{Dumon} A. G. Yurtsever, P. Dumon, W. Bogaerts, and R. Baets, “Integrated photonic circuit in silicon on insulator for fourier domain optical coherence tomography,” Proc. SPIE, vol. 75541B, pp. 75541-1–75541-5, Feb. 2010.
+\bibitem{Crowder} J. G. Crowder, S. D. Smith, A. Vass, and J. Keddie, “Infrared methods for gas detection,” in Mid-Infrared Semiconductor Optoelectronics. New York: Springer-Verlag, 2006.
+\bibitem{Espinola} R. Espinola, J. Dadap, R. Osgood, Jr., S. McNab, and Y. Vlasov, "C-band wavelength conversion in silicon photonic wire waveguides," Opt. Express 13, 4341-4349 (2005).
+\bibitem{Fukuda} H. Fukuda, K. Yamada, T. Shoji, M. Takahashi, T. Tsuchizawa, T. Watanabe, J. Takahashi, and S. Itabashi, "Four-wave mixing in silicon wire waveguides," Opt. Express 13, 4629-4637 (2005).
+\bibitem{Foster} M. A. Foster, A. C. Turner, J. E. Sharping, B. S. Schmidt, M. Lipson and A. L. Gaeta, “Broad-band optical parametric gain on a silicon photonic chip,” Nature 441, 960-963 (2006).
+
 \bibitem{agrawal} G. Agrawal. Nonlinear Fiber Optics, 5th edition. 2013
 \bibitem{saleh} B. E. A. Saleh, M. C. Teich. Fundamentals of photonics, 2nd edition. 2007
 \bibitem{n_db} http://refractiveindex.info/
 \bibitem{spectrum} Lau, Ryan KW, et al. "Continuous-wave mid-infrared frequency conversion in silicon nanowaveguides." Optics letters 36.7 (2011): 1263-1265.
+
+
 \end{thebibliography}
 \end{document}
 % Ref. \cite{agrawal}

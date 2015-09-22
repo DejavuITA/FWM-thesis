@@ -64,7 +64,7 @@ pm.low_w = 1.45e-6;             % [m]
 pm.high_w = 1.65e-6;            % [m]
 
 % number of points in wlen interval [low_w, high_w]
-pm.n_sample_wl = 1001;              % should be an odd number, to center the pump wlen.
+pm.n_sample_wl = 4001;              % should be an odd number, to center the pump wlen.
 pm.step = (pm.high_w - pm.low_w)/(pm.n_sample_wl - 1);
 
 vec.sample_wlen = zeros(pm.n_sample_wl,1);
@@ -73,7 +73,7 @@ for ww=1:pm.n_sample_wl
 end
 
 % sampling temperature
-pm.n_sample_t = 201;
+pm.n_sample_t = 401;
 pm.step_t = (vec.temp(end) - vec.temp(1) )/(pm.n_sample_t - 1);
 
 vec.sample_temp = zeros(pm.n_sample_t,1);
@@ -101,7 +101,7 @@ setting.fit_str = 'poly52';
 
 for ww=1:par.n_wg_wid
     for hh=1:par.n_wg_hgt
-        for pp=1:1 % no TM
+        for pp=1:2 % w/ TM
             for mm=1:par.n_modi
                 
                 data.fit_neff(ww,hh,pp,mm).exist = false;
@@ -225,9 +225,9 @@ else
     % overwrite here
     TE      = true;
     %TE      = false;
-    pump    = 2;
+    pump    = 5;
     signal  = 1;
-    idler   = 3;
+    idler   = 7;
     if TE
         pm.comb = [1, 1, 1; pump, signal, idler];
     else

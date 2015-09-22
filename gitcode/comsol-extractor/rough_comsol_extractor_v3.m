@@ -139,25 +139,31 @@ for jj=1:par.n_sol
     index.hgt     = find( vec.hgt  == sol.hgt(jj)  );
     index.temp    = find( vec.temp == sol.temp(jj) );
     
-    TEc = fliplr( real( sol.neff(jj,:) ) );
-    TMc = TEc(8:end);
-    TEc = TEc(1:7);
-	TMc(find(TMc) < 1.9) = [];
+    TEc         = fliplr( real( sol.neff(jj,:) ) );
+    indexTE     = fliplr([1:1:length(TEc)]);
+    TEc         = TEc(1:7);
+    indexTE     = indexTE(1:7);
     
-	data.neff(index.wlen, index.temp, index.wid, index.hgt, 1, :)     = TEc;
-    data.neff(index.wlen, index.temp, index.wid, index.hgt, 2, :)     = TMc;
+    TMc         = real( sol.neff(jj,:) );
+    indexTM     = [1:1:length(TMc)];
+    TMc         = TMc(1:7);
+    indexTM     = indexTM(1:7);
+    d           = diff(TMc);
+    TMc(find(d<=0)+1)       = [];
+    indexTM(find(d<=0)+1)   = [];
+    TMc         = fliplr( TMc );
+    indexTM     = fliplr(indexTM);
     
-    TEc = fliplr( sol.Aeff(jj,:) );
-    TMc = TEc(8:end);
-    TEc = TEc(1:7);
-	TMc(find(TMc) < 1.9) = [];
+	data.neff(index.wlen, index.temp, index.wid, index.hgt, 1, 1:length(TEc))	= TEc;
+    data.neff(index.wlen, index.temp, index.wid, index.hgt, 2, 1:length(TMc))   = TMc;
     
-	data.neff(index.wlen, index.temp, index.wid, index.hgt, 1, :)     = TEc;
-    data.neff(index.wlen, index.temp, index.wid, index.hgt, 2, :)     = TMc;
+	data.Aeff(index.wlen, index.temp, index.wid, index.hgt, 1, 1:length(TEc))   = real( sol.Aeff(jj, indexTE) );
+    data.Aeff(index.wlen, index.temp, index.wid, index.hgt, 2, 1:length(TMc))   = real( sol.Aeff(jj, indexTM) );
 
 end
 toc
 
+clear TEc TMc indexTE indexTM ans d
 %% SAVING
 
 tic
