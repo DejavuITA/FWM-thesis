@@ -655,27 +655,28 @@ We obtained graphs representing the position and the bandwidth of peaks vs tempe
 \subsubsection{data aggregation}
 Examining the graphs obtained from the data analysis of the symmetric configuration, we noticed that for each solution selected there were only straight lines.
 Therefore we summarized them by collecting the slopes and the value of the functions at ambient temperature.
-To make the graphs easier to read, we excluded set of data the points of no interest: those which peak had the same frequency $\omega_P = \SI{1.55}{\um}$ of the pump.
+Moreover, to make the graphs easier to read, we excluded from the set of data the points of no interest: those which peak had the same frequency $\omega_P = \SI{1.55}{\um}$ of the pump.
+We had a remaining of four combinations: two TE (\texttt{517} and \texttt{571}) and two TM (\texttt{453} and \texttt{564}).
 
 The first Figure (\ref{fig_sym_pp@t2}) tell us where we found phase-matching condition.
-We can see that we have only two condition in which the phasematch is verified.
-Also, combination \texttt{517} is the symmetric of \texttt{571}.
+We can see that combination \texttt{517} is the symmetric of \texttt{571}, while the remaining TM modes have no symmetric configuration.
+That is because the corresponding symmetric wavelength of, for example, \SI{1.46}{\um} is \SI{1,652}{\um} which is unfortunately out of our wavelength gap.
 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=.85\textwidth]{ppaat2.png}
-	\caption{Peak position at $T_{amb}$. The label of the x axis are to be read as pump-signal-idler orders. We have two TE conbinations and two TM combinations.}
+	\caption{Peak position at $T_{amb}$. The label of the x axis are to be read as pump-signal-idler combinations. In order there are TE conbinations and TM combinations.}
 	\label{fig_sym_pp@t2} 	% pp@t = bandwidth @ T_amb, 2 = no points at 1.55um
 \end{figure}
 
-The second Figure (\ref{fig_sym_ppc2}) shows us that thant the change in position is of a fraction of \si{\nm}.
+The second Figure (\ref{fig_sym_ppc2}) shows us that the change in position is of a fraction of \si{\nm}.
 This value should be compared to the bandwidth of the phase-match condition.
 In order to be interesting, its order of magnitude should be the same as the order of the bandwidth.
 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=.85\textwidth]{ppc2.png}
-	\caption{Change of peak position. The label of the x axis are to be read as pump-signal-idler orders. We have two TE conbinations and two TM combinations.}
+	\caption{Change of peak position. The label of the x axis are to be read as pump-signal-idler combinations. In order there are TE conbinations and TM combinations.}
 	\label{fig_sym_ppc2} % ppc = bandwidth change
 \end{figure}
 
@@ -686,7 +687,7 @@ Thus, having the same order of magnitude we can state that we have a slight cont
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=.85\textwidth]{baat2.png}
-	\caption{Bandwidth at $T_{amb}$. The label of the x axis are to be read as pump-signal-idler orders. We have two TE conbinations and two TM combinations.}
+	\caption{Bandwidth at $T_{amb}$. The label of the x axis are to be read as pump-signal-idler combinations. In order there are TE conbinations and TM combinations.}
 	\label{fig_sym_b@t2} % b@t = bandwidth @ T_amb
 \end{figure}		
 		
@@ -722,23 +723,26 @@ They could be eventually implemented in an extended study of this topic.
 
 A rough list of them is proposed next:
 \begin{itemize}
-\item	The heater should be simulated as a metal conductor media, instead of a simple boundary condition, in addition to its thermal reservoir property. This is necessary because a metal plaque over the waveguide core could interfere with the wave propagation in the waveguide itself, drawing energy from the EM wave.
+\item	The heater should be simulated as a metal conductor media, instead of a simple boundary condition, in addition to its thermal reservoir property. This is necessary because a metal plaque over the waveguide core could interfere with the wave propagation in the waveguide itself, drawing energy from the EM wave. This could happen in particular for the TM modes, because their field distribution is stronger in the height axis and therefore could easily reach the metal plaque.
 
-\item	Thermal expansion of materials should be considered.
+\item	Although is probably negligible, thermal expansion of materials should be considered.
 While the thermal expansion coefficients of both silicon and silica are small, the temperature change is quite high.
 It should not be lightly considered as a negligible contribution as it could change the waveguide geometry and therefore the modes.
 
 \item	The aim of this study was limited to understanding if it was possible at all to control FWM with temperature.
 It is also important to develop the correlation between temperature and efficiency of energy conversion from the pump to the idler.
 
-\item	As next step in enhancing the influence of temperature on effective index, different core geometries could be studied.
-This could greatly condition the wave propagation, but it is also a difficult problem with many degrees of freedom.
-
 \end{itemize}
 
 \subsection{Summary}
 We had little results in the frequency gap chosen.
-This because we probably need to study further the geometry of the waveguide, in order to enhance the effect of the overlap integrals between the optical mode and the thermal profile.
+This because we probably need to study further the geometry of the waveguide, 
+
+
+
+As next step in enhancing the influence of temperature on effective index, different core geometries could be studied.
+In order to enhance the effect of the overlap integrals between the optical mode and the thermal profile.
+This could greatly condition the wave propagation, but it is also a difficult problem with many degrees of freedom.
 
 \cleardoublepage
 \begin{thebibliography}{9}
