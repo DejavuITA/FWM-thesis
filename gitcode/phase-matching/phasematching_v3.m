@@ -64,7 +64,7 @@ pm.low_w = 1.45e-6;             % [m]
 pm.high_w = 1.65e-6;            % [m]
 
 % number of points in wlen interval [low_w, high_w]
-pm.n_sample_wl = 601;              % should be an odd number, to center the pump wlen.
+pm.n_sample_wl = 1001;              % should be an odd number, to center the pump wlen.
 pm.step = (pm.high_w - pm.low_w)/(pm.n_sample_wl - 1);
 
 vec.sample_wlen = zeros(pm.n_sample_wl,1);
@@ -507,12 +507,14 @@ f = figure('name', 'peak position at ambient temperature');
 axes1 = axes('Parent',f,'XGrid','on','YGrid','on',...
     'XTickLabelRotation', 60,...
     'XTick', [1:1:length(results.indexes2)],...
+    'YTick', [1.45:0.05:1.65],...
     'XTickLabel', tmp,...
     'LineStyleOrderIndex',2);
 hold(axes1,'on');
 title('Peak position at ambient temperature [µm]');
 plot( 1e6*results.max.q(results.indexes2,1:end), 'o' );
 xlim([0 length(results.indexes2)+1])
+ylim([1.44 1.66])
 ylabel({'Position [µm]'});
 xlabel({'Combination'});
 
@@ -563,14 +565,14 @@ xlabel({'Combination'});
 
 %saveas(8, 'bc2', 'png');
 
-% saveas(1, 'ppaat', 'png');
-% saveas(2, 'ppc', 'png');
-% saveas(3, 'baat', 'png');
-% saveas(4, 'bc', 'png');
-% saveas(5, 'ppaat2', 'png');
-% saveas(6, 'ppc2', 'png');
-% saveas(7, 'baat2', 'png');
-% saveas(8, 'bc2', 'png');
+saveas(1, 'ppaat', 'png');
+saveas(2, 'ppc', 'png');
+saveas(3, 'baat', 'png');
+saveas(4, 'bc', 'png');
+saveas(5, 'ppaat2', 'png');
+saveas(6, 'ppc2', 'png');
+saveas(7, 'baat2', 'png');
+saveas(8, 'bc2', 'png');
 
 clear f
 

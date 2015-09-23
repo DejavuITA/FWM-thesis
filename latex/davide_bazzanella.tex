@@ -244,7 +244,7 @@ In Figure (\ref{fig_2dmodes}) is graphically represented the distribution of the
 
 \begin{figure}[!ht]
 	\centering
-	\includegraphics[width=.45\textwidth]{2Dmodes.png}
+	\includegraphics[width=.4\textwidth]{2Dmodes.png}
 	\caption{Graphical rapresentation of field distribution of 2D modes}
 	\label{fig_2dmodes}
 \end{figure}
@@ -252,13 +252,18 @@ In Figure (\ref{fig_2dmodes}) is graphically represented the distribution of the
 For our purpose, due to the thin geometry of the core, the waveguide does not support modes with the higher order in the height axis than the fundamental one.
 The first row is of our interest.
 Only one significant index is then left to describe the order of modes.
-Figure (\ref{fig_ex_mode}) portrays a TE configuration of the third order.
-
-\begin{figure}[hb]
+Figures (\ref{fig_ex_mode_TE}) and (\ref{fig_ex_mode_TM}) portray simulations of TE and TM third order modes.
+\begin{figure}[!hb]
 	\centering
-	\includegraphics[width=0.85\textwidth]{output_mode.pdf}
-	\caption{Example of third order TE mode in a \SI{3}{\um} wide waveguide}
-	\label{fig_ex_mode}
+	\includegraphics[width=0.89\textwidth]{output_modeTE.pdf}
+	\caption{Example of third order TE mode in a \SI{3}{\um} wide waveguide [V/m]}
+	\label{fig_ex_mode_TE}
+\end{figure}
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=0.89\textwidth]{output_modeTM.pdf}
+	\caption{Example of third order TM mode in a \SI{3}{\um} wide waveguide [V/m]}
+	\label{fig_ex_mode_TM}
 \end{figure}
 
 \clearpage
@@ -442,7 +447,7 @@ An example of output spectrum is given in Figure (\ref{fig_spectrum}).
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=.55\textwidth]{spectrum.png}
-	\caption{Measured FWM spectra showing broadband wavelength conversion across \SI{748}{\nm}. The signal, pump, and idler wavelengths are \num{1636}, \num{1940}, and \SI{2384}{\nm}, respectively.}
+	\caption{Measured FWM spectra showing broadband wavelength conversion across \SI{748}{\nm}. The signal, pump, and idler wavelengths are \num{1636}, \num{1940}, and \SI{2384}{\nm}, respectively. \cite{spectrum}}
 	\label{fig_spectrum}
 \end{figure}
 
@@ -457,7 +462,7 @@ Considering a peak power $P_1+P_2 = \SI{1}{\W}$ of the pump and a sample length 
 		|\Delta k |&= \frac{2\pi}{L_{sam}} = \frac{2\pi}{\SI{1}{\cm}} \approx \SI{600}{\per\m} \approx \num{e2} - \SI{e3}{\per\m}
 	\end{aligned}
 \right.
-\label{eq_f&pmc}
+\label{eq_gamma_comparison}
 \end{equation*}
 
 since $|\Delta k| \gg \gamma(P_1 + P_2)$ almost always we can consider it trascurable.
@@ -516,7 +521,7 @@ To solve the heat equation we defined the density $\rho$ in [\si{\kg\m^3}], the 
     \bottomrule
   \end{tabular}
   \label{tab_materials}
-  \caption{Thermal properties of silicon and silica glass}
+  \caption{Thermal properties of silicon and silica glass. \cite{n_db} and }
 \end{table}
 
 Moreover, in order to be influenced by the different temperatures, we had to add to the definition of refractive index of the silicon a term dependent on the temperature.
@@ -524,7 +529,7 @@ For our purpose this dependence can easily be considered linear:
 \begin{equation}
 n = n(\lambda)+\mathrm{TOC}\cdot (T-T_{amb})
 \end{equation}
-where $\mathrm{TOC}|_{\mathrm{Si}} = \SI{1.87e-4}{\per\K}$\cite{n_db} is called Termo-Optic Coefficient. The coefficient of silica glass is negligible and therefore was considered zero $\mathrm{TOC}|_{\mathrm{SiO}_2} \approx 0$.
+where $\mathrm{TOC}|_{\mathrm{Si}} = \SI{1.87e-4}{\per\K}$ is called Termo-Optic Coefficient. The coefficient of silica glass is negligible and therefore was considered zero $\mathrm{TOC}|_{\mathrm{SiO}_2} \approx 0$.
 
 \subsubsection{Numerical solution}
 Since the degrees of freedom of the problem were too many, we resorted to automated algorithms which gave us a numerical, and therefore approximate, solution.
@@ -596,15 +601,12 @@ $$or \qquad \qquad \lambda_I = \left( \frac{2}{\lambda_P} - \frac{1}{\lambda_S}\
 we obtained the only frequency permitted for $\omega_I$.
 
 We replaced its value in the conservation of momentum formula, giving us the phase mismatch as a function of signal wavelength and temperature of the heater only, for each set of orders.
-
-%\begin{equation}
 \begin{align*}
 	\Delta k &= 2\beta_P(\omega_P)-\beta_S(\omega_S)-\beta_I(2\omega_P-\omega_S)\\
 			 &= 2\pi\left[ 2\frac{n_{eff}^P(\lambda_P)}{\lambda_P}
 			 - \frac{n_{eff}^S(\lambda_S)}{\lambda_S}
 			 - \frac{n_{eff}^I(\lambda_I)}{\lambda_I}\right]
 \end{align*}
-%\end{equation}
 
 Then, starting from the fits of the effective index at different wavelengths and temperatures, we evaluated the phase mismatch of all sets.
 The evaluation was made on a grid of temperature and signal wavelength arbitrarily dense.
@@ -622,7 +624,7 @@ It is important to note that, in general, each combination could have more than 
 
 \begin{figure}[!h]
 	\centering
-	\includegraphics[width=.75\textwidth]{delta_example.png}
+	\includegraphics[width=.8\textwidth]{delta_example.png}
 	\caption{Example of $L_{coh}$ at $T_H$ fixed.}
 	\label{fig_peaks}
 \end{figure}
@@ -642,10 +644,10 @@ If their position changes significantly while shifting the temperature, it means
 Another important parameter is the width of the peak: to be consistent with the seletion criteria used in (\ref{eq_lcoh_crit}), we defined the bandwidth as the peak width at $L_{coh} = 1$.
 
 We obtained graphs representing the position and the bandwidth of peaks vs temperature of each solution.
-
+Figure (\ref{fig_example_position}) gives an example of peak position as a function of temperature $T_H$.
 \begin{figure}[!hb]
 	\centering
-	\includegraphics[width=.75\textwidth]{ex_pos.png}
+	\includegraphics[width=.8\textwidth]{ex_pos.png}
 	\caption{Example of peak position vs $T_H$.}
 	\label{fig_example_position}
 \end{figure}
@@ -664,8 +666,8 @@ That is because the corresponding symmetric wavelength of, for example, \SI{1.46
 
 \begin{figure}[!h]
 	\centering
-	\includegraphics[width=.85\textwidth]{ppaat2.png}
-	\caption{Peak position at $T_{amb}$. The label of the x axis are to be read as pump-signal-idler combinations. In order there are TE conbinations and TM combinations.}
+	\includegraphics[width=.85\textwidth]{ppaat22.png}
+	\caption{Peak position at $T_{amb}$. The label of the x axis are to be read as pump-signal-idler combinations. In order there are TE combinations and TM combinations.}
 	\label{fig_sym_pp@t2} 	% pp@t = bandwidth @ T_amb, 2 = no points at 1.55um
 \end{figure}
 
@@ -676,7 +678,7 @@ In order to be interesting, its order of magnitude should be the same as the ord
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=.85\textwidth]{ppc2.png}
-	\caption{Change of peak position. The label of the x axis are to be read as pump-signal-idler combinations. In order there are TE conbinations and TM combinations.}
+	\caption{Change of peak position. The label of the x axis are to be read as pump-signal-idler combinations. In order there are TE combinations and TM combinations.}
 	\label{fig_sym_ppc2} % ppc = bandwidth change
 \end{figure}
 
@@ -684,10 +686,12 @@ In Figure (\ref{fig_sym_b@t2}) is represented the bandwidth at ambient temperatu
 
 We can see that the bandwidths are in range between \SI{.5}{\nm} and \SI{.8}{\nm} while the changes in peak position are between \SI{.2}{\nm} and \SI{.4}{\nm}, in absolute value.
 Thus, having the same order of magnitude we can state that we have a slight control over peak position with temperature tuning.
+
+Moreover there was almost no change in bandwidth as the temperature arised.
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=.85\textwidth]{baat2.png}
-	\caption{Bandwidth at $T_{amb}$. The label of the x axis are to be read as pump-signal-idler combinations. In order there are TE conbinations and TM combinations.}
+	\caption{Bandwidth at $T_{amb}$. The label of the x axis are to be read as pump-signal-idler combinations. In order there are TE combinations and TM combinations.}
 	\label{fig_sym_b@t2} % b@t = bandwidth @ T_amb
 \end{figure}		
 		
@@ -700,20 +704,26 @@ Thus, having the same order of magnitude we can state that we have a slight cont
 
 \clearpage
 \subsection{Second heater configuration}
-In order to achieve a greater effect from the different temperature, we tried to move the heater from over the center of the core to the side.
+In order to achieve a greater effect from the differences in temperature, we tried to move the heater from over the center of the core to the side.
 This operation was intended to increase the difference of behaviour between low and high orders enabling thus the creation of new peaks in the coherence length.
 
 The new geometry is represented in Figure (\ref{fig_geometry_asym}).
 \begin{figure}[!ht]
 	\centering
-	\includegraphics[width=1\textwidth]{geometryA.pdf}
+	\includegraphics[width=.9\textwidth]{geometryA.pdf}
 	\caption{Scheme of the side heater configuration.}
 	\label{fig_geometry_asym}
 \end{figure}
 
 \subsubsection{data aggregation}
-Unfortunately, examining the graphs obtained from the data analysis of the asymmetric configuration, we do not noticed anything new.
+Unfortunately, examining the graphs obtained from the data analysis of the asymmetric configuration, we found that instead of enhancing the effect, as we hoped, the thermal tuning was inhibited, expecially for the TE modes.
 
+\begin{figure}[!hb]
+	\centering
+	\includegraphics[width=.75\textwidth]{asym_ppc2.png}
+	\caption{Change of peak position. The label of the x axis are to be read as pump-signal-idler combinations. In order there are TE combinations and TM combinations.}
+	\label{fig_asym_ppc2} % ppc = bandwidth change
+\end{figure}
 
 \section{Conclusions}
 \subsection{Improvements}
@@ -732,33 +742,48 @@ It should not be lightly considered as a negligible contribution as it could cha
 \item	The aim of this study was limited to understanding if it was possible at all to control FWM with temperature.
 It is also important to develop the correlation between temperature and efficiency of energy conversion from the pump to the idler.
 
+\item	Thermo-Optic Coefficient also depends on the wavelength of the signal.
+An extended study of this topic should also consider this small factor.
 \end{itemize}
 
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=.75\textwidth]{variationTEsym.png}
+	\caption{Percentage variation of $n_{eff}$ for TE modes at \SI{1.55}{\um} from its value at ambient temperature in the symmetric configuration.}
+	\label{fig_variation}
+\end{figure}
+
 \subsection{Summary}
-We had little results in the frequency gap chosen.
-This because we probably need to study further the geometry of the waveguide, 
+Due to the frequency gap chosen, we had few data points.
+A wider range in frequency would have brought more data, but it also would have needed a lot more computational time to complete.
+Therefore it was not in our possibilities.
 
+Despite the few data, we could infer that a thermal tuning of the FWM phase-match is, in fact, possible.
+We also understood that the way temperature affects phase-matching is restrained from the limited interaction between the temperature of material and different modes.
 
+In Figure (\ref{fig_variation}) is represented the change of effective index, for wavelength $\lambda = \SI{1.55}{\um}$, from ambient temperature to \SI{400}{\K} over it in ratio to its value at $T_{amb}=\SI{293.15}{\K}$.
+This curve suggest us that higher orders are more influenced by the difference in temperature than the low orders.
+We can therefore hypothesize that configuration with a high difference between their orders could be controlled better.
+In this view, as next step in enhancing the influence of temperature on effective index, different core geometries should be studied.
+%, in order to maximise the effect of the overlap integrals between the optical mode and the thermal profile.
+This could greatly condition the wave propagation, and therefore the thermal tuning, but it is also a difficult problem with many degrees of freedom.
 
-As next step in enhancing the influence of temperature on effective index, different core geometries could be studied.
-In order to enhance the effect of the overlap integrals between the optical mode and the thermal profile.
-This could greatly condition the wave propagation, but it is also a difficult problem with many degrees of freedom.
-
-\cleardoublepage
+\clearpage
 \begin{thebibliography}{9}
 \bibitem{Jalali} B. Jalali and S. Fathpour, “Silicon photonics,” J. Lightw. Technol., vol. 24, no. 12, pp. 4600-4615, 2006.
 \bibitem{DeVos} K. De Vos, I. Bartolozzi, E. Schacht, P. Bienstman, and R. Baets, “Silicon-on-insulator microring resonator for sensitive and label-free biosensing,” Opt. Exp., vol. 15, no. 12, pp. 7610–7615, 2007.
 \bibitem{Robinson} ] J. T. Robinson, L. Chen, and M. Lipson, “On-chip gas detection in silicon optical microcavities,” Opt. Exp., vol. 16, no. 6, pp. 4296–4301, 2008.
 \bibitem{Dumon} A. G. Yurtsever, P. Dumon, W. Bogaerts, and R. Baets, “Integrated photonic circuit in silicon on insulator for fourier domain optical coherence tomography,” Proc. SPIE, vol. 75541B, pp. 75541-1–75541-5, Feb. 2010.
 \bibitem{Crowder} J. G. Crowder, S. D. Smith, A. Vass, and J. Keddie, “Infrared methods for gas detection,” in Mid-Infrared Semiconductor Optoelectronics. New York: Springer-Verlag, 2006.
-\bibitem{Espinola} R. Espinola, J. Dadap, R. Osgood, Jr., S. McNab, and Y. Vlasov, "C-band wavelength conversion in silicon photonic wire waveguides," Opt. Express 13, 4341-4349 (2005).
-\bibitem{Fukuda} H. Fukuda, K. Yamada, T. Shoji, M. Takahashi, T. Tsuchizawa, T. Watanabe, J. Takahashi, and S. Itabashi, "Four-wave mixing in silicon wire waveguides," Opt. Express 13, 4629-4637 (2005).
+\bibitem{Espinola} R. Espinola, J. Dadap, R. Osgood, Jr., S. McNab, and Y. Vlasov, “C-band wavelength conversion in silicon photonic wire waveguides," Opt. Express 13, 4341-4349 (2005).
+\bibitem{Fukuda} H. Fukuda, K. Yamada, T. Shoji, M. Takahashi, T. Tsuchizawa, T. Watanabe, J. Takahashi, and S. Itabashi, “Four-wave mixing in silicon wire waveguides," Opt. Express 13, 4629-4637 (2005).
 \bibitem{Foster} M. A. Foster, A. C. Turner, J. E. Sharping, B. S. Schmidt, M. Lipson and A. L. Gaeta, “Broad-band optical parametric gain on a silicon photonic chip,” Nature 441, 960-963 (2006).
 
-\bibitem{agrawal} G. Agrawal. Nonlinear Fiber Optics, 5th edition. 2013
-\bibitem{saleh} B. E. A. Saleh, M. C. Teich. Fundamentals of photonics, 2nd edition. 2007
+\bibitem{agrawal} Agrawal, Govind. “Nonlinear Fiber Optics", 5th edition. Academic Press, 2013.
+\bibitem{saleh} Saleh, Bahaa EA, and Malvin Carl Teich. “Fundamentals of photonics", 2nd edition. Wiley, 2007
 \bibitem{n_db} http://refractiveindex.info/
-\bibitem{spectrum} Lau, Ryan KW, et al. "Continuous-wave mid-infrared frequency conversion in silicon nanowaveguides." Optics letters 36.7 (2011): 1263-1265.
+\bibitem{spectrum} Lau, Ryan KW, et al. “Continuous-wave mid-infrared frequency conversion in silicon nanowaveguides." Optics letters 36.7 (2011): 1263-1265.
+\bibitem{toc}	Frey, Bradley J., Douglas B. Leviton, and Timothy J. Madison. “Themperature-dependent refractive index of silicon and germanium." SPIE Astronomical Telescopes+ Instrumentation. International Society for Optics and Photonics, 2006.
 
 
 \end{thebibliography}

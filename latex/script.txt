@@ -1,0 +1,8 @@
+variation in %: dn/n
+
+figure()
+plot( 100.*(squeeze(data.neff(:,end,1,1,2,:))'-squeeze(data.neff(:,1,1,1,2,:))')./squeeze(data.neff(:,1,1,1,2,:))' )
+
+title('Percentage variation of effective index from T_{amb}')
+xlabel('Order')
+ylabel('Δn_{eff}/n (%) at 400 K')
