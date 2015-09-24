@@ -73,7 +73,7 @@ for ww=1:pm.n_sample_wl
 end
 
 % sampling temperature
-pm.n_sample_t = 401;
+pm.n_sample_t = 1001;
 pm.step_t = (vec.temp(end) - vec.temp(1) )/(pm.n_sample_t - 1);
 
 vec.sample_temp = zeros(pm.n_sample_t,1);
@@ -316,6 +316,7 @@ toc
 
 %% 3D surface plot w/ temperature
 % creat grid of evaluation
+%{
 tic
 [wlen_grid, temp_grid]  = meshgrid(vec.sample_wlen, vec.sample_temp);
 
@@ -327,9 +328,10 @@ zlim(axes1,[0 2]);
 
 toc
 clear wlen_grid temp_grid axes1 f
+%}
 
 %% 2D contour plots
-
+%{
 tic
 [wlen_grid, temp_grid]  = meshgrid(vec.sample_wlen, vec.sample_temp);
 
@@ -345,6 +347,7 @@ contour(f_Lcoh_cm(wlen_grid, temp_grid)>=1);
 toc
 
 clear wlen_grid temp_grid axes1 f
+%}
 
 %% 2D plots of center & bandwidth
 
@@ -426,7 +429,8 @@ f = figure('name', name); % 'OuterPosition',[100, 100, 960, 480]
 axes1 = axes('Parent',f);
 hold(axes1,'on');
 plot(vec.sample_temp, peaks.*1e6 );
-ylim(axes1, [1.4 1.7] );
+ylim( [1.6 1.61] );
+%ylim(axes1, [1.4 1.7] );
 %axis([250 700 1.4e-6 1.7e-6]);
 
 % Create xlabel

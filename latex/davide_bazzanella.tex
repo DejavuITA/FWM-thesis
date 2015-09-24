@@ -59,6 +59,9 @@ In this work a detailed theoretical study of the phase matching condition in a m
 In particular, the converted frequency position and the process BW as a function of the temperature are investigated.
 The aim is to lay the basis and prepare a design for the fabrication of an integrated device for frequency conversion applications with the possibility to be thermal tuned.
 
+\vspace{20pt}
+\noindent\textbf{Keywords}: photonics, SOI, multimode waveguide, nonlinear, FWM, thermo-optic coefficient, thermal tuning
+
 \cleardoublepage 
 %\setcounter{page}{3}
 \tableofcontents
@@ -82,7 +85,7 @@ The purpose of the waveguide is to generate light through a partial degenerate F
 
 \subsection{Partially degenerate Four-Wave Mixing}
 Four-Wave Mixing (FWM) is a nonlinear optical effect due to the susceptibility of silicon.
-Silicon is an isotropic material and therefore second order susceptibility $\chi^{(2)}$ (almost) vanishes.
+Silicon is an isotropic material and therefore second order susceptibility $\chi^{(2)}$ vanishes.
 Third order susceptibility $\chi^{(3)}$, on the other hand, is non-zero and is responsible among the other effects for FWM, which is indeed a third order phenomenon.
 
 In general FWM implies the mixing of four waves of different frequencies.
@@ -333,9 +336,9 @@ Significant FWM occurs only if the phase match nearly vanishes.
 This requires the matching of frequencies as well as of the wave vectors.
 Thus the phase-matching condition requires a specific choice of input wavelengths and media parameters before FWM can occur with high efficiency.
 
-From the definition of $\phi_-$ and $\phi_+$ we can gather that there are two types of FWM.
-The term containing $\phi_-$ corresponds to the case in which two photons at frequencies $\omega_1$ and $\omega_2$ are annihilated, while two photons at frequencies $\omega_3$ and $\omega_4$ are created simultaneously.
-On the other hand, the term containing $\phi_+$ corresponds to the case in which three photons at frequencies $\omega_1$, $\omega_2$ and $\omega_3$ are annihilated, while one photon at frequency $\omega_4$ is created.
+From the definition of $\phi_+$ and $\phi_-$ we can gather that there are two types of FWM.
+The term containing $\phi_+$ corresponds to the case in which three photons at frequencies $\omega_1$, $\omega_2$ and $\omega_3$ are annihilated, while one photon at frequency $\omega_4$ is created.
+On the other hand, the term containing $\phi_-$ corresponds to the case in which two photons at frequencies $\omega_1$ and $\omega_2$ are annihilated, while two photons at frequencies $\omega_3$ and $\omega_4$ are created simultaneously.
 
 Our study focuses on a special condition of the second case, where $\omega_1 = \omega_2 = \omega_P$. The setup therefore consists of a strong pump of frequency  $\omega_P$ and a signal of frequency  $\omega_3 = \omega_S$, resulting in the creation of the idler wave of frequency $\omega_4 = \omega_I$, as in Figure (\ref{fig_setup}).
 The condition of frequency and phase matching are therefore:
@@ -455,7 +458,7 @@ We can also define a length scale, known as the coherence length, using $L_{coh}
 Moreover significant FWM occurs if $L_{sam}<L_{coh}$ where $L_{sam}$ is the sample length.
 This definition allow us to make a further assumption, that is $\kappa = \Delta k + \gamma(P_1 + P_2) \approx \Delta k$.
 Considering a peak power $P_1+P_2 = \SI{1}{\W}$ of the pump and a sample length $L_{sam} = \SI{1}{\cm}$ we obtain
-\begin{equation*}
+\begin{equation}
 \left\{
  	\begin{aligned}
 		\gamma(P_1 + P_2) &= \frac{n_2\omega}{cA_{eff}}P_0 = \frac{\SI{4.5e-18}{\m^2\per\W}}{c\SI{e-12}{\m^2}}\frac{2\pi c}{\SI{1.55e-6}{\m}}\SI{1}{\W} \approx \SI{20}{\per\m} \approx \SI{e1}{\per\m}\\
@@ -463,11 +466,20 @@ Considering a peak power $P_1+P_2 = \SI{1}{\W}$ of the pump and a sample length 
 	\end{aligned}
 \right.
 \label{eq_gamma_comparison}
-\end{equation*}
+\end{equation}
 
 since $|\Delta k| \gg \gamma(P_1 + P_2)$ almost always we can consider it trascurable.
 
-Therefore, in order to be efficient, the parametric process needs to verify the conservation of both energy and momentum, as given in Eq. (\ref{eq_f&pmc}).
+Therefore, in order to be efficient, the parametric process needs to verify the conservation of both energy and momentum, as given in Eq. (\ref{eq_f&pmc}):
+
+\begin{equation*}
+\left\{
+ 	\begin{aligned}
+		\omega_I &= 2\omega_P - \omega_S \\
+		\Delta k &= 2\beta_P - \beta_S - \beta_I = 0
+	\end{aligned}
+\right.
+\end{equation*}
 
 \clearpage
 \section{Computational model}
@@ -514,20 +526,20 @@ To solve the heat equation we defined the density $\rho$ in [\si{\kg\m^3}], the 
 		& \multicolumn{3}{c}{Properties} \\
     \cmidrule(r){2-5}
     	\multirow{2}{*}{Materials}    & $\rho$ & $\kappa_{TH}$ & $C_P$ & TOC\\
-  		& [\si{\kg\m^3}] & [\si{\W\per(\m\K)}] & [\si{\J\per(\kg\K)}] & [\si{\per\K}] \\
+  		& [\si{\kg/\m^3}] & [\si{\W\per(\m\K)}] & [\si{\J\per(\kg\K)}] & [\si{\per\K}] \\
     \midrule
     Silicon (Si)			& 2329	& 130	& 700	& \num{1.87e-4}\\
     Silica (SiO$_2$)		& 2203	& 1.38	& 703	& 0\\
     \bottomrule
   \end{tabular}
   \label{tab_materials}
-  \caption{Thermal properties of silicon and silica glass. \cite{n_db} and }
+  \caption{Thermal properties of silicon and silica glass. \cite{n_db} and \cite{toc}}
 \end{table}
 
 Moreover, in order to be influenced by the different temperatures, we had to add to the definition of refractive index of the silicon a term dependent on the temperature.
 For our purpose this dependence can easily be considered linear:
 \begin{equation}
-n = n(\lambda)+\mathrm{TOC}\cdot (T-T_{amb})
+n = n(\lambda)+\mathrm{TOC}\cdot (T(x,y)-T_{amb})
 \end{equation}
 where $\mathrm{TOC}|_{\mathrm{Si}} = \SI{1.87e-4}{\per\K}$ is called Termo-Optic Coefficient. The coefficient of silica glass is negligible and therefore was considered zero $\mathrm{TOC}|_{\mathrm{SiO}_2} \approx 0$.
 
@@ -538,6 +550,13 @@ Since the degrees of freedom of the problem were too many, we resorted to automa
 The first step was solving the equation for the heat transfer to obtain a stationary solution for each temperature in the gap.
 That means to know the local temperature for each position in the core and in the cladding, for each initial setup.
 
+\begin{figure}[!hb]
+	\centering
+	\includegraphics[width=1\textwidth]{thermal.pdf}
+	\caption{Contour graph of a stationary solution for $T_H = T_{amb} + \SI{400}{\K}$}
+	\label{fig_ex_thermal}
+\end{figure}
+
 It was necessary to set the boundary conditions: the two sides (left, right) and the bottom were considered as thermal reservoirs with a temperature $T = T_{amb} = \SI{293.15}{\K}$.
 The top was, instead, split into three sections: the heater, as we explained previously, and the remaining two parts.
 These were set to have a convective heat flux with air at ambient temperature.
@@ -545,6 +564,8 @@ Silica heat transfer coefficient was set to $\mathrm{HTC}_{\mathrm{SiO}_2} = \SI
 
 It is important to note that the value of the heat transfer coefficient can vary a lot depending on the air motion.
 We considered the typical laboratory condition.
+
+An example of solution is given in Figure (\ref{fig_ex_thermal}).
 
 \paragraph{EM mode analysis}
 
@@ -557,29 +578,40 @@ As in the stationary solution of the heat transfer, we needed the boundary condi
 We set all four sides (top, bottom, left, right) to ``\texttt{scattering boundary condition}", which is a condition where the boundary is completely transparent to scattered waves.
 That means that the core and cladding is isolated from the outside.
 
-This algorithm was set to find the eight modes whose effective index $n_{eff}$ was closest to $n_{eff}=4$ in absolute value.
+This algorithm was set to find the fifteen modes whose effective index $n_{eff}$ was closest to $n_{eff}=4$ in absolute value.
 \subsubsection{Data output}
 We obtained the field distribution and a series of parameters as our data output for each parametric configuration.
-In particular the parameters were the effective index $n_{eff}$, the effective area $A_{eff}$ and the nonlinear parameter $\gamma$, for each mode and for each wavelength and temperature.
+In particular the parameters were the effective index $n_{eff}$ and the effective area $A_{eff}$, for each mode and for each wavelength and temperature.
 
 \subsection{Data classification}
 The next step was to classify these data, depending on the type (TE or TM) and order (1,2,3...) of the modes.
 We achieved this by analyzing a sample taken at $y=0$ of the field distributions.
 The ratio between the maxima values of the x-component and y-component of the electric field allowed to distinguish the mode type: TE or TM.
-Those fields which had the maximum component in the y direction were categorized as TE modes while those which had the maximum component in the x direction as TM modes.
+Those fields which had the maximum component in the x direction were categorized as TE modes while those which had the maximum component in the y direction as TM modes.
 The number of maxima of the modulus of the field showed us the order of the mode.
 
-We obtained then a well organized data matrix filled with the value of effective index $n_{eff}$, effective area $A_{eff}$ and nonlinear parameter $\gamma$ for each combination of parameters.
+We obtained then a well organized data matrix filled with the value of effective index $n_{eff}$ and effective area $A_{eff}$ for each combination of parameters.
 
 \subsection{Data processing}
-We focused on the information given by the effective index.
+We used the $A_{eff}$ data to evaluate the nonlinear parameter $\gamma$ and verify Eq. (\ref{eq_gamma_comparison}).
+We focused then on the information given by the effective index.
 
 \subsubsection{Polynomial fit}
 Starting from raw data consisting of the effective index for each parametric configuration, we fitted them with a polinomial function of frequency $\omega = 2\pi \nu$ or $\lambda$ and temperature $T$, obtaining:
 $$n_{eff} = f_{mt,\,mo} \left( \omega, T_H \right) = f'_{mt,\,mo} \left( \lambda, T_H \right)$$
 where $mt$ and $mo$ means respectively \textit{mode type} (TE or TM) and \textit{mode order} (1, 2, 3, ...)
 
-Specifically, we used a polynomial expression of fifth order in wavelength and second order in temperature ``\texttt{poly52}".
+Specifically, we used a polynomial expression of fifth order in wavelength and second order in temperature ``\texttt{poly52}", which is defined as:
+\begin{align*}
+	\texttt{poly52} = \,\,
+		&p00 
+		+ p10x + p01y
+		+ p20x^2 + p11xy + p02y^2
+		+ p30x^3 + p21x^2y + p12xy^2 +\\
++\,\,	&p40x^4 + p31x^3y + p22x^2y^2 
+		+ p50x^5 + p41x^4y + p32x^3y^2
+\end{align*}
+where $x=\lambda$ and $y=T_H$
 
 \subsubsection{Order combination}
 
@@ -603,9 +635,9 @@ we obtained the only frequency permitted for $\omega_I$.
 We replaced its value in the conservation of momentum formula, giving us the phase mismatch as a function of signal wavelength and temperature of the heater only, for each set of orders.
 \begin{align*}
 	\Delta k &= 2\beta_P(\omega_P)-\beta_S(\omega_S)-\beta_I(2\omega_P-\omega_S)\\
-			 &= 2\pi\left[ 2\frac{n_{eff}^P(\lambda_P)}{\lambda_P}
-			 - \frac{n_{eff}^S(\lambda_S)}{\lambda_S}
-			 - \frac{n_{eff}^I(\lambda_I)}{\lambda_I}\right]
+			 &= 2\pi\left[ 2\frac{n_{eff}^P(\lambda_P,T_H)}{\lambda_P}
+			 - \frac{n_{eff}^S(\lambda_S,T_H)}{\lambda_S}
+			 - \frac{n_{eff}^I(\lambda_I,T_H)}{\lambda_I}\right]
 \end{align*}
 
 Then, starting from the fits of the effective index at different wavelengths and temperatures, we evaluated the phase mismatch of all sets.
@@ -641,15 +673,23 @@ An example is given in Figure (\ref{fig_peaks}).
 We could therefore find the local maxima of such function and assume they are the centers of the peaks.
 If their position changes significantly while shifting the temperature, it means we are able to control the phase-match condition.
 
-Another important parameter is the width of the peak: to be consistent with the seletion criteria used in (\ref{eq_lcoh_crit}), we defined the bandwidth as the peak width at $L_{coh} = 1$.
+Another important parameter is the width of the peak: to be consistent with the seletion criteria used in (\ref{eq_lcoh_crit}), we defined the bandwidth as the peak width at
+$$L_{coh}/L_{sam} = 1$$
 
 We obtained graphs representing the position and the bandwidth of peaks vs temperature of each solution.
-Figure (\ref{fig_example_position}) gives an example of peak position as a function of temperature $T_H$.
+Figures (\ref{fig_example_position}) and (\ref{fig_example_bandwidth}) give an example of peak position and bandwidth as a functions of temperature $T_H$.
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=.75\textwidth]{ex_pos.png}
+	\caption{Example of peak position vs $T_H$, zoomed in an area between \SI{1.6}{\um} and \SI{1.61}{\um}. The smoothness of the curve is correlated to the step of evaluation in wavelength ($\Delta \lambda = \SI{0.05}{\nm}$)}
+	\label{fig_example_position}
+\end{figure}
+
 \begin{figure}[!hb]
 	\centering
-	\includegraphics[width=.8\textwidth]{ex_pos.png}
-	\caption{Example of peak position vs $T_H$.}
-	\label{fig_example_position}
+	\includegraphics[width=.75\textwidth]{ex_bw.png}
+	\caption{Example of bandwidth vs $T_H$. The figure has a little ripple which is correlated to the step of evaluation in wavelength ($\Delta \lambda = \SI{0.05}{\nm}$).}
+	\label{fig_example_bandwidth}
 \end{figure}
 
 \clearpage
@@ -748,7 +788,7 @@ An extended study of this topic should also consider this small factor.
 
 \begin{figure}[!ht]
 	\centering
-	\includegraphics[width=.75\textwidth]{variationTEsym.png}
+	\includegraphics[width=.75\textwidth]{variation.png}
 	\caption{Percentage variation of $n_{eff}$ for TE modes at \SI{1.55}{\um} from its value at ambient temperature in the symmetric configuration.}
 	\label{fig_variation}
 \end{figure}
@@ -762,7 +802,7 @@ Despite the few data, we could infer that a thermal tuning of the FWM phase-matc
 We also understood that the way temperature affects phase-matching is restrained from the limited interaction between the temperature of material and different modes.
 
 In Figure (\ref{fig_variation}) is represented the change of effective index, for wavelength $\lambda = \SI{1.55}{\um}$, from ambient temperature to \SI{400}{\K} over it in ratio to its value at $T_{amb}=\SI{293.15}{\K}$.
-This curve suggest us that higher orders are more influenced by the difference in temperature than the low orders.
+This curve suggest us that low orders are more influenced by the difference in temperature than high orders.
 We can therefore hypothesize that configuration with a high difference between their orders could be controlled better.
 In this view, as next step in enhancing the influence of temperature on effective index, different core geometries should be studied.
 %, in order to maximise the effect of the overlap integrals between the optical mode and the thermal profile.
@@ -781,9 +821,9 @@ This could greatly condition the wave propagation, and therefore the thermal tun
 
 \bibitem{agrawal} Agrawal, Govind. “Nonlinear Fiber Optics", 5th edition. Academic Press, 2013.
 \bibitem{saleh} Saleh, Bahaa EA, and Malvin Carl Teich. “Fundamentals of photonics", 2nd edition. Wiley, 2007
-\bibitem{n_db} http://refractiveindex.info/
 \bibitem{spectrum} Lau, Ryan KW, et al. “Continuous-wave mid-infrared frequency conversion in silicon nanowaveguides." Optics letters 36.7 (2011): 1263-1265.
 \bibitem{toc}	Frey, Bradley J., Douglas B. Leviton, and Timothy J. Madison. “Themperature-dependent refractive index of silicon and germanium." SPIE Astronomical Telescopes+ Instrumentation. International Society for Optics and Photonics, 2006.
+\bibitem{n_db} http://refractiveindex.info/
 
 
 \end{thebibliography}
