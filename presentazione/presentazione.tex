@@ -117,9 +117,9 @@
 		\textbf{P} = \varepsilon_0 \left( \chi^{(1)} \cdot \textbf{E} + \chi^{(2)} : \textbf{E}^2 + \chi^{(3)} \vdots \textbf{E}^3 + \cdots \right) = \mathrm{\textbf{P}_L} + \mathrm{\textbf{P}_{NL}}
 		\label{eq_P_general}
 	\end{equation}
-	\begin{wrapfigure}{r}{0.33\textwidth}
+	\begin{wrapfigure}{r}{0.48\textwidth}
 		\centering
-		\includegraphics[width=.3\textwidth]{upconverter_HITACHI.png}
+		\includegraphics[width=.5\textwidth]{ppln-ovens2.jpg}
 	\end{wrapfigure}
 	\begin{itemize}
 	\item	$\chi^{(1)}$	:	linear part
@@ -129,17 +129,22 @@
 \end{frame}
 %\subsection{Four-Wave Mixing}
 \begin{frame}{Four-Wave Mixing}
-	%\begin{wrapfigure}{r}{0.22\textwidth}
-	%    \includegraphics[width=.22\textwidth]{photons.png}
-	%\end{wrapfigure}
-	\begin{wrapfigure}{r}{0.35\textwidth}
+	\begin{wrapfigure}{r}{0.33\textwidth}
 		\vspace{-20pt}
-	    \includegraphics[width=.33\textwidth]{W&K.png}
+	    \includegraphics[width=.33\textwidth]{photons.png}
 	\end{wrapfigure}
+%	\begin{wrapfigure}{r}{0.35\textwidth}
+%		\vspace{-20pt}
+%	    \includegraphics[width=.33\textwidth]{W&K.png}
+%	\end{wrapfigure}
 	FWM uses 3$^{rd}$ order nonlinearity $\chi^{(3)}$.
 	%\begin{wrapfigure}{r}{0.22\textwidth}
 	%    \includegraphics[width=.22\textwidth]{momentum.png}
 	%\end{wrapfigure}
+	\begin{wrapfigure}{r}{0.45\textwidth}
+		\vspace{-55pt}
+	    \includegraphics[width=.45\textwidth]{frequency.png}
+	\end{wrapfigure}
 	
 	\vspace{10pt}
 	It consists of the interaction between four EM waves of different frequencies.
@@ -164,7 +169,7 @@
 		\omega_I = 2\omega_P - \omega_S = \omega_P \pm \Omega
 		\label{eq_energy}
 	\end{equation}
-	Conservation of momentum is imposed on the phase-mismatch
+	Conservation of momentum is imposed in the phase-mismatch
 	\begin{equation}
 		\Delta k = 2\,k_P(\omega_P) - k_S(\omega_S) -k_I(\omega_I) = 0
 		\label{eq_momentum}
@@ -183,7 +188,7 @@
 	\begin{equation}
 	\begin{split}
 		I_I &\propto \left| \int_0^L exp(\mathrm{i}\Delta k z)dz\right| \\
-			&\propto L^2 sinc(\Delta k / 2\pi)
+			&\propto L^2 sinc^2(\Delta k L/ 2\pi)
 	\end{split}
 	\end{equation}
 	We define the coherence length
@@ -225,10 +230,10 @@
 
 %\subsection{Phase-matching tuning}
 \begin{frame}{Phase-matching tuning}
-	\begin{wrapfigure}{r}{0.5\textwidth}
-		\vspace{-10pt}
+	\begin{wrapfigure}{r}{0.55\textwidth}
+%		\vspace{-10pt}
 		\centering
-	    \includegraphics[width=.55\textwidth]{narrow_bandwidth.png}
+	    \includegraphics[width=.6\textwidth]{narrow_bandwidth.png}
 	\end{wrapfigure}
 	Phase-matching conditions have narrow bandwidth.
 	
@@ -269,14 +274,18 @@
 \end{frame}
 \section{Computational model}
 \begin{frame}{Computational model}
+	Definition of the problem: geometry, materials.\\
+	Simulation with FEM in Comsol.
 	\begin{figure}
 %		\vspace{-15pt}
 		\centering
-		\includegraphics[width=\textwidth]{geometry.pdf}
+		\includegraphics[width=\textwidth]{geometryR.pdf}
 	\end{figure}
 \end{frame}
 %\subsection{Temperature simulation}
 \begin{frame}{Temperature simulation}
+	Stationary solution of heat transfer equation:\\
+	parameter $T_H$ and boundary conditions.
 	\begin{figure}
 %		\vspace{-15pt}
 		\centering
@@ -285,6 +294,8 @@
 \end{frame}
 %\subsection{Mode simulation}
 \begin{frame}{Mode simulation}
+	Modes as solutions of the Helmholtz equation:\\
+	frequency as parameter and boundary conditions.
 	\begin{figure}
 %		\vspace{-15pt}
 		\centering
@@ -292,6 +303,7 @@
 	\end{figure}
 \end{frame}
 \begin{frame}{Mode simulation}
+	Both TE, TM, and \textit{leaky} modes were obtained.
 	\begin{figure}
 %		\vspace{-15pt}
 		\centering
@@ -349,10 +361,11 @@
 	\end{figure}
 \end{frame}
 \begin{frame}{Asymmetric configuration}
+	We aimed to increase the difference of behaviour between low and high orders.
 	\begin{figure}
 %		\vspace{-15pt}
 		\centering
-		\includegraphics[width=\textwidth]{geometryA.pdf}
+		\includegraphics[width=\textwidth]{geometryAR.pdf}
 	\end{figure}
 \end{frame}
 \begin{frame}
@@ -367,7 +380,7 @@
 \begin{frame}{Improvements}
 	\begin{itemize}
 		\item	The heater should be simulated as a metal conductor media, instead of a simple boundary condition (TM modes).
-		\item	Thermo-Optic Coefficient also depends on the wavelength of the signal.
+		\item	Thermo-Optic Coefficient also depends on the wavelength of the signal. It is important for high $\Omega$ conversions.
 		\item	Different core geometries should be studied.
 		\item	Develop the correlation also between temperature and efficiency of energy conversion.
 	\end{itemize}
@@ -375,8 +388,9 @@
 %\subsection{Summary}
 \begin{frame}{Summary}
 	\begin{itemize}
-		\item Configurations with a high difference between their orders are to be preferred.
-		\item Limited interaction between the temperature of material and different modes is a constraint.
+		\item Configurations with a high difference in TOC between their orders are to be preferred.
+		\item %Limited interaction between the temperature of material and different modes is a constraint.
+		Optimization of the overlap between the thermal and optical spatial profiles in order to maximize the difference of effective TOC in the selected modes.
 		\item Thermal tuning of the FWM phase-match is, in fact, possible.
 	\end{itemize}
 \end{frame}
